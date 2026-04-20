@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/PageShell";
 import heroImg from "@/assets/hero-construction.jpg";
-import { ShieldCheck, FileSearch, Scale, TrendingDown, ArrowRight } from "lucide-react";
+import { ShieldCheck, FileSearch, Scale, TrendingDown, ArrowRight, Play, AlertTriangle, ExternalLink } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -102,6 +102,123 @@ function Home() {
                 * 국토교통부 및 주요 언론 보도 기반의 일반적 추정치이며, 사업장에 따라 상이합니다.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* EVIDENCE — Real cases & broadcasts */}
+      <section className="border-b border-border bg-background py-24 md:py-32">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-12 md:grid-cols-12 md:items-end">
+            <div className="md:col-span-7">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-gold">
+                <AlertTriangle className="h-3.5 w-3.5" /> Real Evidence
+              </div>
+              <h2 className="mt-4 font-serif text-4xl leading-tight md:text-5xl">
+                이건 추측이 아닙니다.<br />
+                <span className="text-foreground/40">이미 보도된, </span>
+                <span>반복되는 사실입니다.</span>
+              </h2>
+            </div>
+            <div className="md:col-span-5">
+              <p className="text-foreground/70 leading-relaxed">
+                지상파 탐사보도는 누적 500만 회 이상 시청되었고, 검찰 수사로 조합장이
+                구속된 사례는 한두 건이 아닙니다. 그럼에도 대부분의 조합은 여전히
+                독립적인 회계 감독 없이 운영되고 있습니다.
+              </p>
+            </div>
+          </div>
+
+          {/* Featured cases */}
+          <div className="mt-16 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-3">
+            {[
+              {
+                tag: "뇌물 비리",
+                title: "가락시영 — 조합장 등 7명 기소",
+                desc: "수억 원 뇌물·입찰 정보 유출. 국내 최대 단지에서 발생한 조직적 부패.",
+                src: "국민일보",
+                url: "https://www.kmib.co.kr/article/view.asp?arcid=0011091815",
+              },
+              {
+                tag: "분담금 폭탄",
+                title: "신반포 — 1인당 12억 추가 분담금",
+                desc: "평수를 줄여도 가구당 10억 원 이상. 사업비 검증 실패의 극단적 결과.",
+                src: "조선일보 땅집고",
+                url: "https://realty.chosun.com/site/data/html_dir/2024/02/08/2024020801556.html",
+              },
+              {
+                tag: "조합 파산",
+                title: "포항 두호주공 — 파산 절차 돌입",
+                desc: "조합 자체가 무너지며 조합원 납입금 회수 불가. 추가 분담금만 남았습니다.",
+                src: "영남경제",
+                url: "https://www.ynenews.kr/news/articleView.html?idxno=51111",
+              },
+            ].map((c) => (
+              <a
+                key={c.title}
+                href={c.url}
+                target="_blank"
+                rel="noreferrer"
+                className="group bg-card p-8 transition-colors hover:bg-parchment"
+              >
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-destructive/10 px-3 py-1 text-xs font-medium text-destructive">
+                  <AlertTriangle className="h-3 w-3" />
+                  {c.tag}
+                </span>
+                <h3 className="mt-6 font-serif text-xl leading-snug transition-colors group-hover:text-gold">
+                  {c.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-foreground/70">{c.desc}</p>
+                <div className="mt-6 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
+                  <span>{c.src}</span>
+                  <ExternalLink className="h-3 w-3" />
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* Broadcasts */}
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {[
+              { id: "awAUbL2xjHU", t: "삼성 재건축 비리 의혹 — MBC 스트레이트", v: "73.7만 조회" },
+              { id: "fLv2b9zXzkc", t: "투기와의 전쟁, 왜 실패했나 — MBC 스트레이트", v: "174.8만 조회" },
+            ].map((b) => (
+              <a
+                key={b.id}
+                href={`https://www.youtube.com/watch?v=${b.id}`}
+                target="_blank"
+                rel="noreferrer"
+                className="group relative flex items-center gap-5 overflow-hidden rounded-sm border border-border bg-card p-3 pr-6 transition-all hover:shadow-elegant"
+              >
+                <div className="relative aspect-video w-40 flex-shrink-0 overflow-hidden rounded-sm bg-ink">
+                  <img
+                    src={`https://i.ytimg.com/vi/${b.id}/hqdefault.jpg`}
+                    alt={b.t}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-ink/30">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold text-ink">
+                      <Play className="h-4 w-4 fill-ink translate-x-0.5" />
+                    </div>
+                  </div>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-xs uppercase tracking-wider text-gold">방송 보도</div>
+                  <div className="mt-2 font-serif text-base leading-snug">{b.t}</div>
+                  <div className="mt-2 text-xs text-muted-foreground">{b.v}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              to="/cases"
+              className="inline-flex items-center gap-2 rounded-sm bg-ink px-7 py-4 text-sm font-medium text-primary-foreground hover:bg-ink/90"
+            >
+              전체 사례·방송 모두 보기 <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
