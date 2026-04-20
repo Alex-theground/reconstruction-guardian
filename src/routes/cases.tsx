@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { PageShell, PageHero } from "@/components/PageShell";
+import { YouTubeModal } from "@/components/YouTubeModal";
 import { ExternalLink, Play, AlertTriangle, Newspaper, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/cases")({
