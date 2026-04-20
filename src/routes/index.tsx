@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { PageShell } from "@/components/PageShell";
+import { YouTubeModal } from "@/components/YouTubeModal";
 import heroImg from "@/assets/hero-construction.jpg";
 import { ShieldCheck, FileSearch, Scale, TrendingDown, ArrowRight, Play, AlertTriangle, ExternalLink } from "lucide-react";
 
@@ -23,8 +25,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
   return (
     <PageShell>
+      <YouTubeModal videoId={activeVideo} onClose={() => setActiveVideo(null)} />
       {/* HERO */}
       <section className="relative overflow-hidden">
         <img
@@ -183,12 +187,11 @@ function Home() {
               { id: "awAUbL2xjHU", t: "삼성 재건축 비리 의혹 — MBC 스트레이트", v: "73.7만 조회" },
               { id: "fLv2b9zXzkc", t: "투기와의 전쟁, 왜 실패했나 — MBC 스트레이트", v: "174.8만 조회" },
             ].map((b) => (
-              <a
+              <button
                 key={b.id}
-                href={`https://www.youtube.com/watch?v=${b.id}`}
-                target="_blank"
-                rel="noreferrer"
-                className="group relative flex items-center gap-5 overflow-hidden rounded-sm border border-border bg-card p-3 pr-6 transition-all hover:shadow-elegant"
+                type="button"
+                onClick={() => setActiveVideo(b.id)}
+                className="group relative flex items-center gap-5 overflow-hidden rounded-sm border border-border bg-card p-3 pr-6 text-left transition-all hover:shadow-elegant"
               >
                 <div className="relative aspect-video w-40 flex-shrink-0 overflow-hidden rounded-sm bg-ink">
                   <img
@@ -206,9 +209,9 @@ function Home() {
                 <div className="min-w-0 flex-1">
                   <div className="text-xs uppercase tracking-wider text-gold">방송 보도</div>
                   <div className="mt-2 font-serif text-base leading-snug">{b.t}</div>
-                  <div className="mt-2 text-xs text-muted-foreground">{b.v}</div>
+                  <div className="mt-2 text-xs text-muted-foreground">{b.v} · 클릭해서 재생</div>
                 </div>
-              </a>
+              </button>
             ))}
           </div>
 
