@@ -108,8 +108,10 @@ const broadcasts = [
 ];
 
 function CasesPage() {
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
   return (
     <PageShell>
+      <YouTubeModal videoId={activeVideo} onClose={() => setActiveVideo(null)} />
       <PageHero
         eyebrow="Why It Matters"
         title="조합 비리는 예외가 아니라 패턴입니다."
@@ -159,11 +161,10 @@ function CasesPage() {
                 key={b.youtubeId}
                 className="group overflow-hidden rounded-sm border border-border bg-card shadow-soft transition-all hover:shadow-elegant"
               >
-                <a
-                  href={`https://www.youtube.com/watch?v=${b.youtubeId}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="relative block aspect-video overflow-hidden bg-ink"
+                <button
+                  type="button"
+                  onClick={() => setActiveVideo(b.youtubeId)}
+                  className="relative block aspect-video w-full overflow-hidden bg-ink text-left"
                 >
                   <img
                     src={`https://i.ytimg.com/vi/${b.youtubeId}/hqdefault.jpg`}
@@ -180,7 +181,7 @@ function CasesPage() {
                   <div className="absolute bottom-3 right-3 rounded-sm bg-ink/80 px-2 py-1 text-xs text-primary-foreground backdrop-blur">
                     {b.duration}
                   </div>
-                </a>
+                </button>
                 <div className="p-6">
                   <div className="flex items-center justify-between text-xs uppercase tracking-wider text-muted-foreground">
                     <span className="text-gold">{b.channel}</span>
@@ -188,14 +189,13 @@ function CasesPage() {
                   </div>
                   <h3 className="mt-3 font-serif text-xl leading-tight">{b.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-foreground/70">{b.desc}</p>
-                  <a
-                    href={`https://www.youtube.com/watch?v=${b.youtubeId}`}
-                    target="_blank"
-                    rel="noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => setActiveVideo(b.youtubeId)}
                     className="mt-5 inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-gold"
                   >
-                    YouTube에서 보기 <ExternalLink className="h-3 w-3" />
-                  </a>
+                    여기서 바로 재생 <Play className="h-3 w-3 fill-current" />
+                  </button>
                 </div>
               </article>
             ))}
