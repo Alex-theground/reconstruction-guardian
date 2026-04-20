@@ -1,26 +1,229 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { PageShell } from "@/components/PageShell";
+import heroImg from "@/assets/hero-construction.jpg";
+import { ShieldCheck, FileSearch, Scale, TrendingDown, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "정감 회계 — 재건축 조합 회계 감독 파트너" },
+      {
+        name: "description",
+        content:
+          "재건축·재개발 조합의 회계 부정과 자금 집행 위험으로부터 조합원을 보호합니다. 독립 공인회계사의 월정 감독 서비스.",
+      },
+      { property: "og:title", content: "정감 회계 — 재건축 조합 회계 감독 파트너" },
+      {
+        property: "og:description",
+        content: "조합장을 감시하는 독립 회계사. 조합원의 자산을 지키는 월정 프리랜서 감독 계약.",
+      },
+    ],
+  }),
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Home() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+    <PageShell>
+      {/* HERO */}
+      <section className="relative overflow-hidden">
+        <img
+          src={heroImg}
+          alt="재건축 현장"
+          width={1920}
+          height={1280}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-hero" />
+        <div className="relative mx-auto max-w-7xl px-6 py-32 md:py-48">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-ink/40 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-gold backdrop-blur">
+              <span className="h-1 w-1 rounded-full bg-gold" /> 독립 회계 감독
+            </div>
+            <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
+              조합장을 감시하는<br />
+              <span className="text-gold">단 한 명의 회계사.</span>
+            </h1>
+            <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80">
+              재건축·재개발 조합의 비리와 회계 부정으로부터 조합원의 자산을 지킵니다.
+              월정 보수의 프리랜서 계약으로, 조합 내부에 독립적인 감시자를 두십시오.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link
+                to="/contract"
+                className="inline-flex items-center gap-2 rounded-sm bg-gold px-7 py-4 text-sm font-medium text-ink transition-all hover:opacity-90"
+              >
+                계약 조건 보기 <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to="/services"
+                className="inline-flex items-center gap-2 rounded-sm border border-primary-foreground/30 px-7 py-4 text-sm font-medium text-primary-foreground transition-all hover:bg-primary-foreground/10"
+              >
+                서비스 상세
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
-function Index() {
-  return <PlaceholderIndex />;
+      {/* PROBLEM */}
+      <section className="border-b border-border bg-parchment py-24 md:py-32">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-16 md:grid-cols-12">
+            <div className="md:col-span-5">
+              <div className="text-xs uppercase tracking-[0.3em] text-gold">
+                문제의식
+              </div>
+              <h2 className="mt-4 font-serif text-4xl leading-tight md:text-5xl">
+                조합이 무너지면<br />조합원이 무너집니다.
+              </h2>
+            </div>
+            <div className="space-y-8 md:col-span-7">
+              <p className="text-lg leading-relaxed text-foreground/80">
+                대한민국의 재건축·재개발 조합 운영 과정에서는 회계 부정, 이중 계약,
+                무리한 자금 집행, 그리고 조합 파산으로 인한 조합원 개인의 막대한
+                손실이 끊임없이 반복되고 있습니다.
+              </p>
+              <div className="grid gap-6 sm:grid-cols-3">
+                {[
+                  { v: "62%", l: "조합 분쟁 비율" },
+                  { v: "3.4억", l: "조합원 평균 추가 분담금" },
+                  { v: "11년", l: "평균 사업 지연" },
+                ].map((s) => (
+                  <div key={s.l} className="border-t border-foreground/20 pt-4">
+                    <div className="font-serif text-3xl text-foreground">{s.v}</div>
+                    <div className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">
+                      {s.l}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                * 국토교통부 및 주요 언론 보도 기반의 일반적 추정치이며, 사업장에 따라 상이합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CORE SERVICES */}
+      <section className="py-24 md:py-32">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="flex items-end justify-between gap-8 border-b border-border pb-8">
+            <div>
+              <div className="text-xs uppercase tracking-[0.3em] text-gold">핵심 역할</div>
+              <h2 className="mt-4 font-serif text-4xl md:text-5xl">두 가지 감독 영역</h2>
+            </div>
+            <Link
+              to="/services"
+              className="hidden items-center gap-2 text-sm text-foreground/70 hover:text-foreground md:inline-flex"
+            >
+              전체 서비스 <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="mt-16 grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-2">
+            {[
+              {
+                icon: FileSearch,
+                num: "01",
+                title: "회계·지출의 세부 검토",
+                desc: "조합의 모든 회계 처리와 지출 항목에 대해 독립적 회계사의 관점에서 적정성을 검증합니다. 시공사·협력업체 계약, 정산서, 영수증, 회계장부의 일치 여부를 정기적으로 감사합니다.",
+                points: ["월별 지출 검토", "계약 단가 적정성 분석", "회계장부 정합성 점검"],
+              },
+              {
+                icon: Scale,
+                num: "02",
+                title: "조합장 업무·자금집행 검증",
+                desc: "조합장의 자금집행 결정에 대한 세무적·법적 타당성을 사전·사후로 검증합니다. 잘못된 결정이 실행되기 전에 경고하고, 조합원에게 객관적 의견을 제시합니다.",
+                points: ["자금집행 사전 검토", "세무 리스크 분석", "조합원 보고서 작성"],
+              },
+            ].map((s) => (
+              <div key={s.num} className="bg-card p-10 md:p-14">
+                <div className="flex items-start justify-between">
+                  <s.icon className="h-10 w-10 text-gold" strokeWidth={1.2} />
+                  <span className="font-serif text-5xl text-foreground/15">{s.num}</span>
+                </div>
+                <h3 className="mt-8 font-serif text-2xl">{s.title}</h3>
+                <p className="mt-4 text-foreground/70 leading-relaxed">{s.desc}</p>
+                <ul className="mt-8 space-y-3 border-t border-border pt-6">
+                  {s.points.map((p) => (
+                    <li key={p} className="flex items-center gap-3 text-sm">
+                      <span className="h-px w-6 bg-gold" />
+                      <span className="text-foreground/80">{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WHY */}
+      <section className="bg-ink py-24 text-primary-foreground md:py-32">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-xs uppercase tracking-[0.3em] text-gold">차별점</div>
+          <h2 className="mt-4 max-w-3xl font-serif text-4xl leading-tight md:text-5xl">
+            왜 외부 감사가 아닌,<br />
+            <span className="text-gold">상주 감독 회계사</span>인가?
+          </h2>
+
+          <div className="mt-20 grid gap-12 md:grid-cols-3">
+            {[
+              {
+                icon: ShieldCheck,
+                t: "독립성",
+                d: "조합 내부 직원이 아닌 외부 공인회계사로서 어떠한 이해관계도 없이 독립적인 판단을 내립니다.",
+              },
+              {
+                icon: TrendingDown,
+                t: "사전 예방",
+                d: "결산 후 발견되는 사후 감사가 아닌, 자금 집행 전 검토를 통해 손실을 미리 차단합니다.",
+              },
+              {
+                icon: Scale,
+                t: "지속성",
+                d: "단발성 컨설팅이 아닌 월정 계약을 통해 사업 전 기간에 걸친 일관된 감독을 제공합니다.",
+              },
+            ].map((b) => (
+              <div key={b.t} className="border-t border-primary-foreground/15 pt-8">
+                <b.icon className="h-8 w-8 text-gold" strokeWidth={1.2} />
+                <h3 className="mt-6 font-serif text-2xl">{b.t}</h3>
+                <p className="mt-4 leading-relaxed text-primary-foreground/70">{b.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-parchment py-24 md:py-32">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <div className="text-xs uppercase tracking-[0.3em] text-gold">계약 제안</div>
+          <h2 className="mt-6 font-serif text-4xl leading-tight md:text-5xl">
+            귀 조합의 자산을 지키는<br />첫걸음을 시작하십시오.
+          </h2>
+          <p className="mx-auto mt-8 max-w-xl text-lg text-muted-foreground">
+            합리적인 월정 수수료로 조합 운영의 투명성을 확보할 수 있습니다.
+            상담 후 사업 규모에 맞는 맞춤 제안서를 보내드립니다.
+          </p>
+          <div className="mt-12 flex flex-wrap justify-center gap-4">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 rounded-sm bg-ink px-8 py-4 text-sm font-medium text-primary-foreground hover:bg-ink/90"
+            >
+              상담 신청하기 <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/contract"
+              className="inline-flex items-center gap-2 rounded-sm border border-foreground/20 px-8 py-4 text-sm font-medium hover:bg-foreground/5"
+            >
+              계약 조건 보기
+            </Link>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
 }
