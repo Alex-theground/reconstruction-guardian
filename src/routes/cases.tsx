@@ -547,41 +547,74 @@ function CasesPage() {
             언론사 원문 링크를 직접 확인하실 수 있습니다.
           </p>
 
-          <div className="mt-16 space-y-px overflow-hidden rounded-sm border border-border bg-border">
+          <div className="mt-16 space-y-6">
             {visibleCases.map((c) => (
-              <a
+              <div
                 key={c.headline}
-                href={c.url}
-                target="_blank"
-                rel="noreferrer"
-                className="group grid gap-6 bg-card p-8 transition-colors hover:bg-parchment md:grid-cols-12 md:p-10"
+                className="group overflow-hidden rounded-sm border border-border bg-card transition-colors hover:bg-parchment"
               >
-                <div className="flex flex-col gap-2 md:col-span-2">
-                  <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-destructive/10 px-3 py-1 text-xs font-medium text-destructive">
+                {/* Header */}
+                <div className="flex flex-wrap items-center gap-4 border-b border-border px-8 py-5">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-destructive/10 px-3 py-1 text-xs font-medium text-destructive">
                     <AlertTriangle className="h-3 w-3" />
                     {c.tag}
                   </span>
                   <span className="text-xs text-muted-foreground">{c.year}</span>
-                </div>
-                <div className="md:col-span-7">
-                  <h3 className="font-serif text-xl leading-snug text-foreground transition-colors group-hover:text-gold md:text-2xl">
+                  <h3 className="flex-1 font-serif text-lg leading-snug text-foreground md:text-xl">
                     {c.headline}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-foreground/70">{c.summary}</p>
-                  <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                    <span>출처: {c.source}</span>
-                    <ExternalLink className="h-3 w-3" />
-                  </div>
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-gold"
+                  >
+                    출처: {c.source} <ExternalLink className="h-3 w-3" />
+                  </a>
                 </div>
-                <div className="border-t border-border pt-4 md:col-span-3 md:border-l md:border-t-0 md:pl-6 md:pt-0">
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground">
-                    실질적 영향
-                  </div>
-                  <div className="mt-2 font-serif text-base leading-snug text-foreground">
-                    {c.impact}
-                  </div>
+
+                {/* Timeline */}
+                <div className="grid gap-px bg-border md:grid-cols-4">
+                  {c.timeline.map((step, i) => {
+                    const phaseConfig: Record<string, { icon: typeof CircleDot; color: string; bgColor: string }> = {
+                      "발생": { icon: CircleDot, color: "text-red-500", bgColor: "bg-red-500/10" },
+                      "의심 징후": { icon: Search, color: "text-amber-500", bgColor: "bg-amber-500/10" },
+                      "감사/수사": { icon: FileSearch, color: "text-blue-500", bgColor: "bg-blue-500/10" },
+                      "결과": { icon: Gavel, color: "text-foreground", bgColor: "bg-foreground/10" },
+                    };
+                    const config = phaseConfig[step.phase] || phaseConfig["발생"];
+                    const StepIcon = config.icon;
+                    return (
+                      <div key={i} className="relative bg-card p-6">
+                        {/* Step number + phase label */}
+                        <div className="mb-3 flex items-center gap-2">
+                          <div className={`flex h-7 w-7 items-center justify-center rounded-full ${config.bgColor}`}>
+                            <StepIcon className={`h-3.5 w-3.5 ${config.color}`} />
+                          </div>
+                          <span className={`text-xs font-semibold uppercase tracking-wider ${config.color}`}>
+                            {step.phase}
+                          </span>
+                        </div>
+                        {/* Connector arrow (hidden on last + mobile) */}
+                        {i < 3 && (
+                          <div className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 translate-x-1/2 md:block">
+                            <ArrowRight className="h-4 w-4 text-muted-foreground/40" />
+                          </div>
+                        )}
+                        <p className="text-sm leading-relaxed text-foreground/70">{step.desc}</p>
+                      </div>
+                    );
+                  })}
                 </div>
-              </a>
+
+                {/* Impact footer */}
+                <div className="flex items-center gap-3 border-t border-border bg-destructive/5 px-8 py-4">
+                  <Shield className="h-4 w-4 flex-shrink-0 text-destructive" />
+                  <span className="text-sm font-medium text-destructive">
+                    실질적 영향: {c.impact}
+                  </span>
+                </div>
+              </div>
             ))}
           </div>
 
