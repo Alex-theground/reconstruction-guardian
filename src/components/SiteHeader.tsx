@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 const nav = [
   { to: "/", label: "홈" },
   { to: "/cases", label: "왜 필요한가" },
+  { to: "/simulator", label: "손실 시뮬레이터" },
   { to: "/services", label: "서비스" },
   { to: "/process", label: "감독 프로세스" },
   { to: "/contract", label: "계약 안내" },

@@ -335,6 +335,26 @@ function Home() {
       </section>
 
       {/* CTA */}
+      {/* SIMULATOR CTA */}
+      <section className="border-b border-border bg-card py-20">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <div className="text-xs uppercase tracking-[0.3em] text-gold">Risk Simulator</div>
+          <h2 className="mt-6 font-serif text-3xl leading-tight md:text-4xl">
+            우리 조합의 잠재 피해액은 얼마일까?
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
+            사업비와 세대 수를 입력하면, 사업 초기·중기·완료 단계별 예상 리스크와 손실액을 즉시 계산합니다.
+          </p>
+          <Link
+            to="/simulator"
+            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-gold px-8 py-4 text-sm font-medium text-ink hover:opacity-90"
+          >
+            손실 시뮬레이터 시작하기 <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* CTA */}
       <section className="bg-parchment py-24 md:py-32">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <div className="text-xs uppercase tracking-[0.3em] text-gold">계약 제안</div>

@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProcessRouteImport } from './routes/process'
 import { Route as ContractRouteImport } from './routes/contract'
@@ -16,6 +17,11 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CasesRouteImport } from './routes/cases'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SimulatorRoute = SimulatorRouteImport.update({
+  id: '/simulator',
+  path: '/simulator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/contract': typeof ContractRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
+  '/simulator': typeof SimulatorRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/contract': typeof ContractRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
+  '/simulator': typeof SimulatorRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/contract': typeof ContractRoute
   '/process': typeof ProcessRoute
   '/services': typeof ServicesRoute
+  '/simulator': typeof SimulatorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,8 +90,16 @@ export interface FileRouteTypes {
     | '/contract'
     | '/process'
     | '/services'
+    | '/simulator'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cases' | '/contact' | '/contract' | '/process' | '/services'
+  to:
+    | '/'
+    | '/cases'
+    | '/contact'
+    | '/contract'
+    | '/process'
+    | '/services'
+    | '/simulator'
   id:
     | '__root__'
     | '/'
@@ -91,6 +108,7 @@ export interface FileRouteTypes {
     | '/contract'
     | '/process'
     | '/services'
+    | '/simulator'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -100,10 +118,18 @@ export interface RootRouteChildren {
   ContractRoute: typeof ContractRoute
   ProcessRoute: typeof ProcessRoute
   ServicesRoute: typeof ServicesRoute
+  SimulatorRoute: typeof SimulatorRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/simulator': {
+      id: '/simulator'
+      path: '/simulator'
+      fullPath: '/simulator'
+      preLoaderRoute: typeof SimulatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -156,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContractRoute: ContractRoute,
   ProcessRoute: ProcessRoute,
   ServicesRoute: ServicesRoute,
+  SimulatorRoute: SimulatorRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
