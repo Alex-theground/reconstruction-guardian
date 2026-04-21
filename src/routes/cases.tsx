@@ -15,6 +15,10 @@ import {
   Scale,
   Clock,
   Building2,
+  CircleDot,
+  Search,
+  FileSearch,
+  Gavel,
 } from "lucide-react";
 
 export const Route = createFileRoute("/cases")({
