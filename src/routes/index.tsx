@@ -120,42 +120,59 @@ function Home() {
               </div>
               <h2 className="mt-4 font-serif text-4xl leading-tight md:text-5xl">
                 이건 추측이 아닙니다.<br />
-                <span className="text-foreground/40">이미 보도된, </span>
-                <span>반복되는 사실입니다.</span>
+                <span className="text-foreground/40">국토부 통계로 확인된, </span>
+                <span>반복되는 구조적 문제입니다.</span>
               </h2>
             </div>
             <div className="md:col-span-5">
               <p className="text-foreground/70 leading-relaxed">
-                지상파 탐사보도는 누적 500만 회 이상 시청되었고, 검찰 수사로 조합장이
-                구속된 사례는 한두 건이 아닙니다. 그럼에도 대부분의 조합은 여전히
-                독립적인 회계 감독 없이 운영되고 있습니다.
+                국토교통부 현장조사에 따르면 재건축·재개발 비리 적발은 <strong>5년 새
+                2배</strong>로 증가, 수사 의뢰는 <strong>100건을 초과</strong>했습니다.
+                지상파 탐사보도 누적 조회수 500만 이상. 그럼에도 대부분의 조합은
+                여전히 독립적인 회계 감독 없이 운영되고 있습니다.
               </p>
             </div>
           </div>
 
+          {/* Key stats bar */}
+          <div className="mt-16 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-4">
+            {[
+              { v: "2배", l: "5년간 비리 적발 증가율", s: "국토교통부" },
+              { v: "100건+", l: "검찰·경찰 수사 의뢰 누적", s: "노컷뉴스 (2024)" },
+              { v: "209억", l: "단일 조합 최대 편취 금액", s: "동아일보 (2025)" },
+              { v: "12억원", l: "조합원 1인당 추가 분담금", s: "땅집고 (2024)" },
+            ].map((s) => (
+              <div key={s.l} className="bg-card p-8">
+                <div className="font-serif text-4xl text-gold">{s.v}</div>
+                <div className="mt-2 text-sm font-medium text-foreground/80">{s.l}</div>
+                <div className="mt-1 text-[10px] text-muted-foreground">{s.s}</div>
+              </div>
+            ))}
+          </div>
+
           {/* Featured cases */}
-          <div className="mt-16 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-3">
+          <div className="mt-8 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-3">
             {[
               {
-                tag: "뇌물 비리",
-                title: "가락시영 — 조합장 등 7명 기소",
-                desc: "수억 원 뇌물·입찰 정보 유출. 국내 최대 단지에서 발생한 조직적 부패.",
-                src: "국민일보",
-                url: "https://www.kmib.co.kr/article/view.asp?arcid=0011091815",
+                tag: "뇌물·구속",
+                title: "임대아파트 사업권 — 8억 뇌물, 9명 구속",
+                desc: "사업자 선정 대가로 8억 원의 뇌물이 거래되어 조합장 등 9명이 구속.",
+                src: "프레시안 (2025)",
+                url: "https://www.pressian.com/pages/articles/2025042913451483296",
               },
               {
-                tag: "분담금 폭탄",
-                title: "신반포 — 1인당 12억 추가 분담금",
-                desc: "평수를 줄여도 가구당 10억 원 이상. 사업비 검증 실패의 극단적 결과.",
-                src: "조선일보 땅집고",
-                url: "https://realty.chosun.com/site/data/html_dir/2024/02/08/2024020801556.html",
+                tag: "공사비 부풀리기",
+                title: "용인 조합 — 13억 뒷돈, 공사비 385억 증액",
+                desc: "뒷돈 수수 후 공사비 385억 부당 증액. 전직 시장·국회의원까지 연루.",
+                src: "헤럴드경제 (2025)",
+                url: "https://heraldk.com/2025/07/30/13%ec%96%b5-%eb%92%b7%eb%8f%88-%eb%b0%9b%ea%b3%a0-%ea%b3%b5%ec%82%ac%eb%b9%84-385%ec%96%b5-%ec%a6%9d%ec%95%a1%e2%80%a6%ec%a0%84-%ec%a3%bc%ed%83%9d%ec%a1%b0%ed%95%a9%ec%9e%a5-%ea%b5%ac%ec%86%8d/",
               },
               {
-                tag: "조합 파산",
-                title: "포항 두호주공 — 파산 절차 돌입",
-                desc: "조합 자체가 무너지며 조합원 납입금 회수 불가. 추가 분담금만 남았습니다.",
-                src: "영남경제",
-                url: "https://www.ynenews.kr/news/articleView.html?idxno=51111",
+                tag: "대규모 사기",
+                title: "은평 조합 — 428명에게서 209억 편취",
+                desc: "허위 광고로 모집한 428명의 계약금 209억 편취. 대표 징역 20년 선고.",
+                src: "동아일보 (2025)",
+                url: "https://www.donga.com/news/Society/article/all/20250129/130938050/1",
               },
             ].map((c) => (
               <a
@@ -182,7 +199,7 @@ function Home() {
           </div>
 
           {/* Broadcasts */}
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
             {[
               { id: "awAUbL2xjHU", t: "삼성 재건축 비리 의혹 — MBC 스트레이트", v: "73.7만 조회" },
               { id: "fLv2b9zXzkc", t: "투기와의 전쟁, 왜 실패했나 — MBC 스트레이트", v: "174.8만 조회" },
@@ -220,7 +237,7 @@ function Home() {
               to="/cases"
               className="inline-flex items-center gap-2 rounded-sm bg-ink px-7 py-4 text-sm font-medium text-primary-foreground hover:bg-ink/90"
             >
-              전체 사례·방송 모두 보기 <ArrowRight className="h-4 w-4" />
+              12건의 사례·4개 방송 모두 보기 <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
