@@ -3,6 +3,7 @@ import { useState } from "react";
 import { PageShell } from "@/components/PageShell";
 import { YouTubeModal } from "@/components/YouTubeModal";
 import heroImg from "@/assets/hero-construction.jpg";
+import { useTilt3D } from "@/hooks/use-tilt-3d";
 import { ShieldCheck, FileSearch, Scale, TrendingDown, ArrowRight, Play, AlertTriangle, ExternalLink } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -24,6 +25,15 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+function TiltCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const { ref, tiltStyle, handlers } = useTilt3D(8, 1.02);
+  return (
+    <div ref={ref} style={tiltStyle} className={className} {...handlers}>
+      {children}
+    </div>
+  );
+}
+
 function Home() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   return (
@@ -41,10 +51,10 @@ function Home() {
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="relative mx-auto max-w-7xl px-6 py-32 md:py-48">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-ink/40 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-gold backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-ink/40 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-gold backdrop-blur float-3d">
               <span className="h-1 w-1 rounded-full bg-gold" /> 독립 회계 감독
             </div>
-            <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
+            <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl text-3d">
               조합장을 감시하는<br />
               <span className="text-gold">단 한 명의 회계사.</span>
             </h1>
@@ -55,7 +65,7 @@ function Home() {
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
                 to="/contract"
-                className="inline-flex items-center gap-2 rounded-sm bg-gold px-7 py-4 text-sm font-medium text-ink transition-all hover:opacity-90"
+                className="inline-flex items-center gap-2 rounded-sm bg-gold px-7 py-4 text-sm font-medium text-ink transition-all hover:opacity-90 hover:translate-y-[-2px] hover:shadow-lg"
               >
                 계약 조건 보기 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -88,18 +98,18 @@ function Home() {
                 무리한 자금 집행, 그리고 조합 파산으로 인한 조합원 개인의 막대한
                 손실이 끊임없이 반복되고 있습니다.
               </p>
-              <div className="grid gap-6 sm:grid-cols-3">
+              <div className="perspective-container grid gap-6 sm:grid-cols-3">
                 {[
                   { v: "62%", l: "조합 분쟁 비율" },
                   { v: "3.4억", l: "조합원 평균 추가 분담금" },
                   { v: "11년", l: "평균 사업 지연" },
-                ].map((s) => (
-                  <div key={s.l} className="border-t border-foreground/20 pt-4">
+                ].map((s, i) => (
+                  <TiltCard key={s.l} className="border-t border-foreground/20 pt-4">
                     <div className="font-serif text-3xl text-foreground">{s.v}</div>
                     <div className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">
                       {s.l}
                     </div>
-                  </div>
+                  </TiltCard>
                 ))}
               </div>
               <p className="text-sm text-muted-foreground">
@@ -134,15 +144,15 @@ function Home() {
             </div>
           </div>
 
-          {/* Key stats bar */}
-          <div className="mt-16 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-4">
+          {/* Key stats bar — 3D perspective cards */}
+          <div className="perspective-container mt-16 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-4">
             {[
               { v: "2배", l: "5년간 비리 적발 증가율", s: "국토교통부" },
               { v: "100건+", l: "검찰·경찰 수사 의뢰 누적", s: "노컷뉴스 (2024)" },
               { v: "209억", l: "단일 조합 최대 편취 금액", s: "동아일보 (2025)" },
               { v: "12억원", l: "조합원 1인당 추가 분담금", s: "땅집고 (2024)" },
             ].map((s) => (
-              <div key={s.l} className="bg-card p-8">
+              <div key={s.l} className="bg-card p-8 card-3d tilt-shine">
                 <div className="font-serif text-4xl text-gold">{s.v}</div>
                 <div className="mt-2 text-sm font-medium text-foreground/80">{s.l}</div>
                 <div className="mt-1 text-[10px] text-muted-foreground">{s.s}</div>
@@ -150,8 +160,8 @@ function Home() {
             ))}
           </div>
 
-          {/* Featured cases */}
-          <div className="mt-8 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-3">
+          {/* Featured cases — 3D tilt cards */}
+          <div className="perspective-container mt-8 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-3">
             {[
               {
                 tag: "뇌물·구속",
@@ -180,7 +190,7 @@ function Home() {
                 href={c.url}
                 target="_blank"
                 rel="noreferrer"
-                className="group bg-card p-8 transition-colors hover:bg-parchment"
+                className="group bg-card p-8 transition-all card-3d tilt-shine"
               >
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-destructive/10 px-3 py-1 text-xs font-medium text-destructive">
                   <AlertTriangle className="h-3 w-3" />
@@ -208,7 +218,7 @@ function Home() {
                 key={b.id}
                 type="button"
                 onClick={() => setActiveVideo(b.id)}
-                className="group relative flex items-center gap-5 overflow-hidden rounded-sm border border-border bg-card p-3 pr-6 text-left transition-all hover:shadow-elegant"
+                className="group relative flex items-center gap-5 overflow-hidden rounded-sm border border-border bg-card p-3 pr-6 text-left transition-all card-3d"
               >
                 <div className="relative aspect-video w-40 flex-shrink-0 overflow-hidden rounded-sm bg-ink">
                   <img
@@ -243,7 +253,7 @@ function Home() {
         </div>
       </section>
 
-      {/* CORE SERVICES */}
+      {/* CORE SERVICES — 3D flip cards */}
       <section className="py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex items-end justify-between gap-8 border-b border-border pb-8">
@@ -259,7 +269,7 @@ function Home() {
             </Link>
           </div>
 
-          <div className="mt-16 grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-2">
+          <div className="perspective-container mt-16 grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-2">
             {[
               {
                 icon: FileSearch,
@@ -276,7 +286,7 @@ function Home() {
                 points: ["자금집행 사전 검토", "세무 리스크 분석", "조합원 보고서 작성"],
               },
             ].map((s) => (
-              <div key={s.num} className="bg-card p-10 md:p-14">
+              <TiltCard key={s.num} className="bg-card p-10 md:p-14 tilt-shine">
                 <div className="flex items-start justify-between">
                   <s.icon className="h-10 w-10 text-gold" strokeWidth={1.2} />
                   <span className="font-serif text-5xl text-foreground/15">{s.num}</span>
@@ -291,13 +301,13 @@ function Home() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </TiltCard>
             ))}
           </div>
         </div>
       </section>
 
-      {/* WHY */}
+      {/* WHY — 3D floating icons */}
       <section className="bg-ink py-24 text-primary-foreground md:py-32">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-xs uppercase tracking-[0.3em] text-gold">차별점</div>
@@ -306,7 +316,7 @@ function Home() {
             <span className="text-gold">상주 감독 회계사</span>인가?
           </h2>
 
-          <div className="mt-20 grid gap-12 md:grid-cols-3">
+          <div className="perspective-container mt-20 grid gap-12 md:grid-cols-3">
             {[
               {
                 icon: ShieldCheck,
@@ -323,9 +333,11 @@ function Home() {
                 t: "지속성",
                 d: "단발성 컨설팅이 아닌 월정 계약을 통해 사업 전 기간에 걸친 일관된 감독을 제공합니다.",
               },
-            ].map((b) => (
-              <div key={b.t} className="border-t border-primary-foreground/15 pt-8">
-                <b.icon className="h-8 w-8 text-gold" strokeWidth={1.2} />
+            ].map((b, i) => (
+              <div key={b.t} className="border-t border-primary-foreground/15 pt-8 card-3d">
+                <div className={i === 1 ? "float-3d-delayed" : "float-3d"}>
+                  <b.icon className="h-8 w-8 text-gold" strokeWidth={1.2} />
+                </div>
                 <h3 className="mt-6 font-serif text-2xl">{b.t}</h3>
                 <p className="mt-4 leading-relaxed text-primary-foreground/70">{b.d}</p>
               </div>
@@ -334,23 +346,24 @@ function Home() {
         </div>
       </section>
 
-      {/* CTA */}
-      {/* SIMULATOR CTA */}
+      {/* SIMULATOR CTA — 3D stack card */}
       <section className="border-b border-border bg-card py-20">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <div className="text-xs uppercase tracking-[0.3em] text-gold">Risk Simulator</div>
-          <h2 className="mt-6 font-serif text-3xl leading-tight md:text-4xl">
-            우리 조합의 잠재 피해액은 얼마일까?
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
-            사업비와 세대 수를 입력하면, 사업 초기·중기·완료 단계별 예상 리스크와 손실액을 즉시 계산합니다.
-          </p>
-          <Link
-            to="/simulator"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-gold px-8 py-4 text-sm font-medium text-ink hover:opacity-90"
-          >
-            손실 시뮬레이터 시작하기 <ArrowRight className="h-4 w-4" />
-          </Link>
+        <div className="mx-auto max-w-4xl px-6 text-center perspective-container">
+          <div className="stack-3d rounded-sm bg-card p-12 border border-border relative z-10">
+            <div className="text-xs uppercase tracking-[0.3em] text-gold">Risk Simulator</div>
+            <h2 className="mt-6 font-serif text-3xl leading-tight md:text-4xl">
+              우리 조합의 잠재 피해액은 얼마일까?
+            </h2>
+            <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
+              사업비와 세대 수를 입력하면, 사업 초기·중기·완료 단계별 예상 리스크와 손실액을 즉시 계산합니다.
+            </p>
+            <Link
+              to="/simulator"
+              className="mt-8 inline-flex items-center gap-2 rounded-sm bg-gold px-8 py-4 text-sm font-medium text-ink hover:opacity-90"
+            >
+              손실 시뮬레이터 시작하기 <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
