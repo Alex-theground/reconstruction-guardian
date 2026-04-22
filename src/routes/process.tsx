@@ -61,16 +61,16 @@ function ProcessPage() {
         description="일회성 감사가 아닌, 사업이 종료될 때까지 매월 반복되는 정형화된 프로세스로 조합 운영을 감독합니다."
       />
 
-      <section className="py-24 md:py-32 perspective-container">
+      <section className="py-24 md:py-32">
         <div className="mx-auto max-w-5xl px-6">
           <ol className="space-y-px">
             {steps.map((s, i) => (
               <li
                 key={s.n}
-                className="group grid gap-8 border-t border-border py-12 md:grid-cols-12 md:gap-12 card-3d rounded-sm px-4"
+                className="group grid gap-8 border-t border-border py-12 md:grid-cols-12 md:gap-12"
               >
                 <div className="md:col-span-2">
-                  <div className="font-serif text-6xl text-foreground/15 transition-colors group-hover:text-gold text-3d">
+                  <div className="font-serif text-6xl text-foreground/15 transition-colors group-hover:text-gold">
                     0{s.n}
                   </div>
                 </div>

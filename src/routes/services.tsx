@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHero } from "@/components/PageShell";
 import { CheckCircle2 } from "lucide-react";
-import { useTilt3D } from "@/hooks/use-tilt-3d";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -50,36 +49,6 @@ const services = [
   },
 ];
 
-function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
-  const { ref, tiltStyle, handlers } = useTilt3D(6, 1.01);
-
-  return (
-    <article className="grid gap-16 md:grid-cols-12">
-      <div className="md:col-span-4">
-        <div className="font-serif text-7xl text-gold text-3d">{service.num}</div>
-        <div className="mt-6 hairline w-24" />
-        <p className="mt-6 text-sm uppercase tracking-[0.25em] text-muted-foreground">
-          {index === 0 ? "Accounting Audit" : "Executive Oversight"}
-        </p>
-      </div>
-      <div className="md:col-span-8" ref={ref} style={tiltStyle} {...handlers}>
-        <div className="rounded-sm border border-border bg-card p-8 md:p-10 tilt-shine">
-          <h2 className="font-serif text-3xl leading-tight md:text-4xl">{service.title}</h2>
-          <p className="mt-6 text-lg leading-relaxed text-foreground/70">{service.summary}</p>
-          <ul className="mt-10 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
-            {service.items.map((it) => (
-              <li key={it} className="flex items-start gap-3">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-gold" strokeWidth={1.5} />
-                <span className="text-sm leading-relaxed text-foreground/85">{it}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </article>
-  );
-}
-
 function ServicesPage() {
   return (
     <PageShell>
@@ -89,10 +58,30 @@ function ServicesPage() {
         description="회계의 정확성과 자금집행의 타당성. 이 두 가지가 흔들리면 조합 전체가 흔들립니다. 정감 회계는 두 영역 모두에 독립적이고 지속적인 감독을 제공합니다."
       />
 
-      <section className="py-24 md:py-32 perspective-container">
+      <section className="py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6 space-y-32">
           {services.map((s, i) => (
-            <ServiceCard key={s.num} service={s} index={i} />
+            <article key={s.num} className="grid gap-16 md:grid-cols-12">
+              <div className="md:col-span-4">
+                <div className="font-serif text-7xl text-gold">{s.num}</div>
+                <div className="mt-6 hairline w-24" />
+                <p className="mt-6 text-sm uppercase tracking-[0.25em] text-muted-foreground">
+                  {i === 0 ? "Accounting Audit" : "Executive Oversight"}
+                </p>
+              </div>
+              <div className="md:col-span-8">
+                <h2 className="font-serif text-3xl leading-tight md:text-4xl">{s.title}</h2>
+                <p className="mt-6 text-lg leading-relaxed text-foreground/70">{s.summary}</p>
+                <ul className="mt-10 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
+                  {s.items.map((it) => (
+                    <li key={it} className="flex items-start gap-3">
+                      <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-gold" strokeWidth={1.5} />
+                      <span className="text-sm leading-relaxed text-foreground/85">{it}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
           ))}
         </div>
       </section>

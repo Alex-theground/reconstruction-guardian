@@ -306,7 +306,7 @@ function SimulatorPage() {
 
       {/* SUMMARY BAR */}
       <section className="border-b border-border bg-ink py-12 text-primary-foreground">
-        <div className="mx-auto max-w-7xl px-6 perspective-container">
+        <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-px overflow-hidden rounded-sm bg-primary-foreground/10 md:grid-cols-4">
             {[
               {
@@ -335,7 +335,7 @@ function SimulatorPage() {
             ].map((s) => (
               <div
                 key={s.label}
-                className={`p-8 card-3d tilt-shine ${s.highlight ? "bg-destructive/20" : "bg-primary-foreground/5"}`}
+                className={`p-8 ${s.highlight ? "bg-destructive/20" : "bg-primary-foreground/5"}`}
               >
                 <div className="text-xs uppercase tracking-wider text-primary-foreground/60">
                   {s.label}
@@ -363,7 +363,7 @@ function SimulatorPage() {
           </div>
 
           {/* Phase selector */}
-          <div className="perspective-container mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
             {results.phases.map((p) => {
               const Icon = phaseData[p.phase].icon;
               const isActive = p.phase === activePhase;
@@ -372,7 +372,7 @@ function SimulatorPage() {
                   key={p.phase}
                   type="button"
                   onClick={() => setActivePhase(p.phase)}
-                  className={`rounded-sm border p-6 text-left transition-all card-3d tilt-shine ${
+                  className={`rounded-sm border p-6 text-left transition-all ${
                     isActive
                       ? "border-gold bg-gold/5 shadow-soft"
                       : "border-border bg-card hover:border-foreground/20"
