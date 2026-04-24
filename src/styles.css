@@ -33,7 +33,7 @@
   --color-ink: var(--ink);
   --color-parchment: var(--parchment);
   --font-serif: "Noto Serif KR", "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Pretendard", "Inter", system-ui, sans-serif;
+  --font-sans: "Noto Sans KR", "Inter", system-ui, sans-serif;
 }
 
 :root {
