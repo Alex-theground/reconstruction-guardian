@@ -323,21 +323,64 @@ function BroadcastsEditor({ data, onSave, saving }: EditorProps<BroadcastsData>)
 /* ─ SIMULATOR ─ */
 interface RiskItem { name: string; probability: number; lossRate: number; description: string }
 interface PhaseConfig { label: string; risks: RiskItem[] }
-interface SimulatorData { phases: Record<string, PhaseConfig> }
+interface SimulatorData {
+  phases: Record<string, PhaseConfig>;
+  monthlyFeeRate?: number;
+  minMonthlyFee?: number;
+  contractYears?: number;
+  riskReductionRate?: number;
+}
 
-const defaultSimulator: SimulatorData = { phases: {} };
+const defaultSimulator: SimulatorData = {
+  phases: {},
+  monthlyFeeRate: 0.00008,
+  minMonthlyFee: 0.03,
+  contractYears: 5,
+  riskReductionRate: 0.7,
+};
 
 function SimulatorEditor({ data, onSave, saving }: EditorProps<SimulatorData>) {
-  const [form, setForm] = useState<SimulatorData>(data || defaultSimulator);
+  const [form, setForm] = useState<SimulatorData>({ ...defaultSimulator, ...(data || {}) });
   const phases = ["initial", "mid", "completion"] as const;
   const phaseLabels: Record<string, string> = { initial: "사업 초기", mid: "사업 중기", completion: "사업 완료기" };
 
   return (
     <div className="space-y-8">
+      <Section title="감독비 및 효과 설정 (시뮬레이터 계산식)">
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="월 감독비 비율 (사업비 대비, 예: 0.00008 = 0.008%)">
+            <input type="number" step="0.00001" className={inputCls}
+              value={form.monthlyFeeRate ?? 0}
+              onChange={(e) => setForm((p) => ({ ...p, monthlyFeeRate: +e.target.value }))} />
+          </Field>
+          <Field label="최소 월 감독비 (억 원, 예: 0.03 = 300만원)">
+            <input type="number" step="0.001" className={inputCls}
+              value={form.minMonthlyFee ?? 0}
+              onChange={(e) => setForm((p) => ({ ...p, minMonthlyFee: +e.target.value }))} />
+          </Field>
+          <Field label="계약 기간 (년, 총 비용 산정)">
+            <input type="number" className={inputCls}
+              value={form.contractYears ?? 5}
+              onChange={(e) => setForm((p) => ({ ...p, contractYears: +e.target.value }))} />
+          </Field>
+          <Field label="감독 시 리스크 저감율 (0~1, 예: 0.7 = 70% 저감)">
+            <input type="number" step="0.05" min="0" max="1" className={inputCls}
+              value={form.riskReductionRate ?? 0.7}
+              onChange={(e) => setForm((p) => ({ ...p, riskReductionRate: +e.target.value }))} />
+          </Field>
+        </div>
+      </Section>
       {phases.map((phase) => {
         const p = form.phases[phase] || { label: phaseLabels[phase], risks: [] };
         return (
           <Section key={phase} title={`${phaseLabels[phase]} 리스크`}>
+            <Field label="단계 표시명">
+              <input className={inputCls} value={p.label}
+                onChange={(e) => setForm((prev) => ({
+                  ...prev,
+                  phases: { ...prev.phases, [phase]: { ...p, label: e.target.value } }
+                }))} />
+            </Field>
             <ListEditor
               items={p.risks}
               onChange={(risks) => setForm((prev) => ({

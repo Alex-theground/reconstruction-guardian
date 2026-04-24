@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, PageHero } from "@/components/PageShell";
 import { Check } from "lucide-react";
+import { useSiteContent } from "@/hooks/use-site-content";
 
 export const Route = createFileRoute("/contract")({
   head: () => ({
@@ -20,7 +21,11 @@ export const Route = createFileRoute("/contract")({
   component: ContractPage,
 });
 
-const tiers = [
+interface TierItem { name: string; scale: string; price: string; unit: string; items: string[]; featured: boolean }
+interface TermItem { key: string; value: string }
+interface ContractData { tiers: TierItem[]; terms: TermItem[]; footnote: string }
+
+const defaultTiers: TierItem[] = [
   {
     name: "Standard",
     scale: "500세대 미만",
@@ -66,16 +71,32 @@ const tiers = [
   },
 ];
 
-const terms = [
-  ["계약 형태", "프리랜서 용역 계약 (조합과 개인 회계사 간 직접 체결)"],
-  ["계약 기간", "기본 1년, 자동 연장. 사업 종료 시까지 연속 가능"],
-  ["보수 지급", "매월 말일 일괄 지급, 세금계산서 발행"],
-  ["독립성", "조합과 어떠한 지분·이해관계도 없는 외부 회계사로서 수행"],
-  ["비밀 유지", "계약 종료 후에도 5년간 조합 정보 비공개 유지 의무"],
-  ["해지 조건", "양 당사자 모두 30일 사전 통보로 해지 가능"],
+const defaultTerms: TermItem[] = [
+  { key: "계약 형태", value: "프리랜서 용역 계약 (조합과 개인 회계사 간 직접 체결)" },
+  { key: "계약 기간", value: "기본 1년, 자동 연장. 사업 종료 시까지 연속 가능" },
+  { key: "보수 지급", value: "매월 말일 일괄 지급, 세금계산서 발행" },
+  { key: "독립성", value: "조합과 어떠한 지분·이해관계도 없는 외부 회계사로서 수행" },
+  { key: "비밀 유지", value: "계약 종료 후에도 5년간 조합 정보 비공개 유지 의무" },
+  { key: "해지 조건", value: "양 당사자 모두 30일 사전 통보로 해지 가능" },
 ];
 
+const defaultFootnote = "* 위 요금은 표준 안내가이며, 사업 단계(조합설립·시공자선정·관리처분·착공·준공)에 따라 조정될 수 있습니다.";
+
 function ContractPage() {
+  const { content, loading } = useSiteContent<ContractData>("contract");
+
+  const tiers = content?.tiers && content.tiers.length > 0 ? content.tiers : defaultTiers;
+  const terms = content?.terms && content.terms.length > 0 ? content.terms : defaultTerms;
+  const footnote = content?.footnote || defaultFootnote;
+
+  if (loading) {
+    return (
+      <PageShell>
+        <div className="flex min-h-[40vh] items-center justify-center text-muted-foreground">로딩 중...</div>
+      </PageShell>
+    );
+  }
+
   return (
     <PageShell>
       <PageHero
@@ -95,7 +116,7 @@ function ContractPage() {
                   t.featured ? "bg-ink text-primary-foreground" : "bg-card"
                 }`}
               >
-                <div className={`text-xs uppercase tracking-[0.25em] ${t.featured ? "text-gold" : "text-gold"}`}>
+                <div className="text-xs uppercase tracking-[0.25em] text-gold">
                   {t.name}
                 </div>
                 <div className={`mt-4 font-serif text-2xl ${t.featured ? "text-primary-foreground" : "text-foreground"}`}>
@@ -112,7 +133,7 @@ function ContractPage() {
                 <ul className={`mt-10 space-y-4 border-t pt-8 ${t.featured ? "border-primary-foreground/15" : "border-border"}`}>
                   {t.items.map((it) => (
                     <li key={it} className="flex items-start gap-3 text-sm">
-                      <Check className={`mt-0.5 h-4 w-4 flex-shrink-0 ${t.featured ? "text-gold" : "text-gold"}`} />
+                      <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold" />
                       <span className={t.featured ? "text-primary-foreground/85" : "text-foreground/80"}>{it}</span>
                     </li>
                   ))}
@@ -130,9 +151,7 @@ function ContractPage() {
               </div>
             ))}
           </div>
-          <p className="mt-8 text-sm text-muted-foreground">
-            * 위 요금은 표준 안내가이며, 사업 단계(조합설립·시공자선정·관리처분·착공·준공)에 따라 조정될 수 있습니다.
-          </p>
+          <p className="mt-8 text-sm text-muted-foreground">{footnote}</p>
         </div>
       </section>
 
@@ -143,10 +162,10 @@ function ContractPage() {
           <h2 className="mt-4 font-serif text-4xl md:text-5xl">계약의 핵심 조항</h2>
 
           <dl className="mt-16 divide-y divide-border border-y border-border">
-            {terms.map(([k, v]) => (
-              <div key={k} className="grid gap-4 py-6 md:grid-cols-12 md:gap-8">
-                <dt className="font-serif text-lg text-foreground md:col-span-3">{k}</dt>
-                <dd className="text-foreground/75 md:col-span-9">{v}</dd>
+            {terms.map((term) => (
+              <div key={term.key} className="grid gap-4 py-6 md:grid-cols-12 md:gap-8">
+                <dt className="font-serif text-lg text-foreground md:col-span-3">{term.key}</dt>
+                <dd className="text-foreground/75 md:col-span-9">{term.value}</dd>
               </div>
             ))}
           </dl>

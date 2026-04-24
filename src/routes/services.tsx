@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHero } from "@/components/PageShell";
 import { CheckCircle2 } from "lucide-react";
+import { useSiteContent } from "@/hooks/use-site-content";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -18,7 +19,14 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
 });
 
-const services = [
+interface ServiceItem { num: string; title: string; summary: string; items: string[] }
+interface ServicesData {
+  services: ServiceItem[];
+  transparencyTitle: string;
+  transparencyDescription: string;
+}
+
+const defaultServices: ServiceItem[] = [
   {
     num: "01",
     title: "조합 회계 및 지출에 대한 세부 검토 · 적정성 검증",
@@ -49,7 +57,41 @@ const services = [
   },
 ];
 
+const defaultTransparencyTitle = "모든 검증 결과는 조합원에게도 투명하게 공유됩니다.";
+const defaultTransparencyDescription =
+  "정기 보고서는 조합 집행부뿐 아니라 요청 시 조합원 대표회의에도 직접 제출됩니다. 이는 단순한 컨설팅이 아닌, 조합원 전체를 위한 공적 감독 역할을 수행한다는 의미입니다.";
+
 function ServicesPage() {
+  const { content, loading } = useSiteContent<ServicesData>("services");
+
+  const services = content?.services && content.services.length > 0 ? content.services : defaultServices;
+  const transparencyTitle = content?.transparencyTitle || defaultTransparencyTitle;
+  const transparencyDescription = content?.transparencyDescription || defaultTransparencyDescription;
+
+  if (loading) {
+    return (
+      <PageShell>
+        <div className="flex min-h-[40vh] items-center justify-center text-muted-foreground">로딩 중...</div>
+      </PageShell>
+    );
+  }
+
+  // Highlight gold on "조합원에게도" if present in title
+  const renderTitle = (title: string) => {
+    const goldKeyword = "조합원에게도";
+    if (title.includes(goldKeyword)) {
+      const [before, after] = title.split(goldKeyword);
+      return (
+        <>
+          {before}
+          <span className="text-gold">{goldKeyword}</span>
+          {after}
+        </>
+      );
+    }
+    return title;
+  };
+
   return (
     <PageShell>
       <PageHero
@@ -61,12 +103,12 @@ function ServicesPage() {
       <section className="py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6 space-y-32">
           {services.map((s, i) => (
-            <article key={s.num} className="grid gap-16 md:grid-cols-12">
+            <article key={s.num + i} className="grid gap-16 md:grid-cols-12">
               <div className="md:col-span-4">
                 <div className="font-serif text-7xl text-gold">{s.num}</div>
                 <div className="mt-6 hairline w-24" />
                 <p className="mt-6 text-sm uppercase tracking-[0.25em] text-muted-foreground">
-                  {i === 0 ? "Accounting Audit" : "Executive Oversight"}
+                  {i === 0 ? "Accounting Audit" : i === 1 ? "Executive Oversight" : "Service"}
                 </p>
               </div>
               <div className="md:col-span-8">
@@ -90,11 +132,10 @@ function ServicesPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-12 md:grid-cols-2 md:items-center">
             <h3 className="font-serif text-3xl leading-tight md:text-4xl">
-              모든 검증 결과는 <span className="text-gold">조합원에게도</span> 투명하게 공유됩니다.
+              {renderTitle(transparencyTitle)}
             </h3>
             <p className="text-primary-foreground/75 leading-relaxed">
-              정기 보고서는 조합 집행부뿐 아니라 요청 시 조합원 대표회의에도 직접 제출됩니다.
-              이는 단순한 컨설팅이 아닌, 조합원 전체를 위한 공적 감독 역할을 수행한다는 의미입니다.
+              {transparencyDescription}
             </p>
           </div>
         </div>
