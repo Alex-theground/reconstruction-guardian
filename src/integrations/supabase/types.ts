@@ -35,6 +35,30 @@ export type Database = {
         }
         Relationships: []
       }
+      site_content_history: {
+        Row: {
+          changed_at: string
+          changed_by: string | null
+          content: Json
+          id: string
+          section_key: string
+        }
+        Insert: {
+          changed_at?: string
+          changed_by?: string | null
+          content: Json
+          id?: string
+          section_key: string
+        }
+        Update: {
+          changed_at?: string
+          changed_by?: string | null
+          content?: Json
+          id?: string
+          section_key?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
