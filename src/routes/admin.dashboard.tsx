@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Json } from "@/integrations/supabase/types";
 import {
   Save, LogOut, Home, FileText, BarChart3, Wrench, GitBranch, CreditCard, MessageSquare,
-  Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film
+  Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/dashboard")({
@@ -490,50 +490,181 @@ const defaultContract: ContractData = { tiers: [], terms: [], footnote: "" };
 
 function ContractEditor({ data, onSave, saving }: EditorProps<ContractData>) {
   const [form, setForm] = useState<ContractData>(data || defaultContract);
+  const [history, setHistory] = useState<Array<{ id: string; content: ContractData; changed_at: string; changed_by: string | null }>>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+
+  const loadHistory = useCallback(async () => {
+    setHistoryLoading(true);
+    const { data: rows } = await supabase
+      .from("site_content_history")
+      .select("id, content, changed_at, changed_by")
+      .eq("section_key", "contract")
+      .order("changed_at", { ascending: false })
+      .limit(20);
+    setHistory(
+      (rows || []).map((r) => ({
+        id: r.id,
+        content: r.content as unknown as ContractData,
+        changed_at: r.changed_at,
+        changed_by: r.changed_by,
+      }))
+    );
+    setHistoryLoading(false);
+  }, []);
+
+  useEffect(() => { loadHistory(); }, [loadHistory]);
+
+  const handleSave = () => {
+    onSave(form);
+    // refresh history shortly after save
+    setTimeout(() => loadHistory(), 800);
+  };
+
+  const restore = (snapshot: ContractData) => {
+    if (!confirm("이 시점의 내용으로 편집기를 되돌립니다. (저장 버튼을 눌러야 사이트에 반영됩니다)")) return;
+    setForm(snapshot);
+  };
+
   return (
-    <div className="space-y-8">
-      <Section title="요금제">
-        <ListEditor
-          items={form.tiers}
-          onChange={(tiers) => setForm((p) => ({ ...p, tiers }))}
-          renderItem={(item, i, update) => (
-            <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-3">
-                <Field label="이름"><input className={inputCls} value={item.name} onChange={(e) => update({ ...item, name: e.target.value })} /></Field>
-                <Field label="규모"><input className={inputCls} value={item.scale} onChange={(e) => update({ ...item, scale: e.target.value })} /></Field>
-                <Field label="가격"><input className={inputCls} value={item.price} onChange={(e) => update({ ...item, price: e.target.value })} /></Field>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <Field label="단위"><input className={inputCls} value={item.unit} onChange={(e) => update({ ...item, unit: e.target.value })} /></Field>
-                <Field label="추천 여부">
-                  <label className="flex items-center gap-2 mt-2"><input type="checkbox" checked={item.featured} onChange={(e) => update({ ...item, featured: e.target.checked })} /> 추천 표시</label>
+    <div className="grid gap-6 xl:grid-cols-[1fr_minmax(420px,520px)]">
+      {/* ── Left: editor ── */}
+      <div className="space-y-8">
+        <Section title="요금제">
+          <ListEditor
+            items={form.tiers}
+            onChange={(tiers) => setForm((p) => ({ ...p, tiers }))}
+            renderItem={(item, i, update) => (
+              <div className="space-y-3">
+                <div className="grid grid-cols-3 gap-3">
+                  <Field label="이름"><input className={inputCls} value={item.name} onChange={(e) => update({ ...item, name: e.target.value })} /></Field>
+                  <Field label="규모"><input className={inputCls} value={item.scale} onChange={(e) => update({ ...item, scale: e.target.value })} /></Field>
+                  <Field label="가격"><input className={inputCls} value={item.price} onChange={(e) => update({ ...item, price: e.target.value })} /></Field>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="단위"><input className={inputCls} value={item.unit} onChange={(e) => update({ ...item, unit: e.target.value })} /></Field>
+                  <Field label="추천 여부">
+                    <label className="flex items-center gap-2 mt-2"><input type="checkbox" checked={item.featured} onChange={(e) => update({ ...item, featured: e.target.checked })} /> 추천 표시</label>
+                  </Field>
+                </div>
+                <Field label="포함 항목 (줄바꿈 구분)">
+                  <textarea className={textareaCls} value={item.items.join("\n")} onChange={(e) => update({ ...item, items: e.target.value.split("\n").filter(Boolean) })} />
                 </Field>
               </div>
-              <Field label="포함 항목 (줄바꿈 구분)">
-                <textarea className={textareaCls} value={item.items.join("\n")} onChange={(e) => update({ ...item, items: e.target.value.split("\n").filter(Boolean) })} />
-              </Field>
+            )}
+            newItem={() => ({ name: "", scale: "", price: "", unit: "", items: [], featured: false })}
+          />
+        </Section>
+        <Section title="계약 조건">
+          <ListEditor
+            items={form.terms}
+            onChange={(terms) => setForm((p) => ({ ...p, terms }))}
+            renderItem={(item, i, update) => (
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="항목"><input className={inputCls} value={item.key} onChange={(e) => update({ ...item, key: e.target.value })} /></Field>
+                <Field label="내용"><input className={inputCls} value={item.value} onChange={(e) => update({ ...item, value: e.target.value })} /></Field>
+              </div>
+            )}
+            newItem={() => ({ key: "", value: "" })}
+          />
+        </Section>
+        <Section title="비고">
+          <Field label="하단 안내문"><textarea className={textareaCls} value={form.footnote} onChange={(e) => setForm((p) => ({ ...p, footnote: e.target.value }))} /></Field>
+        </Section>
+        <SaveBar onSave={handleSave} saving={saving} />
+      </div>
+
+      {/* ── Right: live preview + history ── */}
+      <div className="space-y-4 xl:sticky xl:top-24 xl:self-start">
+        <div className="rounded-sm border border-border bg-card">
+          <div className="flex items-center justify-between border-b border-border p-4">
+            <h3 className="font-serif text-base">실시간 미리보기</h3>
+            <span className="text-xs text-muted-foreground">계약 페이지 요금제</span>
+          </div>
+          <div className="max-h-[60vh] overflow-auto p-4">
+            <ContractPreview tiers={form.tiers} footnote={form.footnote} />
+          </div>
+        </div>
+
+        <div className="rounded-sm border border-border bg-card">
+          <button
+            onClick={() => setShowHistory((s) => !s)}
+            className="flex w-full items-center justify-between p-4 text-left"
+          >
+            <span className="flex items-center gap-2 font-serif text-base">
+              <History className="h-4 w-4" /> 저장 히스토리 ({history.length})
+            </span>
+            {showHistory ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </button>
+          {showHistory && (
+            <div className="max-h-[40vh] overflow-auto border-t border-border">
+              {historyLoading && <div className="p-4 text-sm text-muted-foreground">불러오는 중...</div>}
+              {!historyLoading && history.length === 0 && (
+                <div className="p-4 text-sm text-muted-foreground">아직 저장 이력이 없습니다.</div>
+              )}
+              <ul className="divide-y divide-border">
+                {history.map((h) => (
+                  <li key={h.id} className="flex items-center justify-between gap-3 p-3 text-sm">
+                    <div className="min-w-0">
+                      <div className="font-medium">
+                        {new Date(h.changed_at).toLocaleString("ko-KR")}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        요금제 {(h.content?.tiers?.length ?? 0)}건 · 조건 {(h.content?.terms?.length ?? 0)}건
+                      </div>
+                    </div>
+                    <button onClick={() => restore(h.content)} className={btnSecondary}>
+                      <RotateCcw className="h-3 w-3" /> 되돌리기
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
-          newItem={() => ({ name: "", scale: "", price: "", unit: "", items: [], featured: false })}
-        />
-      </Section>
-      <Section title="계약 조건">
-        <ListEditor
-          items={form.terms}
-          onChange={(terms) => setForm((p) => ({ ...p, terms }))}
-          renderItem={(item, i, update) => (
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="항목"><input className={inputCls} value={item.key} onChange={(e) => update({ ...item, key: e.target.value })} /></Field>
-              <Field label="내용"><input className={inputCls} value={item.value} onChange={(e) => update({ ...item, value: e.target.value })} /></Field>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ContractPreview({ tiers, footnote }: { tiers: TierItem[]; footnote: string }) {
+  if (!tiers || tiers.length === 0) {
+    return <div className="text-sm text-muted-foreground">요금제를 추가하면 여기에 미리 보입니다.</div>;
+  }
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-px overflow-hidden rounded-sm bg-border">
+        {tiers.map((t, idx) => (
+          <div
+            key={idx}
+            className={`flex flex-col p-5 ${t.featured ? "bg-ink text-primary-foreground" : "bg-card"}`}
+          >
+            <div className="text-[10px] uppercase tracking-[0.25em] text-gold">{t.name || "—"}</div>
+            <div className={`mt-2 font-serif text-base ${t.featured ? "text-primary-foreground" : "text-foreground"}`}>
+              {t.scale || "규모 미입력"}
             </div>
-          )}
-          newItem={() => ({ key: "", value: "" })}
-        />
-      </Section>
-      <Section title="비고">
-        <Field label="하단 안내문"><textarea className={textareaCls} value={form.footnote} onChange={(e) => setForm((p) => ({ ...p, footnote: e.target.value }))} /></Field>
-      </Section>
-      <SaveBar onSave={() => onSave(form)} saving={saving} />
+            <div className="mt-4">
+              <div className={`font-serif text-2xl ${t.featured ? "text-gold" : "text-foreground"}`}>
+                {t.price || "—"}
+              </div>
+              <div className={`mt-1 text-xs ${t.featured ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
+                {t.unit}
+              </div>
+            </div>
+            {t.items?.length > 0 && (
+              <ul className={`mt-4 space-y-2 border-t pt-3 ${t.featured ? "border-primary-foreground/15" : "border-border"}`}>
+                {t.items.map((it, j) => (
+                  <li key={j} className="flex items-start gap-2 text-xs">
+                    <Check className="mt-0.5 h-3 w-3 flex-shrink-0 text-gold" />
+                    <span className={t.featured ? "text-primary-foreground/85" : "text-foreground/80"}>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+      {footnote && <p className="text-xs text-muted-foreground">{footnote}</p>}
     </div>
   );
 }
