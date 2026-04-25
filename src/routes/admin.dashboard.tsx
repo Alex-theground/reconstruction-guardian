@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Json } from "@/integrations/supabase/types";
 import {
   Save, LogOut, Home, FileText, BarChart3, Wrench, GitBranch, CreditCard, MessageSquare,
-  Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film
+  Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/dashboard")({
