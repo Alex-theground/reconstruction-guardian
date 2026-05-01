@@ -39,32 +39,41 @@ function Home() {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-hero" />
-        <div className="relative mx-auto max-w-7xl px-6 py-32 md:py-48">
+        <div className="relative mx-auto max-w-7xl px-6 py-28 md:py-48">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-ink/40 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-gold backdrop-blur">
               <span className="h-1 w-1 rounded-full bg-gold" /> 독립 회계 감독
             </div>
-            <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
+            <h1 className="mt-8 font-serif text-4xl leading-[1.05] text-primary-foreground sm:text-5xl md:text-7xl">
               조합장을 감시하는<br />
               <span className="text-gold">단 한 명의 회계사.</span>
             </h1>
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80">
+            <p className="mt-8 max-w-xl text-base leading-relaxed text-primary-foreground/80 md:text-lg">
               재건축·재개발 조합의 비리와 회계 부정으로부터 조합원의 자산을 지킵니다.
               월정 보수의 프리랜서 계약으로, 조합 내부에 독립적인 감시자를 두십시오.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                to="/contract"
-                className="inline-flex items-center gap-2 rounded-sm bg-gold px-7 py-4 text-sm font-medium text-ink transition-all hover:opacity-90"
-              >
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Link to="/contract" className="btn-base btn-gold">
                 계약 조건 보기 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 rounded-sm border border-primary-foreground/30 px-7 py-4 text-sm font-medium text-primary-foreground transition-all hover:bg-primary-foreground/10"
-              >
+              <Link to="/services" className="btn-base btn-outline-light">
                 서비스 상세
               </Link>
+            </div>
+            {/* Trust indicators */}
+            <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-primary-foreground/10 pt-6 text-xs uppercase tracking-[0.2em] text-primary-foreground/55">
+              <span className="flex items-center gap-2">
+                <ShieldCheck className="h-3.5 w-3.5 text-gold" strokeWidth={1.5} />
+                한국공인회계사회 등록
+              </span>
+              <span className="flex items-center gap-2">
+                <Scale className="h-3.5 w-3.5 text-gold" strokeWidth={1.5} />
+                독립 외부 회계사
+              </span>
+              <span className="flex items-center gap-2">
+                <FileSearch className="h-3.5 w-3.5 text-gold" strokeWidth={1.5} />
+                월정 감독 계약
+              </span>
             </div>
           </div>
         </div>
@@ -210,7 +219,7 @@ function Home() {
                 onClick={() => setActiveVideo(b.id)}
                 className="group relative flex items-center gap-5 overflow-hidden rounded-sm border border-border bg-card p-3 pr-6 text-left transition-all hover:shadow-elegant"
               >
-                <div className="relative aspect-video w-40 flex-shrink-0 overflow-hidden rounded-sm bg-ink">
+                <div className="relative aspect-video w-32 sm:w-40 flex-shrink-0 overflow-hidden rounded-sm bg-ink">
                   <img
                     src={`https://i.ytimg.com/vi/${b.id}/hqdefault.jpg`}
                     alt={b.t}
