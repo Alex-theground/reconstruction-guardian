@@ -39,32 +39,41 @@ function Home() {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-hero" />
-        <div className="relative mx-auto max-w-7xl px-6 py-32 md:py-48">
+        <div className="relative mx-auto max-w-7xl px-6 py-28 md:py-48">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-ink/40 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-gold backdrop-blur">
               <span className="h-1 w-1 rounded-full bg-gold" /> 독립 회계 감독
             </div>
-            <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
+            <h1 className="mt-8 font-serif text-4xl leading-[1.05] text-primary-foreground sm:text-5xl md:text-7xl">
               조합장을 감시하는<br />
               <span className="text-gold">단 한 명의 회계사.</span>
             </h1>
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80">
+            <p className="mt-8 max-w-xl text-base leading-relaxed text-primary-foreground/80 md:text-lg">
               재건축·재개발 조합의 비리와 회계 부정으로부터 조합원의 자산을 지킵니다.
               월정 보수의 프리랜서 계약으로, 조합 내부에 독립적인 감시자를 두십시오.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                to="/contract"
-                className="inline-flex items-center gap-2 rounded-sm bg-gold px-7 py-4 text-sm font-medium text-ink transition-all hover:opacity-90"
-              >
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Link to="/contract" className="btn-base btn-gold">
                 계약 조건 보기 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 rounded-sm border border-primary-foreground/30 px-7 py-4 text-sm font-medium text-primary-foreground transition-all hover:bg-primary-foreground/10"
-              >
+              <Link to="/services" className="btn-base btn-outline-light">
                 서비스 상세
               </Link>
+            </div>
+            {/* Trust indicators */}
+            <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-primary-foreground/10 pt-6 text-xs uppercase tracking-[0.2em] text-primary-foreground/55">
+              <span className="flex items-center gap-2">
+                <ShieldCheck className="h-3.5 w-3.5 text-gold" strokeWidth={1.5} />
+                한국공인회계사회 등록
+              </span>
+              <span className="flex items-center gap-2">
+                <Scale className="h-3.5 w-3.5 text-gold" strokeWidth={1.5} />
+                독립 외부 회계사
+              </span>
+              <span className="flex items-center gap-2">
+                <FileSearch className="h-3.5 w-3.5 text-gold" strokeWidth={1.5} />
+                월정 감독 계약
+              </span>
             </div>
           </div>
         </div>
@@ -90,13 +99,16 @@ function Home() {
               </p>
               <div className="grid gap-6 sm:grid-cols-3">
                 {[
-                  { v: "62%", l: "조합 분쟁 비율" },
-                  { v: "3.4억", l: "조합원 평균 추가 분담금" },
-                  { v: "11년", l: "평균 사업 지연" },
+                  { v: "62%", l: "조합 분쟁 비율", w: "62%" },
+                  { v: "3.4억", l: "조합원 평균 추가 분담금", w: "75%" },
+                  { v: "11년", l: "평균 사업 지연", w: "55%" },
                 ].map((s) => (
                   <div key={s.l} className="border-t border-foreground/20 pt-4">
                     <div className="font-serif text-3xl text-foreground">{s.v}</div>
-                    <div className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">
+                    <div className="mt-3 h-0.5 w-full overflow-hidden bg-foreground/10">
+                      <div className="h-full bg-gold" style={{ width: s.w }} />
+                    </div>
+                    <div className="mt-3 text-xs uppercase tracking-wider text-muted-foreground">
                       {s.l}
                     </div>
                   </div>
@@ -210,7 +222,7 @@ function Home() {
                 onClick={() => setActiveVideo(b.id)}
                 className="group relative flex items-center gap-5 overflow-hidden rounded-sm border border-border bg-card p-3 pr-6 text-left transition-all hover:shadow-elegant"
               >
-                <div className="relative aspect-video w-40 flex-shrink-0 overflow-hidden rounded-sm bg-ink">
+                <div className="relative aspect-video w-32 sm:w-40 flex-shrink-0 overflow-hidden rounded-sm bg-ink">
                   <img
                     src={`https://i.ytimg.com/vi/${b.id}/hqdefault.jpg`}
                     alt={b.t}
@@ -233,10 +245,7 @@ function Home() {
           </div>
 
           <div className="mt-12 text-center">
-            <Link
-              to="/cases"
-              className="inline-flex items-center gap-2 rounded-sm bg-ink px-7 py-4 text-sm font-medium text-primary-foreground hover:bg-ink/90"
-            >
+            <Link to="/cases" className="btn-base btn-ink">
               12건의 사례·4개 방송 모두 보기 <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -345,10 +354,7 @@ function Home() {
           <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
             사업비와 세대 수를 입력하면, 사업 초기·중기·완료 단계별 예상 리스크와 손실액을 즉시 계산합니다.
           </p>
-          <Link
-            to="/simulator"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-gold px-8 py-4 text-sm font-medium text-ink hover:opacity-90"
-          >
+          <Link to="/simulator" className="btn-base btn-gold mt-8">
             손실 시뮬레이터 시작하기 <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -366,16 +372,10 @@ function Home() {
             상담 후 사업 규모에 맞는 맞춤 제안서를 보내드립니다.
           </p>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-sm bg-ink px-8 py-4 text-sm font-medium text-primary-foreground hover:bg-ink/90"
-            >
+            <Link to="/contact" className="btn-base btn-ink">
               상담 신청하기 <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
-              to="/contract"
-              className="inline-flex items-center gap-2 rounded-sm border border-foreground/20 px-8 py-4 text-sm font-medium hover:bg-foreground/5"
-            >
+            <Link to="/contract" className="btn-base btn-outline-ink">
               계약 조건 보기
             </Link>
           </div>
