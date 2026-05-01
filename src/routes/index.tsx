@@ -357,10 +357,7 @@ function Home() {
           <p className="mx-auto mt-6 max-w-xl text-muted-foreground">
             사업비와 세대 수를 입력하면, 사업 초기·중기·완료 단계별 예상 리스크와 손실액을 즉시 계산합니다.
           </p>
-          <Link
-            to="/simulator"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-gold px-8 py-4 text-sm font-medium text-ink hover:opacity-90"
-          >
+          <Link to="/simulator" className="btn-base btn-gold mt-8">
             손실 시뮬레이터 시작하기 <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -378,16 +375,10 @@ function Home() {
             상담 후 사업 규모에 맞는 맞춤 제안서를 보내드립니다.
           </p>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-sm bg-ink px-8 py-4 text-sm font-medium text-primary-foreground hover:bg-ink/90"
-            >
+            <Link to="/contact" className="btn-base btn-ink">
               상담 신청하기 <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
-              to="/contract"
-              className="inline-flex items-center gap-2 rounded-sm border border-foreground/20 px-8 py-4 text-sm font-medium hover:bg-foreground/5"
-            >
+            <Link to="/contract" className="btn-base btn-outline-ink">
               계약 조건 보기
             </Link>
           </div>
