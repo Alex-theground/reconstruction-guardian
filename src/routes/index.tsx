@@ -99,13 +99,16 @@ function Home() {
               </p>
               <div className="grid gap-6 sm:grid-cols-3">
                 {[
-                  { v: "62%", l: "조합 분쟁 비율" },
-                  { v: "3.4억", l: "조합원 평균 추가 분담금" },
-                  { v: "11년", l: "평균 사업 지연" },
+                  { v: "62%", l: "조합 분쟁 비율", w: "62%" },
+                  { v: "3.4억", l: "조합원 평균 추가 분담금", w: "75%" },
+                  { v: "11년", l: "평균 사업 지연", w: "55%" },
                 ].map((s) => (
                   <div key={s.l} className="border-t border-foreground/20 pt-4">
                     <div className="font-serif text-3xl text-foreground">{s.v}</div>
-                    <div className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">
+                    <div className="mt-3 h-0.5 w-full overflow-hidden bg-foreground/10">
+                      <div className="h-full bg-gold" style={{ width: s.w }} />
+                    </div>
+                    <div className="mt-3 text-xs uppercase tracking-wider text-muted-foreground">
                       {s.l}
                     </div>
                   </div>
