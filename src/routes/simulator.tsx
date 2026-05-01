@@ -181,7 +181,8 @@ function SimulatorPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-12 md:grid-cols-2">
             <div>
-              <label className="text-sm font-medium text-foreground/70">총 사업비 (억 원)</label>
+              <label className="text-base font-medium text-foreground">총 사업비 <span className="text-muted-foreground">(억 원)</span></label>
+              <p className="mt-1 text-xs text-muted-foreground">예: 1,000세대 단지 평균 약 3,000~5,000억 원</p>
               <div className="mt-4 flex items-end gap-4">
                 <span className="font-serif text-5xl text-foreground">{budget.toLocaleString()}</span>
                 <span className="mb-1 text-lg text-muted-foreground">억 원</span>
@@ -190,7 +191,8 @@ function SimulatorPage() {
               <div className="mt-2 flex justify-between text-xs text-muted-foreground"><span>500억</span><span>3조</span></div>
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground/70">조합원 세대 수</label>
+              <label className="text-base font-medium text-foreground">조합원 세대 수</label>
+              <p className="mt-1 text-xs text-muted-foreground">조합 전체 세대 규모 (분담금 분배 단위)</p>
               <div className="mt-4 flex items-end gap-4">
                 <span className="font-serif text-5xl text-foreground">{hh.toLocaleString()}</span>
                 <span className="mb-1 text-lg text-muted-foreground">세대</span>
@@ -212,7 +214,7 @@ function SimulatorPage() {
               { label: "감독 시 절감액", value: formatKRW(results.grandTotalSavings), sub: `리스크 ${Math.round(riskReductionRate * 100)}% 저감 적용`, positive: true },
               { label: "감독비 대비 ROI", value: `${results.roi.toFixed(0)}배`, sub: `월 ${formatKRW(results.monthlyFee)} 기준`, positive: true },
             ].map((s) => (
-              <div key={s.label} className={`p-8 ${s.highlight ? "bg-destructive/20" : "bg-primary-foreground/5"}`}>
+              <div key={s.label} className={`relative p-8 ${s.highlight ? "bg-destructive/20 border-l-2 border-l-destructive" : s.positive ? "bg-primary-foreground/5 border-l-2 border-l-gold" : "bg-primary-foreground/5"}`}>
                 <div className="text-xs uppercase tracking-wider text-primary-foreground/60">{s.label}</div>
                 <div className={`mt-2 font-serif text-3xl ${s.positive ? "text-gold" : s.highlight ? "text-destructive-foreground" : ""}`}>{s.value}</div>
                 <div className="mt-1 text-xs text-primary-foreground/40">{s.sub}</div>
