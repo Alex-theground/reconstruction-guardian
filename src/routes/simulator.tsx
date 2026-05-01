@@ -272,7 +272,8 @@ function SimulatorPage() {
             </button>
           </div>
 
-          <div className="mt-8 overflow-hidden rounded-sm border border-border">
+          {/* Desktop table */}
+          <div className="mt-8 hidden overflow-hidden rounded-sm border border-border sm:block">
             <div className="grid grid-cols-[1fr_100px_100px_140px] gap-px bg-border text-xs font-medium uppercase tracking-wider text-muted-foreground md:grid-cols-[1fr_120px_120px_160px]">
               <div className="bg-parchment p-4">리스크 항목</div>
               <div className="bg-parchment p-4 text-center">발생 확률</div>
@@ -308,6 +309,39 @@ function SimulatorPage() {
               <div className="bg-parchment p-4" />
               <div className="bg-parchment p-4" />
               <div className={`bg-parchment p-4 text-right font-serif text-lg font-semibold ${withSupervision ? "text-gold" : "text-destructive"}`}>
+                {formatKRW(withSupervision ? currentPhase.supervisedLoss : currentPhase.totalExpectedLoss)}
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile card list */}
+          <div className="mt-8 space-y-3 sm:hidden">
+            {currentPhase.riskResults.map((risk) => {
+              const displayLoss = withSupervision ? risk.expectedLoss * supervisedFactor : risk.expectedLoss;
+              const displayProb = withSupervision ? Math.round(risk.probability * supervisedFactor) : risk.probability;
+              return (
+                <div key={risk.name} className="rounded-sm border border-border bg-card p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="text-sm font-medium leading-snug">{risk.name}</div>
+                    <div className={`whitespace-nowrap font-serif text-base ${withSupervision ? "text-gold" : "text-destructive"}`}>
+                      {formatKRW(displayLoss)}
+                    </div>
+                  </div>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{risk.description}</p>
+                  <div className="mt-3 flex items-center gap-3 border-t border-border pt-3 text-xs">
+                    <span className="text-muted-foreground">발생 확률</span>
+                    <div className="h-1 flex-1 overflow-hidden rounded-full bg-foreground/10">
+                      <div className={`h-full rounded-full ${withSupervision ? "bg-gold" : "bg-destructive"}`} style={{ width: `${displayProb}%` }} />
+                    </div>
+                    <span className="font-medium">{displayProb}%</span>
+                    <span className="text-muted-foreground">· 손실 {risk.lossRate}%</span>
+                  </div>
+                </div>
+              );
+            })}
+            <div className="flex items-center justify-between rounded-sm bg-parchment p-4">
+              <div className="text-sm font-medium">{currentPhase.label} 합계</div>
+              <div className={`font-serif text-lg font-semibold ${withSupervision ? "text-gold" : "text-destructive"}`}>
                 {formatKRW(withSupervision ? currentPhase.supervisedLoss : currentPhase.totalExpectedLoss)}
               </div>
             </div>
