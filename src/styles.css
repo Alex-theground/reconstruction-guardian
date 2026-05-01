@@ -77,10 +77,6 @@
   --gradient-gold: linear-gradient(135deg, oklch(0.78 0.13 80), oklch(0.65 0.12 70));
   --shadow-elegant: 0 30px 60px -20px oklch(0.18 0.03 250 / 0.25);
   --shadow-soft: 0 10px 30px -10px oklch(0.18 0.03 250 / 0.12);
-  --shadow-gold: 0 20px 50px -20px oklch(0.72 0.12 75 / 0.45);
-
-  /* Improved body contrast (was 0.45) */
-  --muted-foreground: oklch(0.40 0.02 250);
 }
 
 .dark {
@@ -125,13 +121,6 @@
     font-weight: 600;
     letter-spacing: -0.02em;
   }
-
-  /* Stronger, brand-coherent focus ring across the site */
-  *:focus-visible {
-    outline: 2px solid var(--gold);
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
 }
 
 @layer utilities {
@@ -151,33 +140,4 @@
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
     height: 1px;
   }
-
-  .shadow-gold { box-shadow: var(--shadow-gold); }
-
-  /* Unified CTA button styles */
-  .btn-base {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border-radius: 2px;
-    padding: 0.875rem 1.75rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease, transform 200ms ease, opacity 200ms ease;
-  }
-  .btn-gold { background: var(--gold); color: var(--ink); }
-  .btn-gold:hover { opacity: 0.92; box-shadow: var(--shadow-gold); }
-  .btn-ink { background: var(--ink); color: var(--primary-foreground); }
-  .btn-ink:hover { background: color-mix(in oklab, var(--ink) 90%, white); }
-  .btn-outline-ink {
-    background: transparent; color: var(--foreground);
-    border: 1px solid color-mix(in oklab, var(--foreground) 20%, transparent);
-  }
-  .btn-outline-ink:hover { background: color-mix(in oklab, var(--foreground) 5%, transparent); }
-  .btn-outline-light {
-    background: transparent; color: var(--primary-foreground);
-    border: 1px solid color-mix(in oklab, var(--primary-foreground) 30%, transparent);
-  }
-  .btn-outline-light:hover { background: color-mix(in oklab, var(--primary-foreground) 10%, transparent); }
 }

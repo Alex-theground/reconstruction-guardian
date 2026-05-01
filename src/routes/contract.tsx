@@ -108,21 +108,14 @@ function ContractPage() {
       {/* Pricing */}
       <section className="py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-6 md:grid-cols-3 md:gap-px md:overflow-visible">
+          <div className="grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-3">
             {tiers.map((t) => (
               <div
                 key={t.name}
-                className={`relative flex flex-col rounded-sm p-8 md:p-10 transition-all ${
-                  t.featured
-                    ? "bg-ink text-primary-foreground shadow-gold md:-translate-y-2 md:scale-[1.02] z-10 border border-gold/30"
-                    : "bg-card border border-border md:border-0"
+                className={`flex flex-col p-10 ${
+                  t.featured ? "bg-ink text-primary-foreground" : "bg-card"
                 }`}
               >
-                {t.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gold px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink">
-                    가장 인기있는 선택
-                  </div>
-                )}
                 <div className="text-xs uppercase tracking-[0.25em] text-gold">
                   {t.name}
                 </div>
@@ -137,7 +130,7 @@ function ContractPage() {
                     {t.unit}
                   </div>
                 </div>
-                <ul className={`mt-8 space-y-3 border-t pt-6 ${t.featured ? "border-primary-foreground/15" : "border-border"}`}>
+                <ul className={`mt-10 space-y-4 border-t pt-8 ${t.featured ? "border-primary-foreground/15" : "border-border"}`}>
                   {t.items.map((it) => (
                     <li key={it} className="flex items-start gap-3 text-sm">
                       <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold" />
@@ -147,7 +140,11 @@ function ContractPage() {
                 </ul>
                 <Link
                   to="/contact"
-                  className={`mt-10 btn-base ${t.featured ? "btn-gold" : "btn-outline-ink"} w-full`}
+                  className={`mt-10 inline-flex items-center justify-center rounded-sm px-6 py-3 text-sm font-medium transition-all ${
+                    t.featured
+                      ? "bg-gold text-ink hover:opacity-90"
+                      : "border border-foreground/20 hover:bg-foreground/5"
+                  }`}
                 >
                   상담 신청
                 </Link>
@@ -166,9 +163,9 @@ function ContractPage() {
 
           <dl className="mt-16 divide-y divide-border border-y border-border">
             {terms.map((term) => (
-              <div key={term.key} className="grid gap-2 py-6 md:grid-cols-12 md:gap-8">
-                <dt className="text-xs uppercase tracking-[0.2em] text-gold md:col-span-3 md:pt-1">{term.key}</dt>
-                <dd className="text-foreground/85 leading-relaxed md:col-span-9">{term.value}</dd>
+              <div key={term.key} className="grid gap-4 py-6 md:grid-cols-12 md:gap-8">
+                <dt className="font-serif text-lg text-foreground md:col-span-3">{term.key}</dt>
+                <dd className="text-foreground/75 md:col-span-9">{term.value}</dd>
               </div>
             ))}
           </dl>

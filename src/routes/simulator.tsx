@@ -181,8 +181,7 @@ function SimulatorPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-12 md:grid-cols-2">
             <div>
-              <label className="text-base font-medium text-foreground">총 사업비 <span className="text-muted-foreground">(억 원)</span></label>
-              <p className="mt-1 text-xs text-muted-foreground">예: 1,000세대 단지 평균 약 3,000~5,000억 원</p>
+              <label className="text-sm font-medium text-foreground/70">총 사업비 (억 원)</label>
               <div className="mt-4 flex items-end gap-4">
                 <span className="font-serif text-5xl text-foreground">{budget.toLocaleString()}</span>
                 <span className="mb-1 text-lg text-muted-foreground">억 원</span>
@@ -191,8 +190,7 @@ function SimulatorPage() {
               <div className="mt-2 flex justify-between text-xs text-muted-foreground"><span>500억</span><span>3조</span></div>
             </div>
             <div>
-              <label className="text-base font-medium text-foreground">조합원 세대 수</label>
-              <p className="mt-1 text-xs text-muted-foreground">조합 전체 세대 규모 (분담금 분배 단위)</p>
+              <label className="text-sm font-medium text-foreground/70">조합원 세대 수</label>
               <div className="mt-4 flex items-end gap-4">
                 <span className="font-serif text-5xl text-foreground">{hh.toLocaleString()}</span>
                 <span className="mb-1 text-lg text-muted-foreground">세대</span>
@@ -214,7 +212,7 @@ function SimulatorPage() {
               { label: "감독 시 절감액", value: formatKRW(results.grandTotalSavings), sub: `리스크 ${Math.round(riskReductionRate * 100)}% 저감 적용`, positive: true },
               { label: "감독비 대비 ROI", value: `${results.roi.toFixed(0)}배`, sub: `월 ${formatKRW(results.monthlyFee)} 기준`, positive: true },
             ].map((s) => (
-              <div key={s.label} className={`relative p-8 ${s.highlight ? "bg-destructive/20 border-l-2 border-l-destructive" : s.positive ? "bg-primary-foreground/5 border-l-2 border-l-gold" : "bg-primary-foreground/5"}`}>
+              <div key={s.label} className={`p-8 ${s.highlight ? "bg-destructive/20" : "bg-primary-foreground/5"}`}>
                 <div className="text-xs uppercase tracking-wider text-primary-foreground/60">{s.label}</div>
                 <div className={`mt-2 font-serif text-3xl ${s.positive ? "text-gold" : s.highlight ? "text-destructive-foreground" : ""}`}>{s.value}</div>
                 <div className="mt-1 text-xs text-primary-foreground/40">{s.sub}</div>
@@ -241,11 +239,10 @@ function SimulatorPage() {
                   key={p.phase}
                   type="button"
                   onClick={() => setActivePhase(p.phase as Phase)}
-                  className={`relative overflow-hidden rounded-sm border p-6 text-left transition-all ${
+                  className={`rounded-sm border p-6 text-left transition-all ${
                     isActive ? "border-gold bg-gold/5 shadow-soft" : "border-border bg-card hover:border-foreground/20"
                   }`}
                 >
-                  {isActive && <div className="absolute inset-x-0 top-0 h-0.5 bg-gold" />}
                   <div className="flex items-center justify-between">
                     <Icon className={`h-6 w-6 ${isActive ? "text-gold" : "text-muted-foreground"}`} strokeWidth={1.5} />
                     <span className="font-serif text-2xl text-foreground/15">
@@ -272,8 +269,7 @@ function SimulatorPage() {
             </button>
           </div>
 
-          {/* Desktop table */}
-          <div className="mt-8 hidden overflow-hidden rounded-sm border border-border sm:block">
+          <div className="mt-8 overflow-hidden rounded-sm border border-border">
             <div className="grid grid-cols-[1fr_100px_100px_140px] gap-px bg-border text-xs font-medium uppercase tracking-wider text-muted-foreground md:grid-cols-[1fr_120px_120px_160px]">
               <div className="bg-parchment p-4">리스크 항목</div>
               <div className="bg-parchment p-4 text-center">발생 확률</div>
@@ -309,39 +305,6 @@ function SimulatorPage() {
               <div className="bg-parchment p-4" />
               <div className="bg-parchment p-4" />
               <div className={`bg-parchment p-4 text-right font-serif text-lg font-semibold ${withSupervision ? "text-gold" : "text-destructive"}`}>
-                {formatKRW(withSupervision ? currentPhase.supervisedLoss : currentPhase.totalExpectedLoss)}
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile card list */}
-          <div className="mt-8 space-y-3 sm:hidden">
-            {currentPhase.riskResults.map((risk) => {
-              const displayLoss = withSupervision ? risk.expectedLoss * supervisedFactor : risk.expectedLoss;
-              const displayProb = withSupervision ? Math.round(risk.probability * supervisedFactor) : risk.probability;
-              return (
-                <div key={risk.name} className="rounded-sm border border-border bg-card p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="text-sm font-medium leading-snug">{risk.name}</div>
-                    <div className={`whitespace-nowrap font-serif text-base ${withSupervision ? "text-gold" : "text-destructive"}`}>
-                      {formatKRW(displayLoss)}
-                    </div>
-                  </div>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{risk.description}</p>
-                  <div className="mt-3 flex items-center gap-3 border-t border-border pt-3 text-xs">
-                    <span className="text-muted-foreground">발생 확률</span>
-                    <div className="h-1 flex-1 overflow-hidden rounded-full bg-foreground/10">
-                      <div className={`h-full rounded-full ${withSupervision ? "bg-gold" : "bg-destructive"}`} style={{ width: `${displayProb}%` }} />
-                    </div>
-                    <span className="font-medium">{displayProb}%</span>
-                    <span className="text-muted-foreground">· 손실 {risk.lossRate}%</span>
-                  </div>
-                </div>
-              );
-            })}
-            <div className="flex items-center justify-between rounded-sm bg-parchment p-4">
-              <div className="text-sm font-medium">{currentPhase.label} 합계</div>
-              <div className={`font-serif text-lg font-semibold ${withSupervision ? "text-gold" : "text-destructive"}`}>
                 {formatKRW(withSupervision ? currentPhase.supervisedLoss : currentPhase.totalExpectedLoss)}
               </div>
             </div>
@@ -425,10 +388,10 @@ function SimulatorPage() {
           <h2 className="font-serif text-3xl md:text-4xl">시뮬레이션 결과가 예상보다 크셨나요?</h2>
           <p className="mx-auto mt-6 max-w-xl text-primary-foreground/70">실제 조합의 사업비와 리스크 구조를 분석하여, 맞춤형 감독 제안서를 무료로 작성해 드립니다.</p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link to="/contact" className="btn-base btn-gold">
+            <Link to="/contact" className="inline-flex items-center gap-2 rounded-sm bg-gold px-8 py-4 text-sm font-medium text-ink hover:opacity-90">
               맞춤 분석 요청하기 <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link to="/cases" className="btn-base btn-outline-light">
+            <Link to="/cases" className="inline-flex items-center gap-2 rounded-sm border border-primary-foreground/30 px-8 py-4 text-sm font-medium text-primary-foreground hover:bg-primary-foreground/10">
               실제 피해 사례 보기
             </Link>
           </div>
