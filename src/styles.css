@@ -140,4 +140,26 @@
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
     height: 1px;
   }
+
+  @keyframes blob-1 {
+    0%, 100% { border-radius: 50%; }
+    33% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+    66% { border-radius: 40% 60% 45% 55% / 60% 40% 55% 45%; }
+  }
+  @keyframes blob-2 {
+    0%, 100% { border-radius: 50%; }
+    33% { border-radius: 55% 45% 40% 60% / 45% 55% 60% 40%; }
+    66% { border-radius: 45% 55% 60% 40% / 55% 45% 40% 60%; }
+  }
+  @keyframes blob-3 {
+    0%, 100% { border-radius: 50%; }
+    50% { border-radius: 60% 40% 50% 50% / 40% 60% 50% 50%; }
+  }
+  .animate-blob-1 { animation: blob-1 18s ease-in-out infinite; }
+  .animate-blob-2 { animation: blob-2 22s ease-in-out infinite; }
+  .animate-blob-3 { animation: blob-3 26s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-blob-1, .animate-blob-2, .animate-blob-3 { animation: none; }
+  }
 }
