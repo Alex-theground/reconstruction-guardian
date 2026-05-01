@@ -245,10 +245,7 @@ function Home() {
           </div>
 
           <div className="mt-12 text-center">
-            <Link
-              to="/cases"
-              className="inline-flex items-center gap-2 rounded-sm bg-ink px-7 py-4 text-sm font-medium text-primary-foreground hover:bg-ink/90"
-            >
+            <Link to="/cases" className="btn-base btn-ink">
               12건의 사례·4개 방송 모두 보기 <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
