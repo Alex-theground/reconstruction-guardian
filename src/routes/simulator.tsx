@@ -425,10 +425,10 @@ function SimulatorPage() {
           <h2 className="font-serif text-3xl md:text-4xl">시뮬레이션 결과가 예상보다 크셨나요?</h2>
           <p className="mx-auto mt-6 max-w-xl text-primary-foreground/70">실제 조합의 사업비와 리스크 구조를 분석하여, 맞춤형 감독 제안서를 무료로 작성해 드립니다.</p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link to="/contact" className="inline-flex items-center gap-2 rounded-sm bg-gold px-8 py-4 text-sm font-medium text-ink hover:opacity-90">
+            <Link to="/contact" className="btn-base btn-gold">
               맞춤 분석 요청하기 <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link to="/cases" className="inline-flex items-center gap-2 rounded-sm border border-primary-foreground/30 px-8 py-4 text-sm font-medium text-primary-foreground hover:bg-primary-foreground/10">
+            <Link to="/cases" className="btn-base btn-outline-light">
               실제 피해 사례 보기
             </Link>
           </div>
