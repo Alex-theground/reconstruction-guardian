@@ -241,10 +241,11 @@ function SimulatorPage() {
                   key={p.phase}
                   type="button"
                   onClick={() => setActivePhase(p.phase as Phase)}
-                  className={`rounded-sm border p-6 text-left transition-all ${
+                  className={`relative overflow-hidden rounded-sm border p-6 text-left transition-all ${
                     isActive ? "border-gold bg-gold/5 shadow-soft" : "border-border bg-card hover:border-foreground/20"
                   }`}
                 >
+                  {isActive && <div className="absolute inset-x-0 top-0 h-0.5 bg-gold" />}
                   <div className="flex items-center justify-between">
                     <Icon className={`h-6 w-6 ${isActive ? "text-gold" : "text-muted-foreground"}`} strokeWidth={1.5} />
                     <span className="font-serif text-2xl text-foreground/15">
