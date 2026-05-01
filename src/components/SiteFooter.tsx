@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-gold text-ink font-serif text-lg">
+              <div className="flex h-10 w-10 items-center justify-center rounded-sm border border-gold/30 bg-gold/10 text-gold font-serif text-lg">
                 正
               </div>
               <div>
@@ -45,9 +45,12 @@ export function SiteFooter() {
 
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-primary-foreground/10 pt-8 text-xs text-primary-foreground/50 md:flex-row md:items-center">
           <span>© {new Date().getFullYear()} 정감 회계. 한국공인회계사회 등록.</span>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <span>본 사이트는 서비스 제안을 위한 안내용입니다.</span>
-            <Link to="/admin" className="text-primary-foreground/40 hover:text-gold">관리자</Link>
+            <span className="text-primary-foreground/20">·</span>
+            <Link to="/admin" className="text-primary-foreground/25 hover:text-gold/70 transition-colors">
+              admin
+            </Link>
           </div>
         </div>
       </div>

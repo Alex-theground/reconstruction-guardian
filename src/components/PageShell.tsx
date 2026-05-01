@@ -24,11 +24,12 @@ export function PageHero({
     <section className="border-b border-border bg-parchment">
       <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
         <div className="text-xs uppercase tracking-[0.3em] text-gold">{eyebrow}</div>
-        <h1 className="mt-6 max-w-3xl font-serif text-5xl leading-[1.1] text-foreground md:text-6xl">
+        <h1 className="mt-6 max-w-3xl font-serif text-4xl leading-[1.1] text-foreground sm:text-5xl md:text-6xl">
           {title}
         </h1>
+        <div className="hairline mt-8 w-24" />
         {description && (
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-foreground/75 md:text-lg">
             {description}
           </p>
         )}
