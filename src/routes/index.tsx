@@ -2,6 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageShell } from "@/components/PageShell";
 import { YouTubeModal } from "@/components/YouTubeModal";
+import { Reveal } from "@/components/motion/Reveal";
+import { ParallaxLayer } from "@/components/motion/ParallaxLayer";
+import { CountUp } from "@/components/motion/CountUp";
 import heroImg from "@/assets/hero-construction.jpg";
 import { ShieldCheck, FileSearch, Scale, TrendingDown, ArrowRight, Play, AlertTriangle, ExternalLink } from "lucide-react";
 
