@@ -101,18 +101,20 @@ function Home() {
                 무리한 자금 집행, 그리고 조합 파산으로 인한 조합원 개인의 막대한
                 손실이 끊임없이 반복되고 있습니다.
               </p>
-              <div className="grid gap-6 sm:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-3 perspective-1200">
                 {[
-                  { v: "62%", l: "조합 분쟁 비율" },
-                  { v: "3.4억", l: "조합원 평균 추가 분담금" },
-                  { v: "11년", l: "평균 사업 지연" },
-                ].map((s) => (
-                  <div key={s.l} className="border-t border-foreground/20 pt-4">
-                    <div className="font-serif text-3xl text-foreground">{s.v}</div>
+                  { to: 62, suffix: "%", l: "조합 분쟁 비율" },
+                  { to: 3.4, suffix: "억", decimals: 1, l: "조합원 평균 추가 분담금" },
+                  { to: 11, suffix: "년", l: "평균 사업 지연" },
+                ].map((s, i) => (
+                  <Reveal key={s.l} delay={i * 0.1} y={20} className="border-t border-foreground/20 pt-4">
+                    <div className="font-serif text-3xl text-foreground">
+                      <CountUp to={s.to} suffix={s.suffix} decimals={s.decimals ?? 0} duration={1.6} />
+                    </div>
                     <div className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">
                       {s.l}
                     </div>
-                  </div>
+                  </Reveal>
                 ))}
               </div>
               <p className="text-sm text-muted-foreground">
