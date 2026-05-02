@@ -274,7 +274,7 @@ function Home() {
             </Link>
           </div>
 
-          <div className="mt-16 grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-2">
+          <div className="mt-16 grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-2 perspective-1200">
             {[
               {
                 icon: FileSearch,
@@ -290,8 +290,8 @@ function Home() {
                 desc: "조합장의 자금집행 결정에 대한 세무적·법적 타당성을 사전·사후로 검증합니다. 잘못된 결정이 실행되기 전에 경고하고, 조합원에게 객관적 의견을 제시합니다.",
                 points: ["자금집행 사전 검토", "세무 리스크 분석", "조합원 보고서 작성"],
               },
-            ].map((s) => (
-              <div key={s.num} className="bg-card p-10 md:p-14">
+            ].map((s, i) => (
+              <Reveal key={s.num} delay={i * 0.15} y={50} z={-100} className="bg-card p-10 md:p-14">
                 <div className="flex items-start justify-between">
                   <s.icon className="h-10 w-10 text-gold" strokeWidth={1.2} />
                   <span className="font-serif text-5xl text-foreground/15">{s.num}</span>
@@ -306,7 +306,7 @@ function Home() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -321,7 +321,7 @@ function Home() {
             <span className="text-gold">상주 감독 회계사</span>인가?
           </h2>
 
-          <div className="mt-20 grid gap-12 md:grid-cols-3">
+          <div className="mt-20 grid gap-12 md:grid-cols-3 perspective-1200">
             {[
               {
                 icon: ShieldCheck,
@@ -338,12 +338,12 @@ function Home() {
                 t: "지속성",
                 d: "단발성 컨설팅이 아닌 월정 계약을 통해 사업 전 기간에 걸친 일관된 감독을 제공합니다.",
               },
-            ].map((b) => (
-              <div key={b.t} className="border-t border-primary-foreground/15 pt-8">
+            ].map((b, i) => (
+              <Reveal key={b.t} delay={i * 0.12} y={40} z={-80} className="border-t border-primary-foreground/15 pt-8">
                 <b.icon className="h-8 w-8 text-gold" strokeWidth={1.2} />
                 <h3 className="mt-6 font-serif text-2xl">{b.t}</h3>
                 <p className="mt-4 leading-relaxed text-primary-foreground/70">{b.d}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
