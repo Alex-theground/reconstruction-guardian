@@ -150,18 +150,18 @@ function Home() {
           </div>
 
           {/* Key stats bar */}
-          <div className="mt-16 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-4">
+          <div className="mt-16 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-4 perspective-1200">
             {[
               { v: "2배", l: "5년간 비리 적발 증가율", s: "국토교통부" },
               { v: "100건+", l: "검찰·경찰 수사 의뢰 누적", s: "노컷뉴스 (2024)" },
               { v: "209억", l: "단일 조합 최대 편취 금액", s: "동아일보 (2025)" },
               { v: "12억원", l: "조합원 1인당 추가 분담금", s: "땅집고 (2024)" },
-            ].map((s) => (
-              <div key={s.l} className="bg-card p-8">
+            ].map((s, i) => (
+              <Reveal key={s.l} delay={i * 0.08} y={30} z={-50} className="bg-card p-8">
                 <div className="font-serif text-4xl text-gold">{s.v}</div>
                 <div className="mt-2 text-sm font-medium text-foreground/80">{s.l}</div>
                 <div className="mt-1 text-[10px] text-muted-foreground">{s.s}</div>
-              </div>
+              </Reveal>
             ))}
           </div>
 
