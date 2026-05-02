@@ -33,44 +33,54 @@ function Home() {
     <PageShell>
       <YouTubeModal videoId={activeVideo} onClose={() => setActiveVideo(null)} />
       {/* HERO */}
-      <section className="relative overflow-hidden">
-        <img
-          src={heroImg}
-          alt="재건축 현장"
-          width={1920}
-          height={1280}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+      <section className="relative overflow-hidden perspective-1200">
+        <ParallaxLayer speed={120} scale={[1.15, 1]} className="absolute inset-0">
+          <img
+            src={heroImg}
+            alt="재건축 현장"
+            width={1920}
+            height={1280}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </ParallaxLayer>
         <div className="absolute inset-0 bg-gradient-hero" />
-        <div className="relative mx-auto max-w-7xl px-6 py-32 md:py-48">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-ink/40 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-gold backdrop-blur">
-              <span className="h-1 w-1 rounded-full bg-gold" /> 독립 회계 감독
-            </div>
-            <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
-              조합장을 감시하는<br />
-              <span className="text-gold">단 한 명의 회계사.</span>
-            </h1>
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80">
-              재건축·재개발 조합의 비리와 회계 부정으로부터 조합원의 자산을 지킵니다.
-              월정 보수의 프리랜서 계약으로, 조합 내부에 독립적인 감시자를 두십시오.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                to="/contract"
-                className="inline-flex items-center gap-2 rounded-sm bg-gold px-7 py-4 text-sm font-medium text-ink transition-all hover:opacity-90"
-              >
-                계약 조건 보기 <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 rounded-sm border border-primary-foreground/30 px-7 py-4 text-sm font-medium text-primary-foreground transition-all hover:bg-primary-foreground/10"
-              >
-                서비스 상세
-              </Link>
-            </div>
+        <ParallaxLayer speed={-60} className="relative mx-auto max-w-7xl px-6 py-32 md:py-48">
+          <div className="max-w-3xl preserve-3d">
+            <Reveal y={20} z={0} duration={0.8}>
+              <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-ink/40 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-gold backdrop-blur">
+                <span className="h-1 w-1 rounded-full bg-gold" /> 독립 회계 감독
+              </div>
+            </Reveal>
+            <Reveal y={50} z={-80} delay={0.15} duration={1}>
+              <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
+                조합장을 감시하는<br />
+                <span className="text-gold">단 한 명의 회계사.</span>
+              </h1>
+            </Reveal>
+            <Reveal y={30} z={-40} delay={0.35}>
+              <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80">
+                재건축·재개발 조합의 비리와 회계 부정으로부터 조합원의 자산을 지킵니다.
+                월정 보수의 프리랜서 계약으로, 조합 내부에 독립적인 감시자를 두십시오.
+              </p>
+            </Reveal>
+            <Reveal y={20} delay={0.55}>
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link
+                  to="/contract"
+                  className="inline-flex items-center gap-2 rounded-sm bg-gold px-7 py-4 text-sm font-medium text-ink transition-all hover:opacity-90"
+                >
+                  계약 조건 보기 <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  to="/services"
+                  className="inline-flex items-center gap-2 rounded-sm border border-primary-foreground/30 px-7 py-4 text-sm font-medium text-primary-foreground transition-all hover:bg-primary-foreground/10"
+                >
+                  서비스 상세
+                </Link>
+              </div>
+            </Reveal>
           </div>
-        </div>
+        </ParallaxLayer>
       </section>
 
       {/* PROBLEM */}
