@@ -140,4 +140,8 @@
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
     height: 1px;
   }
+
+  .perspective-1200 { perspective: 1200px; }
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
 }
