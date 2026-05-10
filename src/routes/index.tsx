@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "재건축·재개발 조합의 회계 부정과 자금 집행 위험으로부터 조합원을 보호합니다. 독립 공인회계사의 월정 감독 서비스.",
+          "재건축·재개발 조합의 회계 부정과 자금 집행 위험으로부터 조합원을 보호합니다. 독립 외부 감시자의 월정 감독 서비스.",
       },
       { property: "og:title", content: "정감 회계 — 재건축 조합 회계 감독 파트너" },
       {
