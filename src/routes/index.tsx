@@ -50,7 +50,7 @@ function Home() {
             </h1>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80">
               재건축·재개발 조합 운영 과정에서 발생할 수 있는 회계 부정·자금 집행 리스크로부터 조합원의 자산을 지킵니다.
-              월정 보수의 프리랜서 계약으로, 조합 내부에 독립적인 감독 회계사를 두십시오.
+              월정 보수의 프리랜서 계약으로, 조합 내부에 독립적인 감시자를 두십시오.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
