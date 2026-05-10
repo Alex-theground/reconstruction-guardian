@@ -44,7 +44,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-primary-foreground/10 pt-8 text-xs text-primary-foreground/50 md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} 정감 회계. 한국공인회계사회 등록.</span>
+          <span>© {new Date().getFullYear()} 정감 회계.</span>
           <div className="flex items-center gap-4">
             <span>본 사이트는 서비스 제안을 위한 안내용입니다.</span>
             <Link to="/admin" className="text-primary-foreground/40 hover:text-gold">관리자</Link>
