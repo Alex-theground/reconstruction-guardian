@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "정감 회계 — 재건축 조합 회계 감독 파트너" },
       {
         property: "og:description",
-        content: "조합장을 감시하는 독립 회계사. 조합원의 자산을 지키는 월정 프리랜서 감독 계약.",
+        content: "조합 운영을 감독하는 독립 회계사. 조합원의 자산을 지키는 월정 프리랜서 감독 계약.",
       },
     ],
   }),
@@ -45,12 +45,12 @@ function Home() {
               <span className="h-1 w-1 rounded-full bg-gold" /> 독립 회계 감독
             </div>
             <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
-              조합장을 감시하는<br />
+              조합 운영을 감독하는<br />
               <span className="text-gold">단 한 명의 회계사.</span>
             </h1>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80">
-              재건축·재개발 조합의 비리와 회계 부정으로부터 조합원의 자산을 지킵니다.
-              월정 보수의 프리랜서 계약으로, 조합 내부에 독립적인 감시자를 두십시오.
+              재건축·재개발 조합 운영 과정에서 발생할 수 있는 회계 부정·자금 집행 리스크로부터 조합원의 자산을 지킵니다.
+              월정 보수의 프리랜서 계약으로, 조합 내부에 독립적인 감독 회계사를 두십시오.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
@@ -271,8 +271,8 @@ function Home() {
               {
                 icon: Scale,
                 num: "02",
-                title: "조합장 업무·자금집행 검증",
-                desc: "조합장의 자금집행 결정에 대한 세무적·법적 타당성을 사전·사후로 검증합니다. 잘못된 결정이 실행되기 전에 경고하고, 조합원에게 객관적 의견을 제시합니다.",
+                title: "조합 운영·자금집행 검증",
+                desc: "조합의 자금집행 결정 전반에 대해 세무적·법적 타당성을 사전·사후로 검증합니다. 잘못된 결정이 실행되기 전에 경고하고, 조합원에게 객관적 의견을 제시합니다.",
                 points: ["자금집행 사전 검토", "세무 리스크 분석", "조합원 보고서 작성"],
               },
             ].map((s) => (
