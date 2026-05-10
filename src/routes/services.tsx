@@ -10,7 +10,7 @@ export const Route = createFileRoute("/services")({
       {
         name: "description",
         content:
-          "조합 회계·지출 검토와 조합장 자금집행 검증, 두 가지 핵심 감독 서비스의 상세 내역.",
+          "조합 회계·지출 검토와 조합 운영 자금집행 검증, 두 가지 핵심 감독 서비스의 상세 내역.",
       },
       { property: "og:title", content: "서비스 — 정감 회계" },
       { property: "og:description", content: "조합 회계 감독 서비스의 모든 항목." },
