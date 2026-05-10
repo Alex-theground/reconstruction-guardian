@@ -45,7 +45,7 @@ function Home() {
               <span className="h-1 w-1 rounded-full bg-gold" /> 독립 회계 감독
             </div>
             <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
-              조합장을 감시하는<br />
+              조합 운영을 감독하는<br />
               <span className="text-gold">단 한 명의 회계사.</span>
             </h1>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80">
