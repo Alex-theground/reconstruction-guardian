@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "정감 회계 — 재건축 조합 회계 감독 파트너" },
       {
         property: "og:description",
-        content: "조합장을 감시하는 독립 회계사. 조합원의 자산을 지키는 월정 프리랜서 감독 계약.",
+        content: "조합 운영을 감독하는 독립 회계사. 조합원의 자산을 지키는 월정 프리랜서 감독 계약.",
       },
     ],
   }),
