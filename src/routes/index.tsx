@@ -318,8 +318,8 @@ function Home() {
             </div>
           </div>
 
-          <div className="mt-16 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-2">
-            <div className="bg-card p-10 md:p-14">
+          <div className="mt-16 grid items-center gap-6 md:grid-cols-2 md:gap-0">
+            <div className="relative rounded-sm border border-border bg-card p-10 opacity-90 md:p-12 md:py-16 md:mr-[-1.5rem] md:scale-[0.96]">
               <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">일반 회계감사</div>
               <h3 className="mt-4 font-serif text-2xl">회계처리의 적정성</h3>
               <p className="mt-4 text-foreground/70 leading-relaxed">
@@ -341,7 +341,10 @@ function Home() {
               </ul>
             </div>
 
-            <div className="bg-ink p-10 text-primary-foreground md:p-14">
+            <div className="relative z-10 rounded-sm border border-gold/40 bg-ink p-10 text-primary-foreground shadow-elegant ring-1 ring-gold/20 md:p-14 md:py-20 md:-ml-6 md:scale-[1.06]">
+              <span className="absolute -top-3 left-10 inline-flex items-center gap-2 rounded-full bg-gold px-3 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-gold-foreground shadow-soft">
+                정감 회계의 영역
+              </span>
               <div className="text-xs uppercase tracking-[0.3em] text-gold">정감 회계 감독</div>
               <h3 className="mt-4 font-serif text-2xl">지출 그 자체의 검증</h3>
               <p className="mt-4 leading-relaxed text-primary-foreground/80">
