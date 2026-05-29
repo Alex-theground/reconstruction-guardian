@@ -297,6 +297,106 @@ function Home() {
         </div>
       </section>
 
+      {/* COMPARISON — 회계감사 vs 정감 회계 */}
+      <section className="border-t border-border bg-parchment py-24 md:py-32">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-12 md:grid-cols-12 md:items-end">
+            <div className="md:col-span-7">
+              <div className="text-xs uppercase tracking-[0.3em] text-gold">회계감사와의 차이</div>
+              <h2 className="mt-4 font-serif text-4xl leading-tight md:text-5xl">
+                회계감사로는<br />
+                <span className="text-foreground/40">부적절한 지출을 </span>
+                <span>걸러낼 수 없습니다.</span>
+              </h2>
+            </div>
+            <div className="md:col-span-5">
+              <p className="leading-relaxed text-foreground/70">
+                회계감사는 <strong>회계기준 준수 여부</strong>만을 봅니다. 지출이 규정에 어긋나거나
+                과도하더라도, 장부에 적정하게 기록되어 있으면 <strong>‘적정의견’</strong>이 나옵니다.
+                정감 회계는 회계처리가 아닌 <strong>지출 그 자체</strong>를 검증합니다.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-16 grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-2">
+            <div className="bg-card p-10 md:p-14">
+              <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">일반 회계감사</div>
+              <h3 className="mt-4 font-serif text-2xl">회계처리의 적정성</h3>
+              <p className="mt-4 text-foreground/70 leading-relaxed">
+                회계기준에 따라 장부가 적정하게 표시되었는지를 검토합니다.
+                지출 자체가 부적절하더라도 회계처리만 정확하면 ‘적정의견’이 부여됩니다.
+              </p>
+              <ul className="mt-8 space-y-3 border-t border-border pt-6 text-sm">
+                {[
+                  "결산 후 사후 검토 중심",
+                  "회계기준 준수 여부만 판단",
+                  "지출의 타당성·규정 위반은 대상 외",
+                  "부적절한 지출도 ‘적정의견’ 가능",
+                ].map((p) => (
+                  <li key={p} className="flex items-start gap-3 text-foreground/70">
+                    <span className="mt-2 h-px w-6 flex-shrink-0 bg-foreground/30" />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-ink p-10 text-primary-foreground md:p-14">
+              <div className="text-xs uppercase tracking-[0.3em] text-gold">정감 회계 감독</div>
+              <h3 className="mt-4 font-serif text-2xl">지출 그 자체의 검증</h3>
+              <p className="mt-4 leading-relaxed text-primary-foreground/80">
+                각 지출 건이 규정에 따라 집행되었는지, 실제 발생한 지출인지,
+                금액이 과도하지 않은지를 사전·사후로 검증합니다.
+              </p>
+              <ul className="mt-8 space-y-3 border-t border-primary-foreground/15 pt-6 text-sm">
+                {[
+                  "지출 건별 사전·사후 검증",
+                  "조합 규정·내부 통제 준수 여부 확인",
+                  "실제 지출 발생 여부와 증빙 일치 점검",
+                  "단가·수량의 적정성과 과다 지출 판별",
+                ].map((p) => (
+                  <li key={p} className="flex items-start gap-3 text-primary-foreground/85">
+                    <span className="mt-2 h-px w-6 flex-shrink-0 bg-gold" />
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-10 overflow-hidden rounded-sm border border-border">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-card text-xs uppercase tracking-wider text-muted-foreground">
+                <tr>
+                  <th className="px-6 py-4 font-medium">검토 기준</th>
+                  <th className="px-6 py-4 font-medium">회계감사</th>
+                  <th className="px-6 py-4 font-medium text-gold">정감 회계 감독</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border bg-background">
+                {[
+                  ["검토 대상", "재무제표·장부", "개별 지출 건"],
+                  ["핵심 질문", "회계기준에 맞게 기록되었는가?", "규정대로, 실제로, 합리적으로 지출되었는가?"],
+                  ["시점", "결산 후 사후", "집행 전·후 상시"],
+                  ["부적절한 지출 적발", "회계처리만 맞으면 적정의견", "지출 자체의 타당성을 직접 판별"],
+                  ["조합원 보호", "간접적", "직접적"],
+                ].map((row) => (
+                  <tr key={row[0]}>
+                    <td className="px-6 py-4 font-medium text-foreground/80">{row[0]}</td>
+                    <td className="px-6 py-4 text-foreground/60">{row[1]}</td>
+                    <td className="px-6 py-4 text-foreground">{row[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <p className="mt-8 text-sm text-muted-foreground">
+            * 회계감사는 법정 요건 충족을 위한 필수 절차이며, 정감 회계 감독은 이를 보완하는 별개의 서비스입니다.
+          </p>
+        </div>
+      </section>
+
       {/* WHY */}
       <section className="bg-ink py-24 text-primary-foreground md:py-32">
         <div className="mx-auto max-w-7xl px-6">
