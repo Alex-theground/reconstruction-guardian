@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import type { Json } from "@/integrations/supabase/types";
+import { defaultHomeExt, type HomeExtData, type ComparisonRow, type TrustPrinciple } from "@/lib/home-content";
 import {
   Save, LogOut, Home, FileText, BarChart3, Wrench, GitBranch, CreditCard, MessageSquare,
   Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw
