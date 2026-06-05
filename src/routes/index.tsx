@@ -393,7 +393,7 @@ function Home() {
               {
                 icon: ShieldCheck,
                 t: "독립성",
-                d: "조합 내부 직원이 아닌 외부 감시자로서 어떠한 이해관계도 없이 독립적인 판단을 내립니다.",
+                d: `조합 내부 직원이 아닌 ${ext.terminology.externalWatcher}로서 어떠한 이해관계도 없이 독립적인 판단을 내립니다.`,
               },
               {
                 icon: TrendingDown,
@@ -415,21 +415,17 @@ function Home() {
           </div>
 
           <div className="mt-20 border-t border-primary-foreground/15 pt-10">
-            <div className="text-[11px] uppercase tracking-[0.3em] text-gold">신뢰의 기준</div>
+            <div className="text-[11px] uppercase tracking-[0.3em] text-gold">{trust.tag}</div>
             <div className="mt-6 grid gap-8 md:grid-cols-4">
-              {[
-                { t: "독립성 원칙", d: "시공사·정비업체와 어떠한 이해관계도 맺지 않습니다." },
-                { t: "비밀유지 의무", d: "조합 자료와 의사소통은 약정에 따라 엄격히 보호됩니다." },
-                { t: "직무윤리 준수", d: "전문가 윤리 기준에 따라 객관적 의견만을 제시합니다." },
-                { t: "정기 보고", d: "분기별 검토 보고서를 통해 모든 결과를 문서로 남깁니다." },
-              ].map((x) => (
-                <div key={x.t}>
-                  <div className="font-serif text-base text-primary-foreground">{x.t}</div>
-                  <p className="mt-2 text-xs leading-relaxed text-primary-foreground/60">{x.d}</p>
+              {trust.items.map((x) => (
+                <div key={x.title}>
+                  <div className="font-serif text-base text-primary-foreground">{x.title}</div>
+                  <p className="mt-2 text-xs leading-relaxed text-primary-foreground/60">{x.desc}</p>
                 </div>
               ))}
             </div>
           </div>
+
         </div>
       </section>
 
