@@ -4,6 +4,8 @@ import { PageShell } from "@/components/PageShell";
 import { YouTubeModal } from "@/components/YouTubeModal";
 import heroImg from "@/assets/hero-construction.jpg";
 import { ShieldCheck, FileSearch, Scale, TrendingDown, ArrowRight, Play, AlertTriangle, ExternalLink } from "lucide-react";
+import { useSiteContent } from "@/hooks/use-site-content";
+import { mergeHomeExt, type HomeExtData } from "@/lib/home-content";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,6 +28,10 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const { content } = useSiteContent<Partial<HomeExtData>>("home");
+  const ext = mergeHomeExt(content);
+  const cmp = ext.comparison;
+  const trust = ext.trustPrinciples;
   return (
     <PageShell>
       <YouTubeModal videoId={activeVideo} onClose={() => setActiveVideo(null)} />
@@ -302,37 +308,25 @@ function Home() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-12 md:grid-cols-12 md:items-end">
             <div className="md:col-span-7">
-              <div className="text-xs uppercase tracking-[0.3em] text-gold">회계감사와의 차이</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-gold">{cmp.tag}</div>
               <h2 className="mt-4 font-serif text-4xl leading-tight md:text-5xl">
-                회계감사로는<br />
-                <span className="text-foreground/40">부적절한 지출을 </span>
-                <span>걸러낼 수 없습니다.</span>
+                {cmp.headingLine1}<br />
+                <span className="text-foreground/40">{cmp.headingLine2Muted}</span>
+                <span>{cmp.headingLine3}</span>
               </h2>
             </div>
             <div className="md:col-span-5">
-              <p className="leading-relaxed text-foreground/70">
-                회계감사는 <strong>회계기준 준수 여부</strong>만을 봅니다. 지출이 규정에 어긋나거나
-                과도하더라도, 장부에 적정하게 기록되어 있으면 <strong>‘적정의견’</strong>이 나옵니다.
-                정감 회계는 회계처리가 아닌 <strong>지출 그 자체</strong>를 검증합니다.
-              </p>
+              <p className="leading-relaxed text-foreground/70">{cmp.intro}</p>
             </div>
           </div>
 
           <div className="mt-16 grid items-center gap-6 md:grid-cols-2 md:gap-0">
             <div className="relative rounded-sm border border-border bg-card p-10 opacity-90 md:p-12 md:py-16 md:mr-[-1.5rem] md:scale-[0.96]">
-              <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">일반 회계감사</div>
-              <h3 className="mt-4 font-serif text-2xl">회계처리의 적정성</h3>
-              <p className="mt-4 text-foreground/70 leading-relaxed">
-                회계기준에 따라 장부가 적정하게 표시되었는지를 검토합니다.
-                지출 자체가 부적절하더라도 회계처리만 정확하면 ‘적정의견’이 부여됩니다.
-              </p>
+              <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{cmp.leftCard.tag}</div>
+              <h3 className="mt-4 font-serif text-2xl">{cmp.leftCard.title}</h3>
+              <p className="mt-4 text-foreground/70 leading-relaxed">{cmp.leftCard.desc}</p>
               <ul className="mt-8 space-y-3 border-t border-border pt-6 text-sm">
-                {[
-                  "결산 후 사후 검토 중심",
-                  "회계기준 준수 여부만 판단",
-                  "지출의 타당성·규정 위반은 대상 외",
-                  "부적절한 지출도 ‘적정의견’ 가능",
-                ].map((p) => (
+                {cmp.leftCard.points.map((p) => (
                   <li key={p} className="flex items-start gap-3 text-foreground/70">
                     <span className="mt-2 h-px w-6 flex-shrink-0 bg-foreground/30" />
                     <span>{p}</span>
@@ -343,21 +337,13 @@ function Home() {
 
             <div className="relative z-10 rounded-sm border border-gold/40 bg-ink p-10 text-primary-foreground shadow-elegant ring-1 ring-gold/20 md:p-14 md:py-20 md:-ml-6 md:scale-[1.06]">
               <span className="absolute -top-3 left-10 inline-flex items-center gap-2 rounded-full bg-gold px-3 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-gold-foreground shadow-soft">
-                정감 회계의 영역
+                {cmp.rightCard.badge}
               </span>
-              <div className="text-xs uppercase tracking-[0.3em] text-gold">정감 회계 감독</div>
-              <h3 className="mt-4 font-serif text-2xl">지출 그 자체의 검증</h3>
-              <p className="mt-4 leading-relaxed text-primary-foreground/80">
-                각 지출 건이 규정에 따라 집행되었는지, 실제 발생한 지출인지,
-                금액이 과도하지 않은지를 사전·사후로 검증합니다.
-              </p>
+              <div className="text-xs uppercase tracking-[0.3em] text-gold">{cmp.rightCard.tag}</div>
+              <h3 className="mt-4 font-serif text-2xl">{cmp.rightCard.title}</h3>
+              <p className="mt-4 leading-relaxed text-primary-foreground/80">{cmp.rightCard.desc}</p>
               <ul className="mt-8 space-y-3 border-t border-primary-foreground/15 pt-6 text-sm">
-                {[
-                  "지출 건별 사전·사후 검증",
-                  "조합 규정·내부 통제 준수 여부 확인",
-                  "실제 지출 발생 여부와 증빙 일치 점검",
-                  "단가·수량의 적정성과 과다 지출 판별",
-                ].map((p) => (
+                {cmp.rightCard.points.map((p) => (
                   <li key={p} className="flex items-start gap-3 text-primary-foreground/85">
                     <span className="mt-2 h-px w-6 flex-shrink-0 bg-gold" />
                     <span>{p}</span>
@@ -371,34 +357,27 @@ function Home() {
             <table className="w-full text-left text-sm">
               <thead className="bg-card text-xs uppercase tracking-wider text-muted-foreground">
                 <tr>
-                  <th className="px-6 py-4 font-medium">검토 기준</th>
-                  <th className="px-6 py-4 font-medium">회계감사</th>
-                  <th className="px-6 py-4 font-medium text-gold">정감 회계 감독</th>
+                  <th className="px-6 py-4 font-medium">{cmp.tableHeaders.criterion}</th>
+                  <th className="px-6 py-4 font-medium">{cmp.tableHeaders.audit}</th>
+                  <th className="px-6 py-4 font-medium text-gold">{cmp.tableHeaders.ours}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border bg-background">
-                {[
-                  ["검토 대상", "재무제표·장부", "개별 지출 건"],
-                  ["핵심 질문", "회계기준에 맞게 기록되었는가?", "규정대로, 실제로, 합리적으로 지출되었는가?"],
-                  ["시점", "결산 후 사후", "집행 전·후 상시"],
-                  ["부적절한 지출 적발", "회계처리만 맞으면 적정의견", "지출 자체의 타당성을 직접 판별"],
-                  ["조합원 보호", "간접적", "직접적"],
-                ].map((row) => (
-                  <tr key={row[0]}>
-                    <td className="px-6 py-4 font-medium text-foreground/80">{row[0]}</td>
-                    <td className="px-6 py-4 text-foreground/60">{row[1]}</td>
-                    <td className="px-6 py-4 text-foreground">{row[2]}</td>
+                {cmp.rows.map((row) => (
+                  <tr key={row.label}>
+                    <td className="px-6 py-4 font-medium text-foreground/80">{row.label}</td>
+                    <td className="px-6 py-4 text-foreground/60">{row.audit}</td>
+                    <td className="px-6 py-4 text-foreground">{row.ours}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          <p className="mt-8 text-sm text-muted-foreground">
-            * 회계감사는 법정 요건 충족을 위한 필수 절차이며, 정감 회계 감독은 이를 보완하는 별개의 서비스입니다.
-          </p>
+          <p className="mt-8 text-sm text-muted-foreground">{cmp.footnote}</p>
         </div>
       </section>
+
 
       {/* WHY */}
       <section className="bg-ink py-24 text-primary-foreground md:py-32">
@@ -414,7 +393,7 @@ function Home() {
               {
                 icon: ShieldCheck,
                 t: "독립성",
-                d: "조합 내부 직원이 아닌 외부 감시자로서 어떠한 이해관계도 없이 독립적인 판단을 내립니다.",
+                d: `조합 내부 직원이 아닌 ${ext.terminology.externalWatcher}로서 어떠한 이해관계도 없이 독립적인 판단을 내립니다.`,
               },
               {
                 icon: TrendingDown,
@@ -436,21 +415,17 @@ function Home() {
           </div>
 
           <div className="mt-20 border-t border-primary-foreground/15 pt-10">
-            <div className="text-[11px] uppercase tracking-[0.3em] text-gold">신뢰의 기준</div>
+            <div className="text-[11px] uppercase tracking-[0.3em] text-gold">{trust.tag}</div>
             <div className="mt-6 grid gap-8 md:grid-cols-4">
-              {[
-                { t: "독립성 원칙", d: "시공사·정비업체와 어떠한 이해관계도 맺지 않습니다." },
-                { t: "비밀유지 의무", d: "조합 자료와 의사소통은 약정에 따라 엄격히 보호됩니다." },
-                { t: "직무윤리 준수", d: "전문가 윤리 기준에 따라 객관적 의견만을 제시합니다." },
-                { t: "정기 보고", d: "분기별 검토 보고서를 통해 모든 결과를 문서로 남깁니다." },
-              ].map((x) => (
-                <div key={x.t}>
-                  <div className="font-serif text-base text-primary-foreground">{x.t}</div>
-                  <p className="mt-2 text-xs leading-relaxed text-primary-foreground/60">{x.d}</p>
+              {trust.items.map((x) => (
+                <div key={x.title}>
+                  <div className="font-serif text-base text-primary-foreground">{x.title}</div>
+                  <p className="mt-2 text-xs leading-relaxed text-primary-foreground/60">{x.desc}</p>
                 </div>
               ))}
             </div>
           </div>
+
         </div>
       </section>
 

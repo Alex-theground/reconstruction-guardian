@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import type { Json } from "@/integrations/supabase/types";
+import { defaultHomeExt, type HomeExtData, type ComparisonRow, type TrustPrinciple } from "@/lib/home-content";
 import {
   Save, LogOut, Home, FileText, BarChart3, Wrench, GitBranch, CreditCard, MessageSquare,
   Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw
@@ -184,14 +185,14 @@ function SaveBar({ onSave, saving }: { onSave: () => void; saving: boolean }) {
 }
 
 /* ─ HOME ─ */
-interface HomeData {
+type HomeData = {
   heroTitle: string;
   heroSubtitle: string;
   heroDescription: string;
   stats: { value: string; label: string }[];
   problemTitle: string;
   problemDescription: string;
-}
+} & HomeExtData;
 
 const defaultHome: HomeData = {
   heroTitle: "조합 운영을 감독하는",
@@ -204,11 +205,33 @@ const defaultHome: HomeData = {
   ],
   problemTitle: "조합이 무너지면 조합원이 무너집니다.",
   problemDescription: "대한민국의 재건축·재개발 조합 운영 과정에서는 회계 부정, 이중 계약, 무리한 자금 집행, 그리고 조합 파산으로 인한 조합원 개인의 막대한 손실이 끊임없이 반복되고 있습니다.",
+  ...defaultHomeExt,
 };
 
 function HomeEditor({ data, onSave, saving }: EditorProps<HomeData>) {
-  const [form, setForm] = useState<HomeData>(data || defaultHome);
+  const merged: HomeData = { ...defaultHome, ...(data || {}),
+    comparison: { ...defaultHome.comparison, ...(data?.comparison ?? {}),
+      leftCard: { ...defaultHome.comparison.leftCard, ...(data?.comparison?.leftCard ?? {}) },
+      rightCard: { ...defaultHome.comparison.rightCard, ...(data?.comparison?.rightCard ?? {}) },
+      tableHeaders: { ...defaultHome.comparison.tableHeaders, ...(data?.comparison?.tableHeaders ?? {}) },
+      rows: data?.comparison?.rows ?? defaultHome.comparison.rows,
+    },
+    trustPrinciples: data?.trustPrinciples ?? defaultHome.trustPrinciples,
+    terminology: { ...defaultHome.terminology, ...(data?.terminology ?? {}) },
+  };
+  const [form, setForm] = useState<HomeData>(merged);
   const set = (key: keyof HomeData, value: unknown) => setForm((p) => ({ ...p, [key]: value }));
+  const setCmp = (patch: Partial<HomeData["comparison"]>) =>
+    setForm((p) => ({ ...p, comparison: { ...p.comparison, ...patch } }));
+  const setLeft = (patch: Partial<HomeData["comparison"]["leftCard"]>) =>
+    setForm((p) => ({ ...p, comparison: { ...p.comparison, leftCard: { ...p.comparison.leftCard, ...patch } } }));
+  const setRight = (patch: Partial<HomeData["comparison"]["rightCard"]>) =>
+    setForm((p) => ({ ...p, comparison: { ...p.comparison, rightCard: { ...p.comparison.rightCard, ...patch } } }));
+  const setHeaders = (patch: Partial<HomeData["comparison"]["tableHeaders"]>) =>
+    setForm((p) => ({ ...p, comparison: { ...p.comparison, tableHeaders: { ...p.comparison.tableHeaders, ...patch } } }));
+  const setTerm = (patch: Partial<HomeData["terminology"]>) =>
+    setForm((p) => ({ ...p, terminology: { ...p.terminology, ...patch } }));
+
   return (
     <div className="space-y-8">
       <Section title="히어로 섹션">
@@ -233,10 +256,97 @@ function HomeEditor({ data, onSave, saving }: EditorProps<HomeData>) {
         <Field label="제목"><input className={inputCls} value={form.problemTitle} onChange={(e) => set("problemTitle", e.target.value)} /></Field>
         <Field label="설명"><textarea className={textareaCls} value={form.problemDescription} onChange={(e) => set("problemDescription", e.target.value)} /></Field>
       </Section>
+
+      <Section title="회계감사 비교 — 헤더">
+        <Field label="태그(상단 라벨)"><input className={inputCls} value={form.comparison.tag} onChange={(e) => setCmp({ tag: e.target.value })} /></Field>
+        <div className="grid grid-cols-3 gap-3">
+          <Field label="제목 1행"><input className={inputCls} value={form.comparison.headingLine1} onChange={(e) => setCmp({ headingLine1: e.target.value })} /></Field>
+          <Field label="제목 2행 (흐림)"><input className={inputCls} value={form.comparison.headingLine2Muted} onChange={(e) => setCmp({ headingLine2Muted: e.target.value })} /></Field>
+          <Field label="제목 3행"><input className={inputCls} value={form.comparison.headingLine3} onChange={(e) => setCmp({ headingLine3: e.target.value })} /></Field>
+        </div>
+        <Field label="설명"><textarea className={textareaCls} value={form.comparison.intro} onChange={(e) => setCmp({ intro: e.target.value })} /></Field>
+        <Field label="하단 주석"><textarea className={textareaCls} value={form.comparison.footnote} onChange={(e) => setCmp({ footnote: e.target.value })} /></Field>
+      </Section>
+
+      <Section title="비교 — 왼쪽 카드 (일반 회계감사)">
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="태그"><input className={inputCls} value={form.comparison.leftCard.tag} onChange={(e) => setLeft({ tag: e.target.value })} /></Field>
+          <Field label="제목"><input className={inputCls} value={form.comparison.leftCard.title} onChange={(e) => setLeft({ title: e.target.value })} /></Field>
+        </div>
+        <Field label="설명"><textarea className={textareaCls} value={form.comparison.leftCard.desc} onChange={(e) => setLeft({ desc: e.target.value })} /></Field>
+        <Field label="포인트 (한 줄에 하나씩)">
+          <textarea
+            className={`${textareaCls} min-h-[120px]`}
+            value={form.comparison.leftCard.points.join("\n")}
+            onChange={(e) => setLeft({ points: e.target.value.split("\n").filter(Boolean) })}
+          />
+        </Field>
+      </Section>
+
+      <Section title="비교 — 오른쪽 카드 (정감 회계 감독)">
+        <div className="grid grid-cols-3 gap-3">
+          <Field label="뱃지"><input className={inputCls} value={form.comparison.rightCard.badge} onChange={(e) => setRight({ badge: e.target.value })} /></Field>
+          <Field label="태그"><input className={inputCls} value={form.comparison.rightCard.tag} onChange={(e) => setRight({ tag: e.target.value })} /></Field>
+          <Field label="제목"><input className={inputCls} value={form.comparison.rightCard.title} onChange={(e) => setRight({ title: e.target.value })} /></Field>
+        </div>
+        <Field label="설명"><textarea className={textareaCls} value={form.comparison.rightCard.desc} onChange={(e) => setRight({ desc: e.target.value })} /></Field>
+        <Field label="포인트 (한 줄에 하나씩)">
+          <textarea
+            className={`${textareaCls} min-h-[120px]`}
+            value={form.comparison.rightCard.points.join("\n")}
+            onChange={(e) => setRight({ points: e.target.value.split("\n").filter(Boolean) })}
+          />
+        </Field>
+      </Section>
+
+      <Section title="비교표">
+        <div className="grid grid-cols-3 gap-3">
+          <Field label="열 1 헤더"><input className={inputCls} value={form.comparison.tableHeaders.criterion} onChange={(e) => setHeaders({ criterion: e.target.value })} /></Field>
+          <Field label="열 2 헤더"><input className={inputCls} value={form.comparison.tableHeaders.audit} onChange={(e) => setHeaders({ audit: e.target.value })} /></Field>
+          <Field label="열 3 헤더"><input className={inputCls} value={form.comparison.tableHeaders.ours} onChange={(e) => setHeaders({ ours: e.target.value })} /></Field>
+        </div>
+        <ListEditor<ComparisonRow>
+          items={form.comparison.rows}
+          onChange={(rows) => setCmp({ rows })}
+          renderItem={(item, i, update) => (
+            <div className="grid grid-cols-3 gap-3">
+              <Field label="기준"><input className={inputCls} value={item.label} onChange={(e) => update({ ...item, label: e.target.value })} /></Field>
+              <Field label="회계감사"><input className={inputCls} value={item.audit} onChange={(e) => update({ ...item, audit: e.target.value })} /></Field>
+              <Field label="정감 회계"><input className={inputCls} value={item.ours} onChange={(e) => update({ ...item, ours: e.target.value })} /></Field>
+            </div>
+          )}
+          newItem={() => ({ label: "", audit: "", ours: "" })}
+        />
+      </Section>
+
+      <Section title="신뢰의 기준 (메인 + 푸터 공용)">
+        <Field label="섹션 라벨"><input className={inputCls} value={form.trustPrinciples.tag} onChange={(e) => setForm((p) => ({ ...p, trustPrinciples: { ...p.trustPrinciples, tag: e.target.value } }))} /></Field>
+        <ListEditor<TrustPrinciple>
+          items={form.trustPrinciples.items}
+          onChange={(items) => setForm((p) => ({ ...p, trustPrinciples: { ...p.trustPrinciples, items } }))}
+          renderItem={(item, i, update) => (
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="제목"><input className={inputCls} value={item.title} onChange={(e) => update({ ...item, title: e.target.value })} /></Field>
+              <Field label="설명"><input className={inputCls} value={item.desc} onChange={(e) => update({ ...item, desc: e.target.value })} /></Field>
+            </div>
+          )}
+          newItem={() => ({ title: "", desc: "" })}
+        />
+      </Section>
+
+      <Section title="용어 / 푸터 문구">
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="외부 감시자 명칭"><input className={inputCls} value={form.terminology.externalWatcher} onChange={(e) => setTerm({ externalWatcher: e.target.value })} /></Field>
+          <Field label="독립적인 감시자 명칭"><input className={inputCls} value={form.terminology.independentWatcher} onChange={(e) => setTerm({ independentWatcher: e.target.value })} /></Field>
+        </div>
+        <Field label="푸터 소개 문구"><textarea className={textareaCls} value={form.terminology.footerDescription} onChange={(e) => setTerm({ footerDescription: e.target.value })} /></Field>
+      </Section>
+
       <SaveBar onSave={() => onSave(form)} saving={saving} />
     </div>
   );
 }
+
 
 /* ─ CASES ─ */
 interface CaseItem { tag: string; headline: string; year: string; source: string; url: string; impact: string }
