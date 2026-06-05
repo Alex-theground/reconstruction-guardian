@@ -28,6 +28,10 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const { content } = useSiteContent<Partial<HomeExtData>>("home");
+  const ext = mergeHomeExt(content);
+  const cmp = ext.comparison;
+  const trust = ext.trustPrinciples;
   return (
     <PageShell>
       <YouTubeModal videoId={activeVideo} onClose={() => setActiveVideo(null)} />
