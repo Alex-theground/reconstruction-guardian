@@ -1,6 +1,12 @@
 import { Link } from "@tanstack/react-router";
+import { useSiteContent } from "@/hooks/use-site-content";
+import { mergeHomeExt, type HomeExtData } from "@/lib/home-content";
 
 export function SiteFooter() {
+  const { content } = useSiteContent<Partial<HomeExtData>>("home");
+  const ext = mergeHomeExt(content);
+  const trustItems = ext.trustPrinciples.items;
+
   return (
     <footer className="bg-ink text-primary-foreground">
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -18,8 +24,7 @@ export function SiteFooter() {
               </div>
             </div>
             <p className="mt-6 max-w-md text-sm leading-relaxed text-primary-foreground/70">
-              재건축·재개발 조합의 회계 투명성과 자금 집행의 적정성을 독립적인 회계사의
-              관점에서 검증합니다. 조합원의 자산을 지키는 마지막 방어선이 되겠습니다.
+              {ext.terminology.footerDescription}
             </p>
           </div>
 
@@ -45,13 +50,12 @@ export function SiteFooter() {
 
         <div className="mt-16 border-t border-primary-foreground/10 pt-8">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] uppercase tracking-[0.25em] text-gold/80">
-            <span>독립성 원칙</span>
-            <span className="text-primary-foreground/20">·</span>
-            <span>비밀유지 의무</span>
-            <span className="text-primary-foreground/20">·</span>
-            <span>직무윤리 준수</span>
-            <span className="text-primary-foreground/20">·</span>
-            <span>분기별 보고서 정기 발행</span>
+            {trustItems.map((item, i) => (
+              <span key={item.title} className="flex items-center gap-x-6">
+                {i > 0 && <span className="text-primary-foreground/20">·</span>}
+                <span>{item.title}</span>
+              </span>
+            ))}
           </div>
           <p className="mt-4 max-w-3xl text-xs leading-relaxed text-primary-foreground/55">
             정감 회계는 어떠한 시공사·정비업체·협력업체와도 이해관계를 맺지 않으며,
