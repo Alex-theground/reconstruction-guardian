@@ -4,6 +4,8 @@ import { PageShell } from "@/components/PageShell";
 import { YouTubeModal } from "@/components/YouTubeModal";
 import heroImg from "@/assets/hero-construction.jpg";
 import { ShieldCheck, FileSearch, Scale, TrendingDown, ArrowRight, Play, AlertTriangle, ExternalLink } from "lucide-react";
+import { useSiteContent } from "@/hooks/use-site-content";
+import { mergeHomeExt, type HomeExtData } from "@/lib/home-content";
 
 export const Route = createFileRoute("/")({
   head: () => ({
