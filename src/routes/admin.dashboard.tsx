@@ -196,7 +196,7 @@ type HomeData = {
 
 const defaultHome: HomeData = {
   heroTitle: "조합 운영을 감독하는",
-  heroSubtitle: "단 한 명의 회계사.",
+  heroSubtitle: "조합원을 위한 회계사.",
   heroDescription: "재건축·재개발 조합의 비리와 회계 부정으로부터 조합원의 자산을 지킵니다.",
   stats: [
     { value: "62%", label: "조합 분쟁 비율" },
