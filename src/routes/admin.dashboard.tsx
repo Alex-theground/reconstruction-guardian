@@ -236,7 +236,26 @@ function HomeEditor({ data, onSave, saving }: EditorProps<HomeData>) {
     <div className="space-y-8">
       <Section title="히어로 섹션">
         <Field label="메인 타이틀"><input className={inputCls} value={form.heroTitle} onChange={(e) => set("heroTitle", e.target.value)} /></Field>
-        <Field label="서브 타이틀 (강조)"><input className={inputCls} value={form.heroSubtitle} onChange={(e) => set("heroSubtitle", e.target.value)} /></Field>
+        <Field label="서브 타이틀 (강조)">
+          <input className={inputCls} value={form.heroSubtitle} onChange={(e) => set("heroSubtitle", e.target.value)} />
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+            {data?.heroSubtitle ? (
+              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 text-emerald-700 dark:text-emerald-300">
+                ● DB 저장값 사용 중
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-amber-700 dark:text-amber-300">
+                ● 기본값 사용 중 (DB 미저장)
+              </span>
+            )}
+            <span className="text-muted-foreground">
+              DB: <code className="rounded bg-muted px-1 py-0.5">{data?.heroSubtitle ?? "—"}</code>
+            </span>
+            <span className="text-muted-foreground">
+              기본값: <code className="rounded bg-muted px-1 py-0.5">{defaultHome.heroSubtitle}</code>
+            </span>
+          </div>
+        </Field>
         <Field label="설명"><textarea className={textareaCls} value={form.heroDescription} onChange={(e) => set("heroDescription", e.target.value)} /></Field>
       </Section>
       <Section title="핵심 통계">
