@@ -52,7 +52,7 @@ function Home() {
             </div>
             <h1 className="mt-8 font-serif text-5xl leading-[1.05] text-primary-foreground md:text-7xl">
               조합 운영을 감독하는<br />
-              <span className="text-gold">단 한 명의 회계사.</span>
+              <span className="text-gold">조합원을 위한 회계사.</span>
             </h1>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-primary-foreground/80">
               재건축·재개발 조합 운영 과정에서 발생할 수 있는 회계 부정·자금 집행 리스크로부터 조합원의 자산을 지킵니다.
