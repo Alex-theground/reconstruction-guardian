@@ -8,6 +8,7 @@ import {
   Save, LogOut, Home, FileText, BarChart3, Wrench, GitBranch, CreditCard, MessageSquare,
   Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw
 } from "lucide-react";
+import logoMark from "@/assets/logo-mark.png";
 
 export const Route = createFileRoute("/admin/dashboard")({
   head: () => ({ meta: [{ title: "관리자 대시보드 — 바른집행" }] }),
