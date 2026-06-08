@@ -23,7 +23,7 @@ export function SiteHeader() {
             正
           </div>
           <div className="leading-tight">
-            <div className="font-serif text-lg text-foreground">정감 컨설팅</div>
+            <div className="font-serif text-lg text-foreground">바른집행</div>
             <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
               Union Audit Partners
             </div>

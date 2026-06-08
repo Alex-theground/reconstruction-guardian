@@ -24,7 +24,7 @@ import {
 export const Route = createFileRoute("/cases")({
   head: () => ({
     meta: [
-      { title: "왜 필요한가 — 실제 사례와 통계 · 정감 컨설팅" },
+      { title: "왜 필요한가 — 실제 사례와 통계 · 바른집행" },
       {
         name: "description",
         content:

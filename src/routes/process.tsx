@@ -4,12 +4,12 @@ import { PageShell, PageHero } from "@/components/PageShell";
 export const Route = createFileRoute("/process")({
   head: () => ({
     meta: [
-      { title: "감독 프로세스 — 정감 컨설팅" },
+      { title: "감독 프로세스 — 바른집행" },
       {
         name: "description",
         content: "월간 정기 감독 사이클: 자료 수집부터 조합원 보고까지의 전 과정.",
       },
-      { property: "og:title", content: "감독 프로세스 — 정감 컨설팅" },
+      { property: "og:title", content: "감독 프로세스 — 바른집행" },
       {
         property: "og:description",
         content: "월간 정기 감독 사이클의 5단계 프로세스.",

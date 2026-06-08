@@ -5,7 +5,7 @@ import { Lock, Mail, Eye, EyeOff } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
-    meta: [{ title: "관리자 로그인 — 정감 컨설팅" }],
+    meta: [{ title: "관리자 로그인 — 바른집행" }],
   }),
   component: AdminLogin,
 });
@@ -71,7 +71,7 @@ function AdminLogin() {
             </div>
             <h1 className="mt-6 font-serif text-3xl">관리자 로그인</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              정감 컨설팅 홈페이지 콘텐츠 관리
+              바른집행 홈페이지 콘텐츠 관리
             </p>
           </div>
 
