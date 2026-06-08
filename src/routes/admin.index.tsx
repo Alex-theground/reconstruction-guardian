@@ -67,7 +67,7 @@ function AdminLogin() {
         <div className="rounded-sm border border-border bg-card p-10 shadow-soft">
           <div className="text-center">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-sm bg-ink text-gold font-serif text-2xl">
-              正
+              바
             </div>
             <h1 className="mt-6 font-serif text-3xl">관리자 로그인</h1>
             <p className="mt-2 text-sm text-muted-foreground">

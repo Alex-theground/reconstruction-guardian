@@ -20,12 +20,12 @@ export function SiteHeader() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-3 group">
           <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-ink text-gold font-serif text-lg">
-            正
+            바
           </div>
           <div className="leading-tight">
             <div className="font-serif text-lg text-foreground">바른집행</div>
             <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-              Union Audit Partners
+              Right Execution Partners
             </div>
           </div>
         </Link>
