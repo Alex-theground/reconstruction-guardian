@@ -6,13 +6,13 @@ import { useSiteContent } from "@/hooks/use-site-content";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "서비스 — 정감 회계" },
+      { title: "서비스 — 정감 컨설팅" },
       {
         name: "description",
         content:
           "조합 회계·지출 검토와 조합 운영 자금집행 검증, 두 가지 핵심 감독 서비스의 상세 내역.",
       },
-      { property: "og:title", content: "서비스 — 정감 회계" },
+      { property: "og:title", content: "서비스 — 정감 컨설팅" },
       { property: "og:description", content: "조합 회계 감독 서비스의 모든 항목." },
     ],
   }),
@@ -97,7 +97,7 @@ function ServicesPage() {
       <PageHero
         eyebrow="Services"
         title="두 개의 축으로 조합을 지킵니다."
-        description="회계의 정확성과 자금집행의 타당성. 이 두 가지가 흔들리면 조합 전체가 흔들립니다. 정감 회계는 두 영역 모두에 독립적이고 지속적인 감독을 제공합니다."
+        description="회계의 정확성과 자금집행의 타당성. 이 두 가지가 흔들리면 조합 전체가 흔들립니다. 정감 컨설팅는 두 영역 모두에 독립적이고 지속적인 감독을 제공합니다."
       />
 
       <section className="py-24 md:py-32">

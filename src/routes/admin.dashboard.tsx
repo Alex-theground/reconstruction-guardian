@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/dashboard")({
-  head: () => ({ meta: [{ title: "관리자 대시보드 — 정감 회계" }] }),
+  head: () => ({ meta: [{ title: "관리자 대시보드 — 정감 컨설팅" }] }),
   component: AdminDashboard,
 });
 
@@ -302,7 +302,7 @@ function HomeEditor({ data, onSave, saving }: EditorProps<HomeData>) {
         </Field>
       </Section>
 
-      <Section title="비교 — 오른쪽 카드 (정감 회계 감독)">
+      <Section title="비교 — 오른쪽 카드 (정감 컨설팅 감독)">
         <div className="grid grid-cols-3 gap-3">
           <Field label="뱃지"><input className={inputCls} value={form.comparison.rightCard.badge} onChange={(e) => setRight({ badge: e.target.value })} /></Field>
           <Field label="태그"><input className={inputCls} value={form.comparison.rightCard.tag} onChange={(e) => setRight({ tag: e.target.value })} /></Field>
@@ -331,7 +331,7 @@ function HomeEditor({ data, onSave, saving }: EditorProps<HomeData>) {
             <div className="grid grid-cols-3 gap-3">
               <Field label="기준"><input className={inputCls} value={item.label} onChange={(e) => update({ ...item, label: e.target.value })} /></Field>
               <Field label="회계감사"><input className={inputCls} value={item.audit} onChange={(e) => update({ ...item, audit: e.target.value })} /></Field>
-              <Field label="정감 회계"><input className={inputCls} value={item.ours} onChange={(e) => update({ ...item, ours: e.target.value })} /></Field>
+              <Field label="정감 컨설팅"><input className={inputCls} value={item.ours} onChange={(e) => update({ ...item, ours: e.target.value })} /></Field>
             </div>
           )}
           newItem={() => ({ label: "", audit: "", ours: "" })}

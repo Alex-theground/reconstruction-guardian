@@ -6,12 +6,12 @@ import { Mail, Phone, MapPin, Send } from "lucide-react";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "문의 — 정감 회계" },
+      { title: "문의 — 정감 컨설팅" },
       {
         name: "description",
         content: "재건축 조합 회계 감독 서비스 상담 신청. 24시간 내 회신.",
       },
-      { property: "og:title", content: "문의 — 정감 회계" },
+      { property: "og:title", content: "문의 — 정감 컨설팅" },
       { property: "og:description", content: "상담 및 제안서 요청." },
     ],
   }),

@@ -1,4 +1,4 @@
-# 정감 회계 홈페이지
+# 정감 컨설팅 홈페이지
 
 TanStack Start + React + Supabase(Lovable Cloud) 기반의 회계 사무소 홈페이지 및 관리자 CMS.
 
