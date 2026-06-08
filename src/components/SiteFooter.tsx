@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { mergeHomeExt, type HomeExtData } from "@/lib/home-content";
+import logoMark from "@/assets/logo-mark.png";
 
 export function SiteFooter() {
   const { content } = useSiteContent<Partial<HomeExtData>>("home");
