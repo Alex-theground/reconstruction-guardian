@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
-import logoMark from "@/assets/logo-mark.png";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -67,8 +66,8 @@ function AdminLogin() {
       <div className="mx-auto w-full max-w-md px-6">
         <div className="rounded-sm border border-border bg-card p-10 shadow-soft">
           <div className="text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-sm bg-ink">
-              <img src={logoMark} alt="바른집행 로고" className="h-12 w-12" width={48} height={48} />
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-sm bg-ink text-gold font-serif text-2xl">
+              바
             </div>
             <h1 className="mt-6 font-serif text-3xl">관리자 로그인</h1>
             <p className="mt-2 text-sm text-muted-foreground">

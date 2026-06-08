@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { mergeHomeExt, type HomeExtData } from "@/lib/home-content";
-import logoMark from "@/assets/logo-mark.png";
 
 export function SiteFooter() {
   const { content } = useSiteContent<Partial<HomeExtData>>("home");
@@ -14,8 +13,8 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-gold/10">
-                <img src={logoMark} alt="바른집행 로고" className="h-9 w-9" width={36} height={36} loading="lazy" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-gold text-ink font-serif text-lg">
+                바
               </div>
               <div>
                 <div className="font-serif text-lg">바른집행</div>
