@@ -8,6 +8,7 @@ import {
   Save, LogOut, Home, FileText, BarChart3, Wrench, GitBranch, CreditCard, MessageSquare,
   Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw
 } from "lucide-react";
+import logoMark from "@/assets/logo-mark.png";
 
 export const Route = createFileRoute("/admin/dashboard")({
   head: () => ({ meta: [{ title: "관리자 대시보드 — 바른집행" }] }),
@@ -108,7 +109,7 @@ function AdminDashboard() {
       {/* Sidebar */}
       <aside className="w-64 flex-shrink-0 border-r border-border bg-card">
         <div className="flex h-16 items-center gap-3 border-b border-border px-6">
-          <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-ink text-gold font-serif text-sm">바</div>
+          <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-ink"><img src={logoMark} alt="바른집행" className="h-7 w-7" width={28} height={28} /></div>
           <span className="text-sm font-medium">CMS 관리</span>
         </div>
         <nav className="p-3 space-y-1">
