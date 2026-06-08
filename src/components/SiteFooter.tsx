@@ -14,12 +14,12 @@ export function SiteFooter() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-gold text-ink font-serif text-lg">
-                正
+                바
               </div>
               <div>
-                <div className="font-serif text-lg">정감 컨설팅</div>
+                <div className="font-serif text-lg">바른집행</div>
                 <div className="text-[10px] uppercase tracking-[0.25em] text-primary-foreground/60">
-                  Union Audit Partners
+                  Right Execution Partners
                 </div>
               </div>
             </div>
@@ -58,12 +58,12 @@ export function SiteFooter() {
             ))}
           </div>
           <p className="mt-4 max-w-3xl text-xs leading-relaxed text-primary-foreground/55">
-            정감 컨설팅는 어떠한 시공사·정비업체·협력업체와도 이해관계를 맺지 않으며,
+            바른집행은 어떠한 시공사·정비업체·협력업체와도 이해관계를 맺지 않으며,
             오직 조합과 조합원의 이익을 기준으로 독립적인 의견을 제시합니다.
             모든 검토 자료와 의사소통 내용은 비밀유지 약정에 따라 보호됩니다.
           </p>
           <div className="mt-6 flex flex-col items-start justify-between gap-3 text-xs text-primary-foreground/50 md:flex-row md:items-center">
-            <span>© {new Date().getFullYear()} 정감 컨설팅.</span>
+            <span>© {new Date().getFullYear()} 바른집행.</span>
             <div className="flex items-center gap-4">
               <span>본 사이트는 서비스 제안을 위한 안내용입니다.</span>
               <Link to="/admin" className="text-primary-foreground/40 hover:text-gold">관리자</Link>

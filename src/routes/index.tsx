@@ -10,13 +10,13 @@ import { mergeHomeExt, type HomeExtData } from "@/lib/home-content";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "정감 컨설팅 — 재건축 조합 회계 감독 파트너" },
+      { title: "바른집행 — 재건축 조합 회계 감독 파트너" },
       {
         name: "description",
         content:
           "재건축·재개발 조합의 회계 부정과 자금 집행 위험으로부터 조합원을 보호합니다. 독립 외부 감시자의 월정 감독 서비스.",
       },
-      { property: "og:title", content: "정감 컨설팅 — 재건축 조합 회계 감독 파트너" },
+      { property: "og:title", content: "바른집행 — 재건축 조합 회계 감독 파트너" },
       {
         property: "og:description",
         content: "조합 운영을 감독하는 독립 회계사. 조합원의 자산을 지키는 월정 프리랜서 감독 계약.",
@@ -303,7 +303,7 @@ function Home() {
         </div>
       </section>
 
-      {/* COMPARISON — 회계감사 vs 정감 컨설팅 */}
+      {/* COMPARISON — 회계감사 vs 바른집행 */}
       <section className="border-t border-border bg-parchment py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-12 md:grid-cols-12 md:items-end">

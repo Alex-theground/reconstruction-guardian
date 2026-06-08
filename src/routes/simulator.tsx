@@ -17,7 +17,7 @@ import {
 export const Route = createFileRoute("/simulator")({
   head: () => ({
     meta: [
-      { title: "비용-손실 시뮬레이터 — 정감 컨설팅" },
+      { title: "비용-손실 시뮬레이터 — 바른집행" },
       {
         name: "description",
         content:

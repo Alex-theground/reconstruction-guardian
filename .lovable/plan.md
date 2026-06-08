@@ -1,62 +1,49 @@
-## 명칭 변경 방향
+## 브랜드 명칭 변경: 정감 컨설팅 → 바른집행
 
-'감리'(→ 감리법인/건설감리)와 '회계'(→ 회계법인/공인회계사) 모두 특정 업역과 혼동될 수 있다는 지적을 반영해, 업역 오인 없이 "조합 운영 감독·자문" 정체성을 표현하는 후보를 제안드립니다.
+### 적용 범위
 
-### 추천 후보
+**1. 코드 일괄 치환 (sed)**
+다음 파일의 "정감 컨설팅" → "바른집행" 일괄 변경:
+- `README.md`
+- `src/components/SiteFooter.tsx`
+- `src/components/SiteHeader.tsx`
+- `src/lib/home-content.ts`
+- `src/routes/admin.dashboard.tsx`
+- `src/routes/admin.index.tsx`
+- `src/routes/cases.tsx`
+- `src/routes/contact.tsx`
+- `src/routes/contract.tsx`
+- `src/routes/index.tsx`
+- `src/routes/process.tsx`
+- `src/routes/services.tsx`
+- `src/routes/simulator.tsx`
 
-**1순위 — 정감 컨설팅 (사용자 제안)**
-- 기존 브랜드명 '정감(正監)' 유지 → 인지도/발음 자산 보존
-- '컨설팅'은 자문 서비스를 포괄하는 중립 용어. 법정 업역 오인 없음
-- 가장 안전하고 즉시 적용 가능
+**2. 로고 마크 변경**
+- 헤더/푸터의 한자 마크 `正` → `바름` 의미를 살려 **`바`** (한글 1자)로 교체
+- '正監(정감)' 자산은 더 이상 유효하지 않으므로 한자 마크 유지는 부적절
+- 폰트는 기존 `font-serif` 유지 (Noto Serif KR 톤)
 
-**2순위 — 정감 파트너스**
-- '조합원과 함께한다'는 동반자 포지셔닝
-- 회계·법무·컨설팅 업계에서 폭넓게 쓰이는 격식 있는 표현
-- 영문 표기: Jeonggam Partners
+**3. 영문 태그라인**
+- 현재: `Union Audit Partners`
+- 변경 후: **`Right Execution Partners`** (바른집행 직역 + Partners 톤 유지)
+- 적용 위치: `SiteHeader.tsx`, `SiteFooter.tsx`
 
-**3순위 — 정감 어드바이저리 (Jeonggam Advisory)**
-- 자문·조언 중심임을 명확히 전달
-- 다소 전문적·세련된 톤
+**4. 푸터 회사 설명 문구**
+- "정감 컨설팅는 어떠한 시공사…" → "바른집행은 어떠한 시공사…" (조사 '는' → '은' 자연스럽게 교정)
 
-**그 외 대안**
-- **정감 자문** — 한글 순화형, 친근함
-- **정감 그룹** — 사업 확장성 강조, 다소 무거움
-- **바른감독** / **조합지킴** — 브랜드 자산을 버리고 신규 작명하는 경우
+**5. 도메인/이메일**
+- `info@junggam.kr`, `junggam.kr` 표기는 **그대로 유지** (실제 도메인 변경은 별도 작업)
+- 사용자가 원하면 다음 단계에서 정리
 
-### 권장
-**'정감 컨설팅'** 으로 진행 권장 — 사용자가 직접 제시했고, 브랜드 자산 보존 + 업역 오인 회피 + 자연스러운 한국어 발음 모두 충족.
+### 변경하지 않는 것
 
----
+- DB(`site_content`)에는 "정감 회계/컨설팅" 텍스트가 저장돼 있지 않음을 직전 작업에서 확인 → 마이그레이션 불필요
+- 본문 콘텐츠 내 "정감 컨설팅 감독" 같은 표현은 회사명 부분만 치환됨 (→ "바른집행 감독")
 
-## 적용 범위
+### 결정 필요
 
-선택된 명칭을 다음 위치에 일괄 반영합니다.
+1. **로고 마크**: `바` 한 글자로 교체 (권장) vs 다른 안 (예: `正` 유지 / 로고 이미지 별도 제작)
+2. **영문 태그라인**: `Right Execution Partners` (권장) vs 다른 안 (예: 그대로 `Union Audit Partners` 유지)
+3. **도메인 표기 `junggam.kr`**: 이번엔 유지 (권장) vs 함께 변경
 
-### 코드/메타데이터
-- `src/routes/__root.tsx` — 기본 `<title>`, og:title 등 (현재 "Lovable App"이지만 추후 브랜드명 사용 시)
-- `src/routes/admin.index.tsx` — 로그인 페이지 title("관리자 로그인 — 정감 회계"), 본문 "정감 회계 홈페이지 콘텐츠 관리"
-- `src/routes/admin.dashboard.tsx` — 관리자 대시보드 기본값/플레이스홀더에 등장하는 "정감 회계"
-- `src/routes/index.tsx` — 홈 페이지 내 회사명 노출 영역
-- `src/components/SiteHeader.tsx` — 헤더 로고/회사명
-- `src/components/SiteFooter.tsx` — 푸터 회사명, 저작권 표기
-- `src/lib/home-content.ts` — 홈 기본 콘텐츠 상수
-- 기타 라우트(`services`, `cases`, `contract`, `contact`, `process`, `simulator`)의 head() 및 본문 회사명
-- `README.md` — 프로젝트 설명 (선택사항)
-
-### DB 콘텐츠 (site_content 테이블)
-관리자 CMS에 저장된 JSONB 콘텐츠에 "정감 회계" 또는 "회계"라는 회사명이 포함된 경우, SQL 마이그레이션으로 일괄 치환:
-- hero/메시지/소개 섹션의 회사명 텍스트
-- 푸터, 연락처 안내 등
-
-### 로고 마크
-헤더의 한자 마크 `正`은 '정감(正監)'의 정체성을 유지하므로 **변경하지 않음**(컨설팅으로 바꿔도 '正' 유지).
-
----
-
-## 결정 필요 사항
-
-1. **최종 명칭** — '정감 컨설팅'으로 진행할지, 다른 후보로 갈지
-2. **영문 표기** — 함께 정할지 여부 (예: Jeonggam Consulting)
-3. **로고 마크 `正`** — 그대로 유지(권장) vs 변경
-
-명칭만 확정해 주시면 사이트 전반 + DB 콘텐츠까지 한 번에 반영하겠습니다.
+승인해주시면 위 범위로 바로 반영하겠습니다.
