@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
+import logoMark from "@/assets/logo-mark.png";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
