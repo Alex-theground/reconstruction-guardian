@@ -20,8 +20,8 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-ink text-gold font-serif text-lg">
-            바
+          <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-ink">
+            <img src={logoMark} alt="바른집행 로고" className="h-9 w-9" width={36} height={36} />
           </div>
           <div className="leading-tight">
             <div className="font-serif text-lg text-foreground">바른집행</div>
