@@ -55,7 +55,7 @@ export const defaultHomeExt: HomeExtData = {
     headingLine2Muted: "부적절한 지출을 ",
     headingLine3: "걸러낼 수 없습니다.",
     intro:
-      "회계감사는 회계기준 준수 여부만을 봅니다. 지출이 규정에 어긋나거나 과도하더라도, 장부에 적정하게 기록되어 있으면 ‘적정의견’이 나옵니다. 정감 회계는 회계처리가 아닌 지출 그 자체를 검증합니다.",
+      "회계감사는 회계기준 준수 여부만을 봅니다. 지출이 규정에 어긋나거나 과도하더라도, 장부에 적정하게 기록되어 있으면 ‘적정의견’이 나옵니다. 정감 컨설팅는 회계처리가 아닌 지출 그 자체를 검증합니다.",
     leftCard: {
       tag: "일반 회계감사",
       title: "회계처리의 적정성",
@@ -69,8 +69,8 @@ export const defaultHomeExt: HomeExtData = {
       ],
     },
     rightCard: {
-      badge: "정감 회계의 영역",
-      tag: "정감 회계 감독",
+      badge: "정감 컨설팅의 영역",
+      tag: "정감 컨설팅 감독",
       title: "지출 그 자체의 검증",
       desc:
         "각 지출 건이 규정에 따라 집행되었는지, 실제 발생한 지출인지, 금액이 과도하지 않은지를 사전·사후로 검증합니다.",
@@ -81,7 +81,7 @@ export const defaultHomeExt: HomeExtData = {
         "단가·수량의 적정성과 과다 지출 판별",
       ],
     },
-    tableHeaders: { criterion: "검토 기준", audit: "회계감사", ours: "정감 회계 감독" },
+    tableHeaders: { criterion: "검토 기준", audit: "회계감사", ours: "정감 컨설팅 감독" },
     rows: [
       { label: "검토 대상", audit: "재무제표·장부", ours: "개별 지출 건" },
       { label: "핵심 질문", audit: "회계기준에 맞게 기록되었는가?", ours: "규정대로, 실제로, 합리적으로 지출되었는가?" },
@@ -90,7 +90,7 @@ export const defaultHomeExt: HomeExtData = {
       { label: "조합원 보호", audit: "간접적", ours: "직접적" },
     ],
     footnote:
-      "* 회계감사는 법정 요건 충족을 위한 필수 절차이며, 정감 회계 감독은 이를 보완하는 별개의 서비스입니다.",
+      "* 회계감사는 법정 요건 충족을 위한 필수 절차이며, 정감 컨설팅 감독은 이를 보완하는 별개의 서비스입니다.",
   },
   trustPrinciples: {
     tag: "신뢰의 기준",

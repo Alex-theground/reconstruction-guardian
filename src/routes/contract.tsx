@@ -6,12 +6,12 @@ import { useSiteContent } from "@/hooks/use-site-content";
 export const Route = createFileRoute("/contract")({
   head: () => ({
     meta: [
-      { title: "계약 안내 — 정감 회계" },
+      { title: "계약 안내 — 정감 컨설팅" },
       {
         name: "description",
         content: "월정 수수료 기반의 프리랜서 감독 계약 조건과 표준 약정 내용.",
       },
-      { property: "og:title", content: "계약 안내 — 정감 회계" },
+      { property: "og:title", content: "계약 안내 — 정감 컨설팅" },
       {
         property: "og:description",
         content: "조합 규모별 월정 수수료 및 표준 계약 조건.",
