@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import logoMark from "@/assets/logo-mark.png";
 
 const nav = [
   { to: "/", label: "홈" },
