@@ -5,11 +5,15 @@ type BrandMarkProps = {
 };
 
 /**
- * 바른집행 CI 마크 — 세리프 이니셜 B
- * 원형 프레임 안의 클래식 세리프 'B' + 하단 금색 언더라인.
+ * 바른집행 CI 마크 — 정사각 세리프 이니셜 B
+ * - 솔리드 정사각 프레임 (ink/parchment)
+ * - 클래식 세리프 'B' 이니셜
+ * - 좌측 금색 수직 액센트(감독의 시선)
  */
 export function BrandMark({ size = 40, variant = "dark", className = "" }: BrandMarkProps) {
-  const fg = variant === "dark" ? "var(--ink)" : "var(--parchment)";
+  const isDark = variant === "dark";
+  const bg = isDark ? "var(--ink)" : "var(--parchment)";
+  const fg = isDark ? "var(--parchment)" : "var(--ink)";
   const accent = "var(--gold)";
 
   return (
@@ -20,22 +24,23 @@ export function BrandMark({ size = 40, variant = "dark", className = "" }: Brand
       className={className}
       aria-label="바른집행"
       role="img"
-      fill="none"
     >
-      <circle cx="20" cy="20" r="18.75" stroke={fg} strokeWidth="0.75" />
+      <rect width="40" height="40" fill={bg} />
+      {/* 좌측 금색 수직 액센트 */}
+      <line x1="6" y1="8" x2="6" y2="32" stroke={accent} strokeWidth="1" />
+      {/* 세리프 이니셜 B */}
       <text
-        x="20"
-        y="26.5"
+        x="22"
+        y="27.5"
         textAnchor="middle"
         fontFamily="var(--font-serif)"
-        fontSize="20"
+        fontSize="22"
         fontWeight="500"
         fill={fg}
         letterSpacing="-0.02em"
       >
         B
       </text>
-      <line x1="16" y1="31.5" x2="24" y2="31.5" stroke={accent} strokeWidth="1" />
     </svg>
   );
 }
