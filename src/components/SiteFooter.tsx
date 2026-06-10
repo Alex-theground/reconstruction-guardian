@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useSiteContent } from "@/hooks/use-site-content";
 import { mergeHomeExt, type HomeExtData } from "@/lib/home-content";
+import { BrandMark } from "./BrandMark";
 
 export function SiteFooter() {
   const { content } = useSiteContent<Partial<HomeExtData>>("home");
@@ -13,12 +14,10 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-gold text-ink font-serif text-lg">
-                바
-              </div>
+              <BrandMark size={40} variant="light" />
               <div>
-                <div className="font-serif text-lg">바른집행</div>
-                <div className="text-[10px] uppercase tracking-[0.25em] text-primary-foreground/60">
+                <div className="font-serif text-lg tracking-tight">바른집행</div>
+                <div className="mt-0.5 text-[10px] uppercase tracking-[0.28em] text-primary-foreground/60">
                   Right Execution Partners
                 </div>
               </div>
