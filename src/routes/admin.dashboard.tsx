@@ -613,9 +613,10 @@ function ProcessEditor({ data, onSave, saving }: EditorProps<ProcessData>) {
 /* ─ CONTRACT ─ */
 interface TierItem { name: string; scale: string; price: string; unit: string; items: string[]; featured: boolean }
 interface TermItem { key: string; value: string }
-interface ContractData { tiers: TierItem[]; terms: TermItem[]; footnote: string }
+interface OptionItem { name: string; price: string; desc: string }
+interface ContractData { tiers: TierItem[]; terms: TermItem[]; options: OptionItem[]; footnote: string }
 
-const defaultContract: ContractData = { tiers: [], terms: [], footnote: "" };
+const defaultContract: ContractData = { tiers: [], terms: [], options: [], footnote: "" };
 
 function ContractEditor({ data, onSave, saving }: EditorProps<ContractData>) {
   const [form, setForm] = useState<ContractData>(data || defaultContract);
