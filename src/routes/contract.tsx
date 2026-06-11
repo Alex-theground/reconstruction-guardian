@@ -165,6 +165,30 @@ function ContractPage() {
         </div>
       </section>
 
+      {/* Options */}
+      {options.length > 0 && (
+        <section className="border-t border-border bg-card py-24">
+          <div className="mx-auto max-w-7xl px-6">
+            <div className="text-xs uppercase tracking-[0.3em] text-gold">Add-on Options</div>
+            <h2 className="mt-4 font-serif text-4xl md:text-5xl">선택 옵션</h2>
+            <p className="mt-4 max-w-2xl text-foreground/70">
+              표준 요금제에 추가로 구성할 수 있는 선택 옵션입니다. 옵션은 월 정액에 합산되어 청구됩니다.
+            </p>
+            <div className="mt-12 grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-2 lg:grid-cols-3">
+              {options.map((o) => (
+                <div key={o.name} className="flex flex-col bg-card p-8">
+                  <div className="font-serif text-xl text-foreground">{o.name}</div>
+                  <div className="mt-3 font-serif text-3xl text-gold">{o.price}</div>
+                  {o.desc && (
+                    <p className="mt-4 text-sm text-foreground/70">{o.desc}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Terms */}
       <section className="border-t border-border bg-parchment py-24">
         <div className="mx-auto max-w-5xl px-6">
