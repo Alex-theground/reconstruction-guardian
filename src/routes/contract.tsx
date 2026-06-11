@@ -81,13 +81,22 @@ const defaultTerms: TermItem[] = [
   { key: "해지 조건", value: "양 당사자 모두 30일 사전 통보로 해지 가능" },
 ];
 
-const defaultFootnote = "* 위 요금은 표준 안내가이며, 사업 단계(조합설립·시공자선정·관리처분·착공·준공)에 따라 조정될 수 있습니다.";
+const defaultOptions: OptionItem[] = [
+  {
+    name: "변호사 동행",
+    price: "+₩1,000,000 / 월",
+    desc: "협력 변호사가 함께 참여하여 계약·분쟁·법률 검토를 병행 지원합니다.",
+  },
+];
+
+const defaultFootnote = "* 위 요금은 표준 안내가이며, 사업 단계(조합설립·시공자선정·관리처분·착공·준공)에 따라 조정될 수 있습니다. 옵션 항목은 요금제와 별도로 100만원 단위로 추가됩니다.";
 
 function ContractPage() {
   const { content, loading } = useSiteContent<ContractData>("contract");
 
   const tiers = content?.tiers && content.tiers.length > 0 ? content.tiers : defaultTiers;
   const terms = content?.terms && content.terms.length > 0 ? content.terms : defaultTerms;
+  const options = content?.options && content.options.length > 0 ? content.options : defaultOptions;
   const footnote = content?.footnote || defaultFootnote;
 
   if (loading) {
