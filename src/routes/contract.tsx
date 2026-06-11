@@ -23,14 +23,13 @@ export const Route = createFileRoute("/contract")({
 
 interface TierItem { name: string; scale: string; price: string; unit: string; items: string[]; featured: boolean }
 interface TermItem { key: string; value: string }
-interface OptionItem { name: string; price: string; desc: string }
-interface ContractData { tiers: TierItem[]; terms: TermItem[]; options: OptionItem[]; footnote: string }
+interface ContractData { tiers: TierItem[]; terms: TermItem[]; footnote: string }
 
 const defaultTiers: TierItem[] = [
   {
     name: "Standard",
     scale: "500세대 미만",
-    price: "₩1,500,000",
+    price: "₩2,500,000",
     unit: "/ 월 (VAT 별도)",
     items: [
       "월간 회계·지출 정기 검토",
@@ -44,7 +43,7 @@ const defaultTiers: TierItem[] = [
   {
     name: "Premium",
     scale: "500 ~ 1,500세대",
-    price: "₩2,500,000",
+    price: "₩4,500,000",
     unit: "/ 월 (VAT 별도)",
     items: [
       "Standard 전체 항목 포함",
@@ -81,22 +80,13 @@ const defaultTerms: TermItem[] = [
   { key: "해지 조건", value: "양 당사자 모두 30일 사전 통보로 해지 가능" },
 ];
 
-const defaultOptions: OptionItem[] = [
-  {
-    name: "변호사 동행",
-    price: "+₩1,000,000 / 월",
-    desc: "협력 변호사가 함께 참여하여 계약·분쟁·법률 검토를 병행 지원합니다.",
-  },
-];
-
-const defaultFootnote = "* 위 요금은 표준 안내가이며, 사업 단계(조합설립·시공자선정·관리처분·착공·준공)에 따라 조정될 수 있습니다. 옵션 항목은 요금제와 별도로 100만원 단위로 추가됩니다.";
+const defaultFootnote = "* 위 요금은 표준 안내가이며, 사업 단계(조합설립·시공자선정·관리처분·착공·준공)에 따라 조정될 수 있습니다.";
 
 function ContractPage() {
   const { content, loading } = useSiteContent<ContractData>("contract");
 
   const tiers = content?.tiers && content.tiers.length > 0 ? content.tiers : defaultTiers;
   const terms = content?.terms && content.terms.length > 0 ? content.terms : defaultTerms;
-  const options = content?.options && content.options.length > 0 ? content.options : defaultOptions;
   const footnote = content?.footnote || defaultFootnote;
 
   if (loading) {
@@ -164,30 +154,6 @@ function ContractPage() {
           <p className="mt-8 text-sm text-muted-foreground">{footnote}</p>
         </div>
       </section>
-
-      {/* Options */}
-      {options.length > 0 && (
-        <section className="border-t border-border bg-card py-24">
-          <div className="mx-auto max-w-7xl px-6">
-            <div className="text-xs uppercase tracking-[0.3em] text-gold">Add-on Options</div>
-            <h2 className="mt-4 font-serif text-4xl md:text-5xl">선택 옵션</h2>
-            <p className="mt-4 max-w-2xl text-foreground/70">
-              표준 요금제에 추가로 구성할 수 있는 선택 옵션입니다. 옵션은 월 정액에 합산되어 청구됩니다.
-            </p>
-            <div className="mt-12 grid gap-px overflow-hidden rounded-sm bg-border md:grid-cols-2 lg:grid-cols-3">
-              {options.map((o) => (
-                <div key={o.name} className="flex flex-col bg-card p-8">
-                  <div className="font-serif text-xl text-foreground">{o.name}</div>
-                  <div className="mt-3 font-serif text-3xl text-gold">{o.price}</div>
-                  {o.desc && (
-                    <p className="mt-4 text-sm text-foreground/70">{o.desc}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Terms */}
       <section className="border-t border-border bg-parchment py-24">
