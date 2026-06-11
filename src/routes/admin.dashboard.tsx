@@ -698,6 +698,25 @@ function ContractEditor({ data, onSave, saving }: EditorProps<ContractData>) {
             newItem={() => ({ key: "", value: "" })}
           />
         </Section>
+        <Section title="선택 옵션 (Add-on)">
+          <p className="text-xs text-muted-foreground">
+            예: 변호사 동행 · +₩1,000,000 / 월. 옵션은 100만원 단위로 추가됩니다.
+          </p>
+          <ListEditor<OptionItem>
+            items={form.options}
+            onChange={(options) => setForm((p) => ({ ...p, options }))}
+            renderItem={(item, i, update) => (
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="옵션명"><input className={inputCls} value={item.name} onChange={(e) => update({ ...item, name: e.target.value })} /></Field>
+                  <Field label="추가 가격"><input className={inputCls} value={item.price} onChange={(e) => update({ ...item, price: e.target.value })} placeholder="+₩1,000,000 / 월" /></Field>
+                </div>
+                <Field label="설명"><textarea className={textareaCls} value={item.desc} onChange={(e) => update({ ...item, desc: e.target.value })} /></Field>
+              </div>
+            )}
+            newItem={() => ({ name: "", price: "+₩1,000,000 / 월", desc: "" })}
+          />
+        </Section>
         <Section title="비고">
           <Field label="하단 안내문"><textarea className={textareaCls} value={form.footnote} onChange={(e) => setForm((p) => ({ ...p, footnote: e.target.value }))} /></Field>
         </Section>
