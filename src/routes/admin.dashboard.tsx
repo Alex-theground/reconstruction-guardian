@@ -613,12 +613,13 @@ function ProcessEditor({ data, onSave, saving }: EditorProps<ProcessData>) {
 /* ─ CONTRACT ─ */
 interface TierItem { name: string; scale: string; price: string; unit: string; items: string[]; featured: boolean }
 interface TermItem { key: string; value: string }
-interface ContractData { tiers: TierItem[]; terms: TermItem[]; footnote: string }
+interface OptionItem { name: string; price: string; desc: string }
+interface ContractData { tiers: TierItem[]; terms: TermItem[]; options: OptionItem[]; footnote: string }
 
-const defaultContract: ContractData = { tiers: [], terms: [], footnote: "" };
+const defaultContract: ContractData = { tiers: [], terms: [], options: [], footnote: "" };
 
 function ContractEditor({ data, onSave, saving }: EditorProps<ContractData>) {
-  const [form, setForm] = useState<ContractData>(data || defaultContract);
+  const [form, setForm] = useState<ContractData>({ ...defaultContract, ...(data || {}), options: data?.options ?? [] });
   const [history, setHistory] = useState<Array<{ id: string; content: ContractData; changed_at: string; changed_by: string | null }>>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
@@ -695,6 +696,25 @@ function ContractEditor({ data, onSave, saving }: EditorProps<ContractData>) {
               </div>
             )}
             newItem={() => ({ key: "", value: "" })}
+          />
+        </Section>
+        <Section title="선택 옵션 (Add-on)">
+          <p className="text-xs text-muted-foreground">
+            예: 변호사 동행 · +₩1,000,000 / 월. 옵션은 100만원 단위로 추가됩니다.
+          </p>
+          <ListEditor<OptionItem>
+            items={form.options}
+            onChange={(options) => setForm((p) => ({ ...p, options }))}
+            renderItem={(item, i, update) => (
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="옵션명"><input className={inputCls} value={item.name} onChange={(e) => update({ ...item, name: e.target.value })} /></Field>
+                  <Field label="추가 가격"><input className={inputCls} value={item.price} onChange={(e) => update({ ...item, price: e.target.value })} placeholder="+₩1,000,000 / 월" /></Field>
+                </div>
+                <Field label="설명"><textarea className={textareaCls} value={item.desc} onChange={(e) => update({ ...item, desc: e.target.value })} /></Field>
+              </div>
+            )}
+            newItem={() => ({ name: "", price: "+₩1,000,000 / 월", desc: "" })}
           />
         </Section>
         <Section title="비고">
