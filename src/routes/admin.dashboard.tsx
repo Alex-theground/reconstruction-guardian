@@ -619,7 +619,7 @@ interface ContractData { tiers: TierItem[]; terms: TermItem[]; options: OptionIt
 const defaultContract: ContractData = { tiers: [], terms: [], options: [], footnote: "" };
 
 function ContractEditor({ data, onSave, saving }: EditorProps<ContractData>) {
-  const [form, setForm] = useState<ContractData>(data || defaultContract);
+  const [form, setForm] = useState<ContractData>({ ...defaultContract, ...(data || {}), options: data?.options ?? [] });
   const [history, setHistory] = useState<Array<{ id: string; content: ContractData; changed_at: string; changed_by: string | null }>>([]);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
