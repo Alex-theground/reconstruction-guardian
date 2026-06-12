@@ -16,7 +16,27 @@ export function useSiteContent<T = Record<string, unknown>>(sectionKey: string) 
     setLoading(false);
   }, [sectionKey]);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    fetch();
+    const channel = supabase
+      .channel(`site_content:${sectionKey}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "site_content", filter: `section_key=eq.${sectionKey}` },
+        (payload) => {
+          const newRow = (payload.new ?? null) as { content?: unknown } | null;
+          if (newRow && "content" in newRow) {
+            setContent(newRow.content as T);
+          } else {
+            fetch();
+          }
+        }
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetch, sectionKey]);
 
   const save = useCallback(async (newContent: T) => {
     const { error } = await supabase
