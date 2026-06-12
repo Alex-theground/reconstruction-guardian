@@ -29,7 +29,7 @@ const defaultTiers: TierItem[] = [
   {
     name: "Standard",
     scale: "500세대 미만",
-    price: "₩2,500,000",
+    price: "₩1,500,000",
     unit: "/ 월 (VAT 별도)",
     items: [
       "월간 회계·지출 정기 검토",
@@ -43,7 +43,7 @@ const defaultTiers: TierItem[] = [
   {
     name: "Premium",
     scale: "500 ~ 1,500세대",
-    price: "₩4,500,000",
+    price: "₩2,500,000",
     unit: "/ 월 (VAT 별도)",
     items: [
       "Standard 전체 항목 포함",
