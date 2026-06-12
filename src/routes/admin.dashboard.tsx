@@ -8,6 +8,7 @@ import {
   Save, LogOut, Home, FileText, BarChart3, Wrench, GitBranch, CreditCard, MessageSquare,
   Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw
 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 export const Route = createFileRoute("/admin/dashboard")({
   head: () => ({ meta: [{ title: "관리자 대시보드 — 바른집행" }] }),
@@ -672,8 +673,25 @@ function ContractEditor({ data, onSave, saving }: EditorProps<ContractData>) {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="단위"><input className={inputCls} value={item.unit} onChange={(e) => update({ ...item, unit: e.target.value })} /></Field>
-                  <Field label="추천 여부">
-                    <label className="flex items-center gap-2 mt-2"><input type="checkbox" checked={item.featured} onChange={(e) => update({ ...item, featured: e.target.checked })} /> 추천 표시</label>
+                  <Field label="추천 표시">
+                    <div className="mt-2 flex items-center gap-3">
+                      <Switch
+                        checked={item.featured}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setForm((p) => ({
+                              ...p,
+                              tiers: p.tiers.map((t, idx) => ({ ...t, featured: idx === i })),
+                            }));
+                          } else {
+                            update({ ...item, featured: false });
+                          }
+                        }}
+                      />
+                      <span className="text-sm text-muted-foreground">
+                        {item.featured ? "추천 요금제로 강조" : "일반 표시"}
+                      </span>
+                    </div>
                   </Field>
                 </div>
                 <Field label="포함 항목 (줄바꿈 구분)">
