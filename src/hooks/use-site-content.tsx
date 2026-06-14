@@ -19,7 +19,7 @@ export function useSiteContent<T = Record<string, unknown>>(sectionKey: string) 
   useEffect(() => {
     fetch();
     const channel = supabase
-      .channel(`site_content:${sectionKey}`)
+      .channel(`site_content:${sectionKey}:${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "site_content", filter: `section_key=eq.${sectionKey}` },
