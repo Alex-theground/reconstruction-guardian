@@ -1,4 +1,4 @@
-import lockupAsset from "@/assets/brand-lockup.png.asset.json";
+import logoAsset from "@/assets/brand-logo.png.asset.json";
 
 type BrandMarkProps = {
   size?: number;
@@ -7,16 +7,17 @@ type BrandMarkProps = {
 };
 
 /**
- * 바른집행 CI 로고 락업 (심볼 + 워드마크)
+ * 바른집행 CI 마크 — 공식 로고 이미지
  */
 export function BrandMark({ size = 40, className = "" }: BrandMarkProps) {
   return (
     <img
-      src={lockupAsset.url}
-      alt="바른집행 — 조합 지출 검토 전문 컨설팅"
+      src={logoAsset.url}
+      alt="바른집행"
+      width={size}
       height={size}
       className={className}
-      style={{ height: size, width: "auto", objectFit: "contain" }}
+      style={{ objectFit: "contain" }}
     />
   );
 }

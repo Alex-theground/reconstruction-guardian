@@ -20,8 +20,14 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="group flex items-center">
-          <BrandMark size={48} variant="dark" className="transition-transform duration-300 group-hover:-translate-y-0.5" />
+        <Link to="/" className="group flex items-center gap-3">
+          <BrandMark size={40} variant="dark" className="transition-transform duration-300 group-hover:-translate-y-0.5" />
+          <div className="leading-tight">
+            <div className="font-serif text-lg tracking-tight text-foreground">바른집행</div>
+            <div className="mt-0.5 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+              Right Execution Partners
+            </div>
+          </div>
         </Link>
 
         <nav className="hidden items-center gap-10 md:flex">
