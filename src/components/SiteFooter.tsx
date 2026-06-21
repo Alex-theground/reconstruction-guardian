@@ -13,14 +13,8 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-3">
-              <BrandMark size={40} variant="light" />
-              <div>
-                <div className="font-serif text-lg tracking-tight">바른집행</div>
-                <div className="mt-0.5 text-[10px] uppercase tracking-[0.28em] text-primary-foreground/60">
-                  Right Execution Partners
-                </div>
-              </div>
+            <div className="flex items-center">
+              <BrandMark size={56} variant="light" className="brightness-0 invert" />
             </div>
             <p className="mt-6 max-w-md text-sm leading-relaxed text-primary-foreground/70">
               {ext.terminology.footerDescription}
