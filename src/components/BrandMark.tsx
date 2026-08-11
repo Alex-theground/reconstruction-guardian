@@ -1,4 +1,4 @@
-import logoAsset from "@/assets/brand-logo.png.asset.json";
+import logoSrc from "@/assets/brand-logo.png";
 
 type BrandMarkProps = {
   size?: number;
@@ -12,7 +12,7 @@ type BrandMarkProps = {
 export function BrandMark({ size = 40, className = "" }: BrandMarkProps) {
   return (
     <img
-      src={logoAsset.url}
+      src={logoSrc}
       alt="바른집행"
       width={size}
       height={size}
