@@ -108,8 +108,8 @@ function ContactPage() {
                     <Field label="세대 규모">
                       <select className={inputCls} defaultValue="">
                         <option value="" disabled>선택</option>
-                        <option>500세대 미만</option>
-                        <option>500 ~ 1,500세대</option>
+                        <option>300세대 미만</option>
+                        <option>300 ~ 1,500세대</option>
                         <option>1,500세대 이상</option>
                       </select>
                     </Field>
