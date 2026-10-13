@@ -28,7 +28,7 @@ interface ContractData { tiers: TierItem[]; terms: TermItem[]; footnote: string 
 const defaultTiers: TierItem[] = [
   {
     name: "Standard",
-    scale: "500세대 미만",
+    scale: "300세대 미만",
     price: "₩1,500,000",
     unit: "/ 월 (VAT 별도)",
     items: [
@@ -42,7 +42,7 @@ const defaultTiers: TierItem[] = [
   },
   {
     name: "Premium",
-    scale: "500 ~ 1,500세대",
+    scale: "300 ~ 1,500세대",
     price: "₩2,500,000",
     unit: "/ 월 (VAT 별도)",
     items: [
