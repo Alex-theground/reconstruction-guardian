@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export interface ContactInquiryInput {
   orgName: string;
@@ -111,23 +110,4 @@ export const submitContactInquiry = createServerFn({ method: "POST" })
     await sendTelegramNotification(data);
 
     return { ok: true };
-  });
-
-export const listContactInquiries = createServerFn({ method: "GET" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const { data: isAdmin } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
-    if (!isAdmin) throw new Error("Forbidden");
-
-    const { data, error } = await context.supabase
-      .from("contact_inquiries")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(100);
-
-    if (error) throw new Error(error.message);
-    return data;
   });
