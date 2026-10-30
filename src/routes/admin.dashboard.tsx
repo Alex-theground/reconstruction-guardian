@@ -917,3 +917,86 @@ function ListEditor<T>({
     </div>
   );
 }
+
+/* ─── 상담 신청 목록 ─── */
+interface InquiryRow {
+  id: string;
+  org_name: string;
+  contact_name: string;
+  position: string | null;
+  phone: string;
+  email: string;
+  stage: string | null;
+  households: string | null;
+  message: string | null;
+  created_at: string;
+}
+
+function InquiriesPanel() {
+  const [rows, setRows] = useState<InquiryRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const { data, error } = await supabase
+        .from("contact_inquiries")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(100);
+      if (error) setError(error.message);
+      else setRows((data as InquiryRow[]) ?? []);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) {
+    return <div className="py-16 text-center text-sm text-muted-foreground">불러오는 중...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-sm border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+        {error}
+      </div>
+    );
+  }
+
+  if (rows.length === 0) {
+    return (
+      <div className="py-16 text-center">
+        <Inbox className="mx-auto h-10 w-10 text-muted-foreground/40" />
+        <p className="mt-4 text-sm text-muted-foreground">아직 접수된 상담 신청이 없습니다.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-xs text-muted-foreground">총 {rows.length}건 · 최신순</p>
+      {rows.map((r) => (
+        <div key={r.id} className="rounded-sm border border-border bg-card p-5">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <div className="font-medium text-foreground">
+              {r.org_name} <span className="text-muted-foreground">— {r.contact_name}{r.position ? ` (${r.position})` : ""}</span>
+            </div>
+            <div className="text-xs text-muted-foreground">
+              {new Date(r.created_at).toLocaleString("ko-KR")}
+            </div>
+          </div>
+          <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
+            <span>📞 {r.phone}</span>
+            <span>✉️ {r.email}</span>
+            {r.stage && <span>단계: {r.stage}</span>}
+            {r.households && <span>규모: {r.households}</span>}
+          </div>
+          {r.message && (
+            <p className="mt-3 whitespace-pre-wrap rounded-sm bg-muted/50 p-3 text-sm text-foreground/80">
+              {r.message}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
