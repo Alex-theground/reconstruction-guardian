@@ -101,24 +101,30 @@ function ContactPage() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <h3 className="font-serif text-2xl">상담 신청서</h3>
 
+                    {error && (
+                      <div className="rounded-sm border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+                        {error}
+                      </div>
+                    )}
+
                     <div className="grid gap-6 sm:grid-cols-2">
                       <Field label="조합명 / 사업장명" required>
-                        <input className={inputCls} required />
+                        <input name="orgName" className={inputCls} required />
                       </Field>
                       <Field label="담당자 성함" required>
-                        <input className={inputCls} required />
+                        <input name="contactName" className={inputCls} required />
                       </Field>
                       <Field label="직책">
-                        <input className={inputCls} placeholder="조합장 / 이사 / 조합원 등" />
+                        <input name="position" className={inputCls} placeholder="조합장 / 이사 / 조합원 등" />
                       </Field>
                       <Field label="연락처" required>
-                        <input className={inputCls} type="tel" required />
+                        <input name="phone" className={inputCls} type="tel" required />
                       </Field>
                       <Field label="이메일" required>
-                        <input className={inputCls} type="email" required />
+                        <input name="email" className={inputCls} type="email" required />
                       </Field>
                       <Field label="사업 단계">
-                        <select className={inputCls} defaultValue="">
+                        <select name="stage" className={inputCls} defaultValue="">
                           <option value="" disabled>선택</option>
                           <option>조합 설립 단계</option>
                           <option>시공자 선정</option>
@@ -130,7 +136,7 @@ function ContactPage() {
                     </div>
 
                     <Field label="세대 규모">
-                      <select className={inputCls} defaultValue="">
+                      <select name="households" className={inputCls} defaultValue="">
                         <option value="" disabled>선택</option>
                         <option>300세대 미만</option>
                         <option>300 ~ 1,500세대</option>
@@ -140,6 +146,7 @@ function ContactPage() {
 
                     <Field label="상담 내용">
                       <textarea
+                        name="message"
                         className={`${inputCls} min-h-32 resize-y`}
                         placeholder="현재 조합이 직면한 회계·자금 관련 이슈, 또는 알고 싶은 사항을 자유롭게 적어주세요."
                       />
@@ -154,9 +161,10 @@ function ContactPage() {
 
                     <button
                       type="submit"
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-sm bg-ink px-6 py-4 text-sm font-medium text-primary-foreground hover:bg-ink/90"
+                      disabled={submitting}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-sm bg-ink px-6 py-4 text-sm font-medium text-primary-foreground hover:bg-ink/90 disabled:opacity-50"
                     >
-                      상담 신청하기 <Send className="h-4 w-4" />
+                      {submitting ? "전송 중..." : "상담 신청하기"} <Send className="h-4 w-4" />
                     </button>
                   </form>
                 )}
