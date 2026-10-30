@@ -13,6 +13,23 @@ export interface ContactInquiryInput {
   message?: string;
 }
 
+function createPublicClient() {
+  const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
+  return createClient<Database>(process.env["SUPABASE_URL"]!, key, {
+    auth: { persistSession: false },
+    global: {
+      fetch: (input, init) => {
+        const h = new Headers(init?.headers);
+        if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) {
+          h.delete("Authorization");
+        }
+        h.set("apikey", key);
+        return fetch(input, { ...init, headers: h });
+      },
+    },
+  });
+}
+
 async function sendTelegramNotification(inquiry: ContactInquiryInput) {
   const LOVABLE_API_KEY = process.env["LOVABLE_API_KEY"];
   const TELEGRAM_API_KEY = process.env["TELEGRAM_API_KEY"];
@@ -22,16 +39,19 @@ async function sendTelegramNotification(inquiry: ContactInquiryInput) {
     return;
   }
 
+  const esc = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
   const text = [
     "<b>🔔 새 상담 신청이 접수되었습니다</b>",
     "",
-    `<b>조합/사업장:</b> ${inquiry.orgName}`,
-    `<b>담당자:</b> ${inquiry.contactName}${inquiry.position ? ` (${inquiry.position})` : ""}`,
-    `<b>연락처:</b> ${inquiry.phone}`,
-    `<b>이메일:</b> ${inquiry.email}`,
-    inquiry.stage ? `<b>사업 단계:</b> ${inquiry.stage}` : null,
-    inquiry.households ? `<b>세대 규모:</b> ${inquiry.households}` : null,
-    inquiry.message ? `\n<b>상담 내용:</b>\n${inquiry.message}` : null,
+    `<b>조합/사업장:</b> ${esc(inquiry.orgName)}`,
+    `<b>담당자:</b> ${esc(inquiry.contactName)}${inquiry.position ? ` (${esc(inquiry.position)})` : ""}`,
+    `<b>연락처:</b> ${esc(inquiry.phone)}`,
+    `<b>이메일:</b> ${esc(inquiry.email)}`,
+    inquiry.stage ? `<b>사업 단계:</b> ${esc(inquiry.stage)}` : null,
+    inquiry.households ? `<b>세대 규모:</b> ${esc(inquiry.households)}` : null,
+    inquiry.message ? `\n<b>상담 내용:</b>\n${esc(inquiry.message)}` : null,
   ]
     .filter(Boolean)
     .join("\n");
@@ -70,24 +90,7 @@ export const submitContactInquiry = createServerFn({ method: "POST" })
     return input;
   })
   .handler(async ({ data }) => {
-    const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
-    const supabasePublic = createClient<Database>(
-      process.env["SUPABASE_URL"]!,
-      key,
-      {
-        auth: { persistSession: false },
-        global: {
-          fetch: (input, init) => {
-            const h = new Headers(init?.headers);
-            if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) {
-              h.delete("Authorization");
-            }
-            h.set("apikey", key);
-            return fetch(input, { ...init, headers: h });
-          },
-        },
-      }
-    );
+    const supabasePublic = createPublicClient();
 
     const { error } = await supabasePublic.from("contact_inquiries").insert({
       org_name: data.orgName.trim(),
@@ -107,14 +110,4 @@ export const submitContactInquiry = createServerFn({ method: "POST" })
     await sendTelegramNotification(data);
 
     return { ok: true };
-  });
-
-export const listContactInquiries = createServerFn({ method: "GET" })
-  .middleware([])
-  .handler(async () => {
-    const { requireSupabaseAuth } = await import(
-      "@/integrations/supabase/auth-middleware"
-    );
-    void requireSupabaseAuth;
-    throw new Error("use listContactInquiriesAdmin");
   });

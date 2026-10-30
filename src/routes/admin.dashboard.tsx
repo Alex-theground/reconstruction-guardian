@@ -6,7 +6,7 @@ import type { Json } from "@/integrations/supabase/types";
 import { defaultHomeExt, type HomeExtData, type ComparisonRow, type TrustPrinciple } from "@/lib/home-content";
 import {
   Save, LogOut, Home, FileText, BarChart3, Wrench, GitBranch, CreditCard, MessageSquare,
-  Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw
+  Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw, Inbox
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/admin/dashboard")({
 });
 
 /* ─── types ─── */
-type Tab = "home" | "cases" | "simulator" | "services" | "process" | "contract" | "contact" | "broadcasts";
+type Tab = "home" | "cases" | "simulator" | "services" | "process" | "contract" | "contact" | "broadcasts" | "inquiries";
 
 interface TabDef { key: Tab; label: string; icon: typeof Home }
 
@@ -29,6 +29,7 @@ const tabs: TabDef[] = [
   { key: "process", label: "프로세스", icon: GitBranch },
   { key: "contract", label: "계약 안내", icon: CreditCard },
   { key: "contact", label: "문의 정보", icon: MessageSquare },
+  { key: "inquiries", label: "상담 신청", icon: Inbox },
 ];
 
 /* ─── helpers ─── */
@@ -164,6 +165,7 @@ function AdminDashboard() {
               {activeTab === "process" && <ProcessEditor data={contents["process"] as any} onSave={(d) => saveSection("process", d)} saving={saving} />}
               {activeTab === "contract" && <ContractEditor data={contents["contract"] as any} onSave={(d) => saveSection("contract", d)} saving={saving} />}
               {activeTab === "contact" && <ContactEditor data={contents["contact"] as any} onSave={(d) => saveSection("contact", d)} saving={saving} />}
+              {activeTab === "inquiries" && <InquiriesPanel />}
             </>
           )}
         </div>
@@ -912,6 +914,89 @@ function ListEditor<T>({
       <button onClick={() => onChange([...items, newItem()])} className={btnSecondary}>
         <Plus className="h-3 w-3" /> 항목 추가
       </button>
+    </div>
+  );
+}
+
+/* ─── 상담 신청 목록 ─── */
+interface InquiryRow {
+  id: string;
+  org_name: string;
+  contact_name: string;
+  position: string | null;
+  phone: string;
+  email: string;
+  stage: string | null;
+  households: string | null;
+  message: string | null;
+  created_at: string;
+}
+
+function InquiriesPanel() {
+  const [rows, setRows] = useState<InquiryRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const { data, error } = await supabase
+        .from("contact_inquiries")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(100);
+      if (error) setError(error.message);
+      else setRows((data as InquiryRow[]) ?? []);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) {
+    return <div className="py-16 text-center text-sm text-muted-foreground">불러오는 중...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-sm border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+        {error}
+      </div>
+    );
+  }
+
+  if (rows.length === 0) {
+    return (
+      <div className="py-16 text-center">
+        <Inbox className="mx-auto h-10 w-10 text-muted-foreground/40" />
+        <p className="mt-4 text-sm text-muted-foreground">아직 접수된 상담 신청이 없습니다.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-xs text-muted-foreground">총 {rows.length}건 · 최신순</p>
+      {rows.map((r) => (
+        <div key={r.id} className="rounded-sm border border-border bg-card p-5">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <div className="font-medium text-foreground">
+              {r.org_name} <span className="text-muted-foreground">— {r.contact_name}{r.position ? ` (${r.position})` : ""}</span>
+            </div>
+            <div className="text-xs text-muted-foreground">
+              {new Date(r.created_at).toLocaleString("ko-KR")}
+            </div>
+          </div>
+          <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
+            <span>📞 {r.phone}</span>
+            <span>✉️ {r.email}</span>
+            {r.stage && <span>단계: {r.stage}</span>}
+            {r.households && <span>규모: {r.households}</span>}
+          </div>
+          {r.message && (
+            <p className="mt-3 whitespace-pre-wrap rounded-sm bg-muted/50 p-3 text-sm text-foreground/80">
+              {r.message}
+            </p>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
