@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageShell, PageHero } from "@/components/PageShell";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { submitContactInquiry } from "@/lib/contact.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -20,10 +21,33 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError("");
+    setSubmitting(true);
+    const form = new FormData(e.currentTarget);
+    try {
+      await submitContactInquiry({
+        data: {
+          orgName: String(form.get("orgName") || ""),
+          contactName: String(form.get("contactName") || ""),
+          position: String(form.get("position") || ""),
+          phone: String(form.get("phone") || ""),
+          email: String(form.get("email") || ""),
+          stage: String(form.get("stage") || ""),
+          households: String(form.get("households") || ""),
+          message: String(form.get("message") || ""),
+        },
+      });
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
