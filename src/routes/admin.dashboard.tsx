@@ -6,7 +6,7 @@ import type { Json } from "@/integrations/supabase/types";
 import { defaultHomeExt, type HomeExtData, type ComparisonRow, type TrustPrinciple } from "@/lib/home-content";
 import {
   Save, LogOut, Home, FileText, BarChart3, Wrench, GitBranch, CreditCard, MessageSquare,
-  Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw
+  Plus, Trash2, ChevronDown, ChevronUp, AlertCircle, CheckCircle2, Film, Check, History, RotateCcw, Inbox
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/admin/dashboard")({
 });
 
 /* ─── types ─── */
-type Tab = "home" | "cases" | "simulator" | "services" | "process" | "contract" | "contact" | "broadcasts";
+type Tab = "home" | "cases" | "simulator" | "services" | "process" | "contract" | "contact" | "broadcasts" | "inquiries";
 
 interface TabDef { key: Tab; label: string; icon: typeof Home }
 
@@ -29,6 +29,7 @@ const tabs: TabDef[] = [
   { key: "process", label: "프로세스", icon: GitBranch },
   { key: "contract", label: "계약 안내", icon: CreditCard },
   { key: "contact", label: "문의 정보", icon: MessageSquare },
+  { key: "inquiries", label: "상담 신청", icon: Inbox },
 ];
 
 /* ─── helpers ─── */
@@ -164,6 +165,7 @@ function AdminDashboard() {
               {activeTab === "process" && <ProcessEditor data={contents["process"] as any} onSave={(d) => saveSection("process", d)} saving={saving} />}
               {activeTab === "contract" && <ContractEditor data={contents["contract"] as any} onSave={(d) => saveSection("contract", d)} saving={saving} />}
               {activeTab === "contact" && <ContactEditor data={contents["contact"] as any} onSave={(d) => saveSection("contact", d)} saving={saving} />}
+              {activeTab === "inquiries" && <InquiriesPanel />}
             </>
           )}
         </div>
