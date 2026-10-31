@@ -130,7 +130,7 @@ def aliases(z, plan):
     out = set()
     names = [z.get("zone_name"), z.get("name"), plan.get("complex_name")]
     # '효창공원앞역세권(효창동 5-307일원) …'은 괄호 앞뒤를 따로 쓴다
-    names += [p for v in names if v and "(" in v for p in re.split(r"[()]", v)]
+    names += [p for v in names if v and "(" in v for p in re.split(r"[()]", v) if p.strip() not in ("신속통합기획", "가칭")]
     for v in names:
         a = norm(v)
         # '도시환경정비사업구역'처럼 지명이 없으면 쓸 수 없다. 두 글자 이하 지명도 너무 흔하다('홍제3'은 '홍3'이 되므로 '제'를 남긴 길이로 본다)
@@ -143,7 +143,9 @@ def aliases(z, plan):
         stem = re.match(r"[가-힣]+", a)
         # 번호가 둘 이상이면('마포로1구역 제10지구') 첫 번호만으로는 다른 지구와 섞이므로 쓰지 않는다
         ns = re.findall(r"\d+(?:-\d+)*", re.sub(r"\(.*?\)", "", "".join(CIRCLED.get(ch, ch) for ch in str(v or ""))))
-        n = re.match(r".*", ns[0]) if len(ns) == 1 else None
+        # 단, '창신1 … 재개발구역 1-6'처럼 둘째 번호가 첫 번호의 획지면 첫 번호로 찾는다('창신1,2,3,4구역' 고시)
+        sub = len(ns) == 2 and ns[1].startswith(ns[0] + "-")
+        n = re.match(r".*", ns[0]) if len(ns) == 1 or sub else None
         if stem and n and len(norm(stem.group(0) + n.group(0), True)) >= 3:
             out.add(stem.group(0).rstrip("동") + n.group(0) if stem.group(0).endswith("아파트") else stem.group(0) + n.group(0))
     # '압구정아파트지구 특별계획구역2' → '압구정2' (고시 제목은 '압구정 2구역')
@@ -155,6 +157,42 @@ def aliases(z, plan):
     if j and (re.search(r"\d", z.get("zone_name") or "") or not any(re.search(r"\d", x) for x in out)):
         out.add(j.group(1) + j.group(2))
     return out
+
+
+def fallback_aliases(als):
+    """고시를 하나도 못 찾은 구역만: 앞의 '○○동'을 뗀 단지명('고척동산업인' → '산업인'),
+    부번을 뗀 지번('서계동33-5' → '서계동33', 고시 제목은 '서계동 33번지 일대').
+    '방배동신동아' → '신동아'처럼 다른 동 단지와 섞일 수 있어 다른 별칭이 모두 빗나갔을 때만 쓴다."""
+    out = set()
+    for a in als:
+        m = re.match(r"[가-힣]+?동(?=[가-힣]{3,})", a)
+        if m:
+            out.add(a[m.end():])
+        m = re.fullmatch(r"([가-힣]+[동가])(\d+)-\d+", a)
+        if m:
+            out.add(m.group(1) + m.group(2))
+    return out - set(als)
+
+
+def title_norm(title):
+    """정규화한 제목. '영등포 대선제분 일대 … 1,2 정비구역 … - 제1구역 1지구 …'처럼 지명과 지구 번호가
+    떨어져 있으면 '영등포대선제분1|1'을 덧붙인다."""
+    t = norm(title)
+    m = re.match(r"(.+?)\s*일대.*?제\s*(\d+)\s*구역\s*제?\s*(\d+)\s*지구", title or "")
+    if m:
+        t += " " + norm(f"{m.group(1)}{m.group(2)}구역 제{m.group(3)}지구")
+    return t
+
+
+def other_site(title, jibun):
+    """제목 괄호 속 지번이 같은 동의 다른 본번이면 다른 부지다: '신길역세권(신길동 96-24번지 일대)' ↔ 구역 지번 '신길동 39-3'."""
+    z = re.match(r"([가-힣]+동\d*가?)\s*(\d+)", jibun or "")
+    if not z:
+        return False
+    for m in re.finditer(r"\(\s*([가-힣]+동\d*가?)\s*(\d+)(?:-\d+)?\s*(?:번지)?", title or ""):
+        if m.group(1) == z.group(1) and m.group(2) != z.group(2):
+            return True
+    return False
 
 
 def hit(alias, text, raw=None):
@@ -378,7 +416,7 @@ def main():
     notices = json.loads(INDEX.read_text(encoding="utf-8")).values() if a.offline else update_index(a.refresh)
     notices = [n for n in notices if RELEVANT.search(n["title"] or "") and not IRRELEVANT.search(n["title"] or "")]
     for n in notices:
-        n["ntitle"] = norm(n["title"])
+        n["ntitle"] = title_norm(n["title"])
     print(f"정비 관련 고시 {len(notices)}건")
 
     zones = [f["properties"] for f in json.loads(ZONES.read_text(encoding="utf-8"))["features"]]
@@ -393,11 +431,17 @@ def main():
         als = aliases(z, plan)
         zcode = GU_CODE.get(z.get("gu"))
         cuzin = "촉진" in f"{z.get('zone_name')} {z.get('name')}"
-        found = [n for n in notices
-                 if any(hit(al, n["ntitle"], n["title"]) for al in als)
-                 and n["noticeCode"][:5] in ("11000", zcode or n["noticeCode"][:5])
-                 # '미아3재정비촉진구역'과 '미아제3주택재개발'은 다른 구역이다
-                 and not (cuzin and "촉진" not in n["title"])]
+        def match(als):
+            return [n for n in notices
+                    if any(hit(al, n["ntitle"], n["title"]) for al in als)
+                    and n["noticeCode"][:5] in ("11000", zcode or n["noticeCode"][:5])
+                    and not other_site(n["title"], z.get("jibun"))
+                    # '미아3재정비촉진구역'과 '미아제3주택재개발'은 다른 구역이다
+                    and not (cuzin and "촉진" not in n["title"])]
+        found = match(als)
+        if not found and fallback_aliases(als):
+            als |= fallback_aliases(als)
+            found = match(als)
         # 지구 이름으로 나온 촉진계획 고시('노량진재정비촉진지구 재정비촉진계획 변경')는 구역별 표에서 읽는다
         ckey = cuzin_key(z) if cuzin else None
         jigu = set()
