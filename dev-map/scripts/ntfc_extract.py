@@ -182,6 +182,74 @@ def hit(alias, text, raw=None):
                for m in re.finditer(stem, raw)) or stem not in raw
 
 
+def cuzin_key(z):
+    """'노량진3 재정비촉진구역' → ('노량진', '3'). 촉진구역 고시는 '노량진재정비촉진지구 재정비촉진계획 변경'처럼
+    지구 이름으로 나오는 일이 많아 지구 이름과 구역 번호를 따로 쓴다. '신정1재정비촉진구역3지구'처럼
+    구역 안 지구는 지구 전체 표 값이 맞지 않으므로 쓰지 않는다."""
+    s = "".join(CIRCLED.get(ch, ch) for ch in f"{z.get('zone_name')} {z.get('name')}")
+    m = re.search(r"([가-힣]+)\s*(\d+(?:-\d+)?)\s*(?:구역\s*)?(?:재정비)?촉진\s*구역(?!\s*\(?\s*제?\s*\d+\s*지구)", s)
+    if not m:
+        return None
+    stem = m.group(1)
+    if len(stem) >= 3 and stem.endswith("제"):  # '미아제3' → '미아' ('홍제2'는 그대로)
+        stem = stem[:-1]
+    return stem, m.group(2)
+
+
+def jigu_hit(key, title):
+    """지구 이름으로 나온 촉진계획 고시가 이 구역 것인지: 제목에 '노량진재정비촉진지구'가 있고,
+    괄호에 다른 구역('(상계5구역)', '(긴등마을)')이 적혀 있지 않아야 한다."""
+    stem, no = key
+    t = re.sub(r"\s", "", title or "")
+    if not re.search(re.escape(stem) + r"(?:재정비)?촉진지구", t):
+        return False
+    t = "".join(CIRCLED.get(ch, ch) for ch in t)
+    for p in re.findall(r"\(([^)]*)\)", t):
+        if not re.search(r"구역|마을|지구", p) or re.search(r"경미", p) and not re.search(r"구역|마을", p):
+            continue
+        nos = re.findall(r"(?<![\d-])(\d+(?:-\d+)*)(?:재정비)?(?:촉진)?구역", p)
+        if no not in nos:
+            return False
+    # 괄호 밖에 구역 번호가 적힌 제목('노량진7재정비촉진구역 …')도 다른 구역이면 뺀다
+    nos = re.findall(re.escape(stem) + r"(\d+(?:-\d+)*)(?:재정비)?(?:촉진)?구역", re.sub(r"\([^)]*\)", "", t))
+    return not nos or no in nos
+
+
+def cuzin_row(text, key):
+    """촉진지구 고시의 구역별 표('재정비촉진사업별 용적률·건폐율 및 높이계획', 주택 평형 배분표)에서
+    이 구역 줄만 읽는다. 줄이 여러 줄로 나뉜 표('-/' 다음 줄에 '49층(150m)이하')는 앞뒤 한 줄까지 본다."""
+    stem, no = key
+    lines = text.splitlines()
+    row = re.compile(r"^\s*" + re.escape(stem) + r"\s*제?\s*" + re.escape(no) + r"(?![\d-])\s*(?:구역)?\s*(?:재정비)?촉진\s*구역")
+    other = re.compile(r"^\s*" + re.escape(stem) + r"\s*제?\s*\d")
+    out = {"far": None, "max_floors": None, "height_m": None, "units": None, "buildings": None}
+    for i, ln in enumerate(lines):
+        if not row.match(ln):
+            continue
+        rest = ln[row.match(ln).end():]
+        win = [rest]
+        for j in (i - 1, i + 1):
+            if 0 <= j < len(lines) and not other.match(lines[j]) and lines[j].strip():
+                win.append(lines[j])
+        w = " ".join(win)
+        # 건축계획 표: 면적 다음 '50이하 … 300이하 …' 중 100% 이상이 상한용적률, '33층(110m)이하'가 최고층
+        caps = [num(x) for x in re.findall(r"(\d{2,4}(?:\.\d+)?)\s*(?:%\s*)?이하", rest)]
+        fl = re.search(r"(\d{1,2})\s*층\s*\(\s*(\d{2,3}(?:\.\d+)?)\s*m\s*\)", w)
+        if out["far"] is None and any(100 <= c <= 2000 for c in caps) and re.search(r"\d{1,3},\d{3}\.\d", rest):
+            out["far"] = max(c for c in caps if 100 <= c <= 2000)
+            if fl:
+                out["max_floors"], out["height_m"] = int(fl.group(1)), num(fl.group(2))
+            continue
+        # 주택 배분표: 구역명 바로 뒤 첫 수가 합계 세대수(부분임대 '(32)'로 시작하면 윗줄 첫 수)
+        if out["units"] is None and "이하" not in rest:
+            m = re.match(r"\s*(\d{1,2},\d{3}|\d{2,5})(?![\d.,])", rest)
+            if not m and re.match(r"\s*\(", rest) and i > 0:
+                m = re.match(r"\s*(\d{1,2},\d{3}|\d{2,5})(?![\d.,])", lines[i - 1])
+            if m and 20 <= num(m.group(1)) <= 15000:
+                out["units"] = num(m.group(1))
+    return out
+
+
 def notice_key(no):
     """'2025-352' → (2025, 352)"""
     m = re.match(r"(\d{4})-(\d+)", no or "")
@@ -323,13 +391,24 @@ def main():
                  and n["noticeCode"][:5] in ("11000", zcode or n["noticeCode"][:5])
                  # '미아3재정비촉진구역'과 '미아제3주택재개발'은 다른 구역이다
                  and not (cuzin and "촉진" not in n["title"])]
+        # 지구 이름으로 나온 촉진계획 고시('노량진재정비촉진지구 재정비촉진계획 변경')는 구역별 표에서 읽는다
+        ckey = cuzin_key(z) if cuzin else None
+        jigu = set()
+        if ckey:
+            seen = {n["noticeCode"] for n in found}
+            for n in notices:
+                if (n["noticeCode"] not in seen and n["noticeCode"][:5] in ("11000", zcode or n["noticeCode"][:5])
+                        and jigu_hit(ckey, n["title"])):
+                    found.append(n)
+                    jigu.add(n["noticeCode"])
         cited = cited_notices(plan)
         # 적힌 고시의 고시일을 찾고, 그보다 늦은 고시만 새 고시로 본다. 목록에서 못 찾으면 고시 연도로 비교
         cited_dates = [n["noticeDate"][:10] for n in found if notice_key(n["noticeNo"]) in cited]
         last = max(cited_dates) if cited_dates else (f"{max(cited)[0]}-01-01" if cited else a.since)
         new = [n for n in sorted(found, key=lambda n: n["noticeDate"], reverse=True)
                if notice_key(n["noticeNo"]) not in cited and n["noticeDate"][:10] > last]
-        results.append({"z": z, "plan": plan, "als": sorted(als), "found": found, "new": new, "cited": sorted(cited)})
+        results.append({"z": z, "plan": plan, "als": sorted(als), "found": found, "new": new, "cited": sorted(cited),
+                        "ckey": ckey, "jigu": jigu})
 
     rows = []
     for r in results:
@@ -341,6 +420,9 @@ def main():
                     ex = {"status": "PDF 없음"}
                 elif t == "":
                     ex = {"status": "스캔본"}
+                elif n["noticeCode"] in r["jigu"]:
+                    ex = cuzin_row(t, r["ckey"])
+                    ex["status"] = "추출" if any(ex.get(k) for k in ("far", "max_floors", "units")) else "수치 없음"
                 else:
                     ex = extract(section(t, r["als"]))
                     ex["status"] = "추출" if any(ex.get(k) for k in ("far", "max_floors", "units")) else "수치 없음"
@@ -358,6 +440,7 @@ def main():
                 "cur_far": p.get("far", ""), "cur_max_floors": p.get("max_floors", ""), "cur_units": p.get("units", ""),
                 "has_alt": "Y" if p.get("alt") else "",
                 "stage": r["z"].get("stage_name", ""),
+                "source": "지구 표" if n["noticeCode"] in r["jigu"] else "",
             })
 
     with open(CANDS, "w", encoding="utf-8-sig", newline="") as f:
