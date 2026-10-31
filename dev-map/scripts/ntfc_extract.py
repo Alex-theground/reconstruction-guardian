@@ -240,11 +240,18 @@ def cuzin_row(text, key):
             if fl:
                 out["max_floors"], out["height_m"] = int(fl.group(1)), num(fl.group(2))
             continue
-        # 주택 배분표: 구역명 바로 뒤 첫 수가 합계 세대수(부분임대 '(32)'로 시작하면 윗줄 첫 수)
+        # 주택 배분표: 구역명 바로 뒤 첫 수가 합계 세대수. 부분임대가 있으면 합계·소계가 윗줄에 따로 찍혀
+        # 이 줄의 첫 수는 60㎡ 이하 열이다 → 윗줄 첫 수가 이 줄 첫 수보다 왼쪽(앞 열)에 있으면 윗줄 값을 쓴다
         if out["units"] is None and "이하" not in rest:
-            m = re.match(r"\s*(\d{1,2},\d{3}|\d{2,5})(?![\d.,])", rest)
-            if not m and re.match(r"\s*\(", rest) and i > 0:
-                m = re.match(r"\s*(\d{1,2},\d{3}|\d{2,5})(?![\d.,])", lines[i - 1])
+            pat = r"(\d{1,2},\d{3}|\d{2,5})(?![\d.,])"
+            m = re.match(r"\s*(?:\(\d+\)\s*)*" + pat, rest)
+            up = lines[i - 1] if i > 0 and not other.match(lines[i - 1]) else ""
+            mu = re.match(r"\s*" + pat, up) if re.fullmatch(r"[\s\d,()\[\]]+", up or "x") else None
+            col = len(ln) - len(rest) + m.start(1) if m else len(ln)
+            if mu and mu.start(1) < col - 3:
+                m = mu
+            elif m and re.match(r"\s*\(", rest):
+                m = None  # 부분임대 '(32)' 다음 수는 합계가 아니다
             if m and 20 <= num(m.group(1)) <= 15000:
                 out["units"] = num(m.group(1))
     return out
