@@ -1,0 +1,40 @@
+# dev-map/web/ (개발예정구역 3D 지도, 정적 페이지)을 GitHub Pages로 배포한다.
+# 저장소의 다른 앱(Vite/Cloudflare)과는 무관하며 dev-map/web/ 폴더만 올린다.
+# 처음 한 번: Settings → Pages → Source를 "GitHub Actions"로 설정.
+# main 이외 브랜치에서 배포하려면 Settings → Environments → github-pages의
+# Deployment branches에 그 브랜치를 추가해야 한다.
+name: dev-map Pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/seoul-dev-map-3d-handoff-qtj8me
+    paths:
+      - "dev-map/web/**"
+      - ".github/workflows/dev-map-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: dev-map-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dev-map/web
+      - id: deployment
+        uses: actions/deploy-pages@v4

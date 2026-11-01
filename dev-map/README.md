@@ -28,6 +28,17 @@ cd web && python3 -m http.server 8000
 
 브라우저에서 http://localhost:8000 을 엽니다. 파일을 더블클릭해서 열면 데이터를 불러오지 못합니다.
 
+## 배포 (GitHub Pages)
+
+`.github/workflows/dev-map-pages.yml`이 `dev-map/web/` 폴더만 GitHub Pages로 올립니다(저장소의 다른 앱과 무관). `main` 또는 `claude/seoul-dev-map-3d-handoff-qtj8me` 브랜치에 `dev-map/web/` 변경이 푸시되면 자동 배포되고, Actions 탭에서 수동 실행(workflow_dispatch)도 됩니다.
+
+처음 한 번 저장소 설정이 필요합니다.
+1. Settings → Pages → Build and deployment → Source: **GitHub Actions**
+2. main이 아닌 브랜치에서 배포하려면 Settings → Environments → **github-pages** → Deployment branches에 그 브랜치를 추가 (기본값은 main만 허용)
+3. 비공개 저장소는 유료 플랜에서만 Pages를 쓸 수 있습니다
+
+주소는 `https://<소유자>.github.io/<저장소>/` 형태입니다. 페이지의 경로는 모두 상대 경로라 하위 경로에서도 동작합니다.
+
 ## 실제 데이터 갱신 (인증키 불필요)
 
 ```bash
