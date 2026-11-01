@@ -21,6 +21,7 @@ import argparse
 import warnings
 import collections
 import csv
+import datetime
 import difflib
 import html
 import io
@@ -41,7 +42,8 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / "scripts" / ".cache"
 OUT = ROOT / "web" / "data" / "zones.geojson"
-NOW = 2026 + 9.5 / 12
+_TODAY = datetime.date.today()
+NOW = round(_TODAY.year + (_TODAY.month - 0.5) / 12, 4)  # 실행한 달의 중간 (예: 2026년 10월 = 2026 + 9.5/12)
 
 UQ181_PAGE = "https://data.seoul.go.kr/dataList/OA-20957/F/1/datasetView.do"
 UQ181_DOWN = "https://datafile.seoul.go.kr/bigfile/iot/inf/nio_download.do?&useCache=false"

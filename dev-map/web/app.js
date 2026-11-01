@@ -1,6 +1,6 @@
 (function () {
   const STAGES = ['계획 수립', '정비구역 지정', '조합설립인가', '사업시행인가', '관리처분인가', '착공'];
-  const NOW = 2026 + 9.5 / 12;
+  let NOW = 2026 + 9.5 / 12; // zones.geojson의 meta.built_at_year(데이터를 만든 달)로 덮어씀
   const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
   const HOME = { center: [126.99, 37.552], zoom: 11.2, pitch: 40, bearing: -8 };
   const OLD_COLOR = '#c98a5a', CONCRETE = '#b9bcc1';
@@ -23,6 +23,7 @@
 
   map.on('load', async () => {
     const fc = await (await fetch('data/zones.geojson')).json();
+    if (fc.meta && +fc.meta.built_at_year > 2000) NOW = +fc.meta.built_at_year;
     zones = fc.features.map(f => {
       const p = f.properties;
       const z = { ...p, feature: f, on: true, stage: +p.stage, start: +p.start, end: +p.end, label: shortName(p.zone_name || p.name) };
@@ -70,6 +71,8 @@
       map.on('mouseleave', l, () => map.getCanvas().style.cursor = '');
     });
 
+    yearEl.value = NOW;
+    document.getElementById('nowMark').style.left = `calc(${(NOW - 2026) / 14 * 100}% - 1px)`;
     buildChips(); renderList(); update();
   });
 
