@@ -144,7 +144,9 @@ def aliases(z, plan):
         # 지명 + 첫 번호: '압구정아파트지구 특별계획구역2' → '압구정2', '신길10재정비촉진구역 …(한국토지신탁)' → '신길10'
         stem = re.match(r"[가-힣]+", a)
         # 번호가 둘 이상이면('마포로1구역 제10지구') 첫 번호만으로는 다른 지구와 섞이므로 쓰지 않는다
-        ns = re.findall(r"\d+(?:-\d+)*", re.sub(r"\(.*?\)", "", "".join(CIRCLED.get(ch, ch) for ch in str(v or ""))))
+        # 괄호 속이 지구 번호('용두1구역(4지구)')면 번호로 센다 → 번호가 둘이라 '용두1'을 쓰지 않는다
+        ns = re.findall(r"\d+(?:-\d+)*", re.sub(r"\((?!\s*제?\s*\d+(?:-\d+)?\s*(?:지구|구역|획지)\s*\)).*?\)", "",
+                                               "".join(CIRCLED.get(ch, ch) for ch in str(v or ""))))
         # 단, '창신1 … 재개발구역 1-6'처럼 둘째 번호가 첫 번호의 획지면 첫 번호로 찾는다('창신1,2,3,4구역' 고시)
         sub = len(ns) == 2 and ns[1].startswith(ns[0] + "-")
         n = re.match(r".*", ns[0]) if len(ns) == 1 or sub else None
