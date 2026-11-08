@@ -1,4 +1,4 @@
-# 결정고시 자동 추출 보고서 (2026-11-01)
+# 결정고시 자동 추출 보고서 (2026-11-08)
 
 plans.csv에 적힌 고시번호보다 늦은 고시(적힌 번호가 없으면 2024-01-01 이후)를 구역별로 모았습니다. 수치는 고시문 PDF에서 정규식으로 뽑은 후보값이라, 원문을 확인한 뒤 `--apply ID`로 넣으세요.
 
@@ -18,12 +18,14 @@ plans.csv에 적힌 고시번호보다 늦은 고시(적힌 번호가 없으면 
 
 | 구역 | 고시 | 고시일 | 상태 | 추출 값 | plans.csv와 다른 값 |
 |---|---|---|---|---|---|
-| 목동6단지 아파트 재건축사업 | [양천구 제2026-96호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11470TTC202610290005/%EB%AA%A9%EB%8F%996%EB%8B%A8%EC%A7%80%20%EA%B3%A0%EC%8B%9C%EB%AC%B8.pdf) | 2026-10-22 | 추출 | 용적률 800% · 49층 · 150m · 2,170세대 | 용적률 299.87→800, 세대수 2,173→2,170 |
-| 목동6단지 아파트 재건축사업 | [서울특별시 제2024-401호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202408260009/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-401%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-08-16 | 스캔본 | - | - |
-| 용두동 39-361번지 일대 주택정비형 재개발사업 | [서울특별시 제2026-153호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11230TTC202610190010/%EB%8F%99%EB%8C%80%EB%AC%B8%EA%B5%AC_%EC%A0%9C2026-153%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2026-10-15 | 추출 | 용적률 299.98% · 42층 · 130m · 695세대 | - |
+| 신월1구역주택재개발사업 | [서울특별시 제2026-99호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11470TTC202611030007/%EC%96%91%EC%B2%9C%EA%B5%AC_%EC%A0%9C2026-99%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2026-10-29 | 수치 없음 | - | - |
 | 신월1구역주택재개발사업 | [서울특별시 제2026-77호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11470NTC202608250009/%EC%96%91%EC%B2%9C%EA%B5%AC_%EC%A0%9C2026-77%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2026-08-13 | 수치 없음 | - | - |
 | 신월1구역주택재개발사업 | [서울특별시 제2025-93호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11470NTC202510200001/%EC%96%91%EC%B2%9C%EA%B5%AC_%EC%A0%9C2025-93%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-10-02 | 수치 없음 | - | - |
 | 신월1구역주택재개발사업 | [양천구 제2017-106호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C2017-106.PDF) | 2017-03-23 | 수치 없음 | 270m | - |
+| 목동6단지 아파트 재건축사업 | [서울특별시 제2026-96호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11470NTC202610290005/%EC%96%91%EC%B2%9C%EA%B5%AC_%EC%A0%9C2026-96%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2026-10-22 | 추출 | 용적률 800% · 49층 · 150m · 2,170세대 | 용적률 299.87→800, 세대수 2,173→2,170 |
+| 목동6단지 아파트 재건축사업 | [서울특별시 제2024-401호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202408260009/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-401%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-08-16 | 스캔본 | - | - |
+| 용두동 39-361번지 일대 주택정비형 재개발사업 | [서울특별시 제2026-153호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11230TTC202610190010/%EB%8F%99%EB%8C%80%EB%AC%B8%EA%B5%AC_%EC%A0%9C2026-153%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2026-10-15 | 추출 | 용적률 299.98% · 42층 · 130m · 695세대 | - |
+| 방화5재정비촉진구역 | [서울특별시 제2026-550호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202611020006/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2026-550%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2026-10-01 | 추출 | 용적률 220.11% · 1,665세대 | - |
 | 면목7구역 주택정비형재개발사업 | [서울특별시 제2026-94호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11260TTC202610280014/%EB%A9%B4%EB%AA%A97%EA%B5%AC%EC%97%AD%20%EC%A0%95%EB%B9%84%EA%B3%84%ED%9A%8D%20%EA%B2%BD%EB%AF%B8%ED%95%9C%20%EB%B3%80%EA%B2%BD%20%EA%B3%A0%EC%8B%9C%EB%AC%B8.pdf) | 2026-08-13 | 추출 | 용적률 300% · 35층 · 149m · 1,515세대 | - |
 | 면목7구역 주택정비형재개발사업 | [서울특별시 제2026-32호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11260NTC202604100002/%EC%A4%91%EB%9E%91%EA%B5%AC_%EC%A0%9C2026-32%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2026-03-26 | 추출 | 용적률 300% · 35층 · 149m · 1,510세대 | 세대수 1,515→1,510 |
 | 면목7구역 주택정비형재개발사업 | [서울특별시 제2025-52호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11260NTC202506120005/%EC%A4%91%EB%9E%91%EA%B5%AC_%EC%A0%9C2025-52%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-05-29 | 스캔본 | - | - |
@@ -38,7 +40,6 @@ plans.csv에 적힌 고시번호보다 늦은 고시(적힌 번호가 없으면 
 | 신반포4지구 재건축정비사업구역 | [서초구 제2025-212호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11650NTC202512090004/%EC%84%9C%EC%B4%88%EA%B5%AC_%EC%A0%9C2025-212%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-11-27 | 추출 | 용적률 300% · 40m · 3,307세대 | 세대수 1,833→3,307 |
 | 신반포4지구 재건축정비사업구역 | [서울특별시 제2025-81호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11650NTC202506130003/%EC%84%9C%EC%B4%88%EA%B5%AC_%EC%A0%9C2025-81%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-05-29 | 추출 | 용적률 300% · 40m · 3,307세대 | 세대수 1,833→3,307 |
 | 신반포4지구 재건축정비사업구역 | [서울특별시 제2024-412호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11650TTC202409240003/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-412%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-08-22 | 추출 | 용적률 300% · 49층 · 170m · 1,828세대 | 세대수 1,833→1,828 |
-| 길음5재정비촉진구역(주택정비형재개발사업) | [서울특별시 제2026-369호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11290NTC202608240001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2026-369%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2026-06-25 | 수치 없음 | - | - |
 | 상봉7재정비촉진구역 도시환경정비사업조합 | [서울특별시 제2026-359호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11260NTC202608180009/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2026-359%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2026-06-25 | 수치 없음 | - | - |
 | 상봉7재정비촉진구역 도시환경정비사업조합 | [서울특별시 제2025-79호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11260NTC202508200001/%EC%A4%91%EB%9E%91%EA%B5%AC_%EC%A0%9C2025-79%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-07-21 | 스캔본 | - | - |
 | 상봉7재정비촉진구역 도시환경정비사업조합 | [서울특별시 제2025-320호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11260NTC202506230001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-320%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-06-19 | 수치 없음 | - | - |
@@ -100,12 +101,6 @@ plans.csv에 적힌 고시번호보다 늦은 고시(적힌 번호가 없으면 
 | 가락프라자아파트 주택재건축사업 | [서울특별시 제2025-71호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11710NTC202507220002/%EC%86%A1%ED%8C%8C%EA%B5%AC_%EC%A0%9C2025-71%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-07-17 | 추출 | 용적률 299.91% · 35층 · 152m · 1,054세대 | 최고층 34→35, 세대수 1,059→1,054, ⚠ 관리처분 이후: 고시값은 상한일 수 있어 분양 공고 층수 우선 |
 | 여의도 한양아파트 주택재건축정비사업 | [서울특별시 제2025-120호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11560NTC202507090006/%EC%98%81%EB%93%B1%ED%8F%AC%EA%B5%AC_%EC%A0%9C2025-120%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-07-03 | 추출 | 용적률 600% · 57층 · 992세대 | - |
 | 여의도 한양아파트 주택재건축정비사업 | [서울특별시 제2024-146호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11560NTC202305250004/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-146%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-03-21 | 추출 | 용적률 800% · 56층 · 200m · 992세대 | 용적률 600→800, 최고층 57→56 |
-| 신림재정비촉진지구2구역주택재개발 | [서울특별시 제2025-338호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202507110006/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-338%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-06-26 | 수치 없음 | - | - |
-| 신림재정비촉진지구2구역주택재개발 | [서울특별시 제2025-177호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202504250001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-177%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-04-03 | 수치 없음 | - | - |
-| 신림재정비촉진지구2구역주택재개발 | [서울특별시 제2024-612호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11620NTC202504230005/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-612%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-12-19 | 스캔본 | - | - |
-| 신림재정비촉진지구2구역주택재개발 | [서울특별시 제2024-367호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202408270003/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-367%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-07-25 | 수치 없음 | - | - |
-| 신림재정비촉진지구2구역주택재개발 | [서울특별시 제2024-305호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202407260002/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-305%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-06-20 | 스캔본 | - | - |
-| 신림재정비촉진지구2구역주택재개발 | [서울특별시 제2024-191호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000TTC202405290008/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-191%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-04-11 | 수치 없음 | - | - |
 | 신림1재정비촉진구역 | [서울특별시 제2025-338호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202507110006/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-338%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-06-26 | 수치 없음 | - | - |
 | 신림1재정비촉진구역 | [서울특별시 제2025-177호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202504250001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-177%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-04-03 | 수치 없음 | - | - |
 | 신림1재정비촉진구역 | [서울특별시 제2024-612호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11620NTC202504230005/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-612%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-12-19 | 스캔본 | - | - |
@@ -120,9 +115,7 @@ plans.csv에 적힌 고시번호보다 늦은 고시(적힌 번호가 없으면 
 | 한남2 재정비촉진구역 | [서울특별시 제2025-294호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11170TTC202506120001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-294%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-05-29 | 수치 없음 | - | - |
 | 한남2 재정비촉진구역 | [서울특별시 제2024-627호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11170NTC202501060006/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-627%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-12-19 | 수치 없음 | - | - |
 | 한남2 재정비촉진구역 | [서울특별시 제2024-57호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202401310004/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-57%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-01-25 | 스캔본 | - | - |
-| 한남3 재정비촉진구역 | [서울특별시 제2025-294호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11170TTC202506120001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-294%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-05-29 | 추출 | 용적률 236.51% · 22층 · 90m · 13,130세대 | 용적률 -→236.51, 세대수 5,988→13,130, ⚠ 관리처분 이후: 고시값은 상한일 수 있어 분양 공고 층수 우선 |
-| 한남3 재정비촉진구역 | [서울특별시 제2024-627호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11170NTC202501060006/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-627%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-12-19 | 수치 없음 | - | - |
-| 한남3 재정비촉진구역 | [서울특별시 제2024-57호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202401310004/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-57%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-01-25 | 스캔본 | - | - |
+| 한남2 재정비촉진구역 | [용산구 제2023-49호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11170TTC202302230011/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_2023-49%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2023-02-16 | 수치 없음 | - | - |
 | 여의도 수정아파트 재건축사업 | [서울특별시 제2025-285호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11560TTC202506270001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-285%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-05-22 | 추출 | 용적률 800% · 49층 · 200m · 498세대 | 용적률 503.2→800 |
 | 거여새마을 재정비촉진구역(주택재개발사업) | [서울특별시 제2025-260호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202505130004/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-260%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-05-08 | 추출 | 용적률 282% · 35층 · 132m · 1,314세대 | 세대수 1,678→1,314 |
 | 상계동 154-3일대 주택정비형 재개발정비구역 | [서울특별시 제2025-218호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11350TTC202502240003/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2025-218%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2025-04-17 | 추출 | 용적률 284.99% · 39층 · 130m · 4,591세대 | - |
@@ -149,9 +142,7 @@ plans.csv에 적힌 고시번호보다 늦은 고시(적힌 번호가 없으면 
 | 신설 제1 주택정비형 공공재개발사업 | [서울특별시 제2024-115호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11230NTC202408260008/%EB%8F%99%EB%8C%80%EB%AC%B8%EA%B5%AC_%EC%A0%9C2024-115%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-08-08 | 스캔본 | - | - |
 | 장위 14구역 | [서울특별시 제2024-362호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000TTC202408140001/%EC%9E%A5%EC%9C%8414%EA%B5%AC%EC%97%AD%20%EA%B3%A0%EC%8B%9C%EB%AC%B8.pdf) | 2024-07-25 | 추출 | 용적률 212% · 25층 · 75m · 439세대 | 용적률 270→212, 최고층 35→25, 세대수 2,846→439 |
 | 천왕3역세권 장기전세주택 도시정비형 재개발정비구역 | [서울특별시 제2024-340호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11530TTC202405200001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-340%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-07-11 | 추출 | 용적률 395% · 26층 · 82m · 323세대 | - |
-| 마포로3구역 제3지구 도시정비형재개발사업 | [서울특별시 제2024-81호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11440NTC202407090002/%EB%A7%88%ED%8F%AC%EA%B5%AC_%EC%A0%9C2024-81%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-07-04 | 추출 | 239세대 | - |
 | 홍제제2구역 도시환경정비사업조합 | [서울특별시 제2024-322호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11410NTC202407090001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-322%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-07-04 | 스캔본 | - | - |
-| 신정4재정비촉진구역 | [서울특별시 제2024-337호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202407260001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-337%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-07-04 | 추출 | 27층 · 80m · 1,713세대 | 최고층 23→27, ⚠ 관리처분 이후: 고시값은 상한일 수 있어 분양 공고 층수 우선 |
 | 영등포1-12 재정비촉진구역 | [서울특별시 제2024-335호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000NTC202408270005/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-335%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-07-04 | 수치 없음 | - | - |
 | 자양한양아파트 주택재건축정비구역 | [서울특별시 제2024-267호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11215TTC202406040002/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2024-267%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-05-30 | 추출 | 용적률 300% · 40층 · 121m · 859세대 | - |
 | 불광1 주택재건축 정비구역 | [서울특별시 제2024-48호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11380NTC202405280001/%EC%9D%80%ED%8F%89%EA%B5%AC_%EC%A0%9C2024-48%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2024-05-23 | 추출 | 용적률 238% · 15층 · 45m · 499세대 | 용적률 225.23→238 |
@@ -165,6 +156,11 @@ plans.csv에 적힌 고시번호보다 늦은 고시(적힌 번호가 없으면 
 | 존치관리구역 | [서울특별시 제2020-434호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11590NTC202011090002/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_2020-434%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2020-10-29 | 스캔본 | - | - |
 | 존치관리구역 | [서울특별시 제2020-113호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11590NTC202004280001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%282020-113%29%ED%9D%91%EC%84%9D7.pdf) | 2020-03-26 | 수치 없음 | - | - |
 | 존치관리구역 | [서울특별시 제2020-91호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11590TTC202003200003/%ED%9D%91%EC%84%9D%EC%9E%AC%EC%A0%95%EB%B9%84%EC%B4%89%EC%A7%84%EA%B3%84%ED%9A%8D%20%EB%B3%80%EA%B2%BD%EA%B2%B0%EC%A0%95%20%EA%B3%A0%EC%8B%9C%EB%AC%B8.pdf) | 2020-03-05 | 수치 없음 | - | - |
+| 북아현2 재정비촉진구역 | [서울특별시 제2022-241호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000TTC202206090001/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_2022-241%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2022-06-02 | 수치 없음 | - | - |
+| 미아4재정비촉진구역 | [서울특별시 제2020-423호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11305TTC202101130002/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_2020-423%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2020-10-22 | 수치 없음 | - | - |
+| 미아4재정비촉진구역 | [서울특별시 제2020-423호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000TTC202012170005/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_%EC%A0%9C2020-423%ED%98%B8_%EA%B3%A0%EC%8B%9C.PDF) | 2020-10-22 | 수치 없음 | - | - |
+| 미아4재정비촉진구역 | [서울특별시 제2020-350호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11305TTC202010290002/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_2020-350%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2020-08-27 | 추출 | 493세대 | - |
+| 미아4재정비촉진구역 | [서울특별시 제2020-186호](https://urban.seoul.go.kr/UpisArchive/DATA/PM/pdf/11000TTC202010200002/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C_2020-186%ED%98%B8_%EA%B3%A0%EC%8B%9C.pdf) | 2020-05-07 | 수치 없음 | - | - |
 
 ## 검색어를 만들지 못한 구역 (0곳)
 
