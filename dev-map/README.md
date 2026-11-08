@@ -30,7 +30,7 @@ cd web && python3 -m http.server 8000
 
 ## 배포 (GitHub Pages)
 
-`.github/workflows/dev-map-pages.yml`이 `dev-map/web/` 폴더만 GitHub Pages로 올립니다(저장소의 다른 앱과 무관). `main` 또는 `claude/seoul-dev-map-3d-handoff-qtj8me` 브랜치에 `dev-map/web/` 변경이 푸시되면 자동 배포되고, Actions 탭에서 수동 실행(workflow_dispatch)도 됩니다.
+`.github/workflows/dev-map-pages.yml`이 `dev-map/web/` 폴더만 GitHub Pages로 올립니다(저장소의 다른 앱과 무관). `main`에 `dev-map/web/` 변경이 푸시되면 자동 배포되고, 작업 브랜치는 Actions 탭에서 수동 실행(workflow_dispatch, 브랜치 선택)으로 배포합니다. (Pages를 켜기 전에 작업 브랜치 푸시마다 실패하던 자동 실행은 2026-11-08에 뺐습니다.)
 
 처음 한 번 저장소 설정이 필요합니다.
 1. Settings → Pages → Build and deployment → Source: **GitHub Actions**

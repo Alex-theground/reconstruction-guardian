@@ -5,11 +5,13 @@
 # Deployment branches에 그 브랜치를 추가해야 한다.
 name: dev-map Pages
 
+# Pages가 아직 켜져 있지 않아 작업 브랜치 푸시마다 실패하던 것을 막으려고,
+# 작업 브랜치 자동 실행은 뺐다. Pages를 켠 뒤 Actions 탭에서 수동 실행(workflow_dispatch)하거나
+# main에 병합하면 배포된다. 작업 브랜치 자동 배포를 원하면 아래 branches에 다시 추가.
 on:
   push:
     branches:
       - main
-      - claude/seoul-dev-map-3d-handoff-qtj8me
     paths:
       - "dev-map/web/**"
       - ".github/workflows/dev-map-pages.yml"
