@@ -130,7 +130,9 @@ def aliases(z, plan):
     out = set()
     names = [z.get("zone_name"), z.get("name"), plan.get("complex_name")]
     # '효창공원앞역세권(효창동 5-307일원) …'은 괄호 앞뒤를 따로 쓴다
-    names += [p for v in names if v and "(" in v for p in re.split(r"[()]", v) if p.strip() not in ("신속통합기획", "가칭")]
+    # 단, 괄호 속이 지구 번호면('용두1(4지구)') 앞부분 '용두1'만으로는 다른 지구('용두1구역 6지구') 고시와 섞이므로 나누지 않는다
+    names += [p for v in names if v and "(" in v and not re.search(r"\(\s*제?\s*\d+(?:-\d+)?\s*(?:지구|구역|획지)\s*\)", v)
+              for p in re.split(r"[()]", v) if p.strip() not in ("신속통합기획", "가칭")]
     for v in names:
         a = norm(v)
         # '도시환경정비사업구역'처럼 지명이 없으면 쓸 수 없다. 두 글자 이하 지명도 너무 흔하다('홍제3'은 '홍3'이 되므로 '제'를 남긴 길이로 본다)

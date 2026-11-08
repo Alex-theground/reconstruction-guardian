@@ -163,6 +163,20 @@ def nums_of(x):
     return tuple(re.findall(r"\d+", x))
 
 
+UNIT_CLASS = {"차": "차", "단지": "단지", "주구": "주구", "지구": "구역", "구역": "구역"}
+
+
+def units_of(x):
+    """번호 뒤 단위(예: 4차 → 차, 4지구 → 구역). 단위가 없으면 None."""
+    x = "".join(CIRCLED.get(ch, ch) for ch in re.sub(r"\(.*?\)", "", x))
+    return [UNIT_CLASS.get(u) for u in re.findall(r"\d+\s*(차|단지|주구|지구|구역)?", x)]
+
+
+def units_ok(a, b):
+    """같은 번호 자리의 단위가 둘 다 적혀 있으면 같아야 한다 (신반포4차 ≠ 신반포4지구, 1단지 ≠ 1차)."""
+    return all(not (u and v) or u == v for u, v in zip(units_of(a), units_of(b)))
+
+
 def type_of(x):
     """사업 종류: 재건축 / 도시정비형(도시환경) 재개발 / 주택정비형 재개발 / 재개발(세부 미상)."""
     if "재건축" in x:
@@ -189,7 +203,7 @@ def date_of(code):
 
 def name_ok(x, code, shp_name):
     """정보몽땅 사업장 ↔ SHP 경계를 이름으로 연결해도 되는지: 번호, 사업 종류가 같아야 하고 촉진지구 전체 경계는 안 된다."""
-    if code in NAME_LINK_SKIP or nums_of(x["name"]) != nums_of(shp_name):
+    if code in NAME_LINK_SKIP or nums_of(x["name"]) != nums_of(shp_name) or not units_ok(x["name"], shp_name):
         return False
     if not same_type(type_of(x["name"]) or type_of(x["kind"]), type_of(shp_name)):
         return False
