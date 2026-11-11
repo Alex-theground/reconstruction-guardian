@@ -6,6 +6,8 @@ import { useSiteContent } from "@/hooks/use-site-content";
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "서비스 — 바른집행" },
       {
         name: "description",

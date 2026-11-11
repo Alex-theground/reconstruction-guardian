@@ -32,6 +32,7 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-2 text-sm text-primary-foreground/70">
               <li><Link to="/services">회계 검토</Link></li>
               <li><Link to="/services">자금집행 검증</Link></li>
+              <li><Link to="/apartment-audit">아파트감사</Link></li>
               <li><Link to="/process">감독 프로세스</Link></li>
               <li><Link to="/contract">계약 조건</Link></li>
             </ul>

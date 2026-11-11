@@ -5,7 +5,14 @@ import { Lock, Mail, Eye, EyeOff } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
-    meta: [{ title: "관리자 로그인 — 바른집행" }],
+    meta: [
+      { title: "관리자 로그인 — 바른집행" },
+      { name: "description", content: "바른집행 사이트 콘텐츠 관리 로그인." },
+      { property: "og:title", content: "관리자 로그인 — 바른집행" },
+      { property: "og:description", content: "바른집행 관리자 전용 로그인." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
   }),
   component: AdminLogin,
 });
