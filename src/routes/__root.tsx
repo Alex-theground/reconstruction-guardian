@@ -29,14 +29,12 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "바른집행 — 독립적인 회계·지출 검토" },
+      { name: "description", content: "조합 운영과 공동주택 관리의 회계·지출을 독립적으로 검토하는 바른집행." },
+      { property: "og:title", content: "바른집행" },
+      { property: "og:description", content: "조합과 입주민을 위한 독립적인 회계·지출 검토." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },

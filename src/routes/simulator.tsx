@@ -17,6 +17,10 @@ import {
 export const Route = createFileRoute("/simulator")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "비용-손실 시뮬레이터 — 바른집행" },
+      { property: "og:description", content: "재건축 조합 사업 단계별 리스크와 잠재 손실의 가정 기반 시뮬레이션." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "비용-손실 시뮬레이터 — 바른집행" },
       {
         name: "description",

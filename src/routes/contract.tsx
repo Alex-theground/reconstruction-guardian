@@ -6,6 +6,8 @@ import { useSiteContent } from "@/hooks/use-site-content";
 export const Route = createFileRoute("/contract")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "계약 안내 — 바른집행" },
       {
         name: "description",

@@ -11,7 +11,14 @@ import {
 import { Switch } from "@/components/ui/switch";
 
 export const Route = createFileRoute("/admin/dashboard")({
-  head: () => ({ meta: [{ title: "관리자 대시보드 — 바른집행" }] }),
+  head: () => ({ meta: [
+    { title: "관리자 대시보드 — 바른집행" },
+    { name: "description", content: "바른집행 사이트 콘텐츠와 상담 신청 관리." },
+    { property: "og:title", content: "관리자 대시보드 — 바른집행" },
+    { property: "og:description", content: "바른집행 사이트 운영 관리 화면." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+  ] }),
   component: AdminDashboard,
 });
 

@@ -24,6 +24,8 @@ import {
 export const Route = createFileRoute("/cases")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "왜 필요한가 — 실제 사례와 통계 · 바른집행" },
       {
         name: "description",

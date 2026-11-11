@@ -10,6 +10,8 @@ import { mergeHomeExt, type HomeExtData } from "@/lib/home-content";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "바른집행 — 재건축 조합 회계 감독 파트너" },
       {
         name: "description",

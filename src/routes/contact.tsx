@@ -7,6 +7,8 @@ import { submitContactInquiry } from "@/lib/contact.functions";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "문의 — 바른집행" },
       {
         name: "description",
