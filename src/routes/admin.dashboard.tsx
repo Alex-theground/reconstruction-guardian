@@ -930,6 +930,7 @@ interface InquiryRow {
   id: string;
   org_name: string;
   contact_name: string;
+  service_type: string | null;
   position: string | null;
   phone: string;
   email: string;
@@ -986,6 +987,11 @@ function InquiriesPanel() {
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <div className="font-medium text-foreground">
               {r.org_name} <span className="text-muted-foreground">— {r.contact_name}{r.position ? ` (${r.position})` : ""}</span>
+              {r.service_type && (
+                <span className="ml-2 inline-block rounded-sm border border-gold/40 bg-gold/10 px-2 py-0.5 align-middle text-xs font-normal text-gold">
+                  {r.service_type}
+                </span>
+              )}
             </div>
             <div className="text-xs text-muted-foreground">
               {new Date(r.created_at).toLocaleString("ko-KR")}

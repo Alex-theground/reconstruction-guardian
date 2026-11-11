@@ -36,6 +36,7 @@ function ContactPage() {
         data: {
           orgName: String(form.get("orgName") || ""),
           contactName: String(form.get("contactName") || ""),
+          serviceType: String(form.get("serviceType") || ""),
           position: String(form.get("position") || ""),
           phone: String(form.get("phone") || ""),
           email: String(form.get("email") || ""),
@@ -108,6 +109,14 @@ function ContactPage() {
                         {error}
                       </div>
                     )}
+
+                    <Field label="상담 희망 업무" required>
+                      <select name="serviceType" className={inputCls} defaultValue="" required>
+                        <option value="" disabled>선택</option>
+                        <option>재건축·재개발 조합 운영 감독</option>
+                        <option>아파트감사 (관리비·장기수선충당금 점검)</option>
+                      </select>
+                    </Field>
 
                     <div className="grid gap-6 sm:grid-cols-2">
                       <Field label="조합명 / 사업장명" required>
