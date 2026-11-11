@@ -5,6 +5,7 @@ import type { Database } from "@/integrations/supabase/types";
 export interface ContactInquiryInput {
   orgName: string;
   contactName: string;
+  serviceType?: string;
   position?: string;
   phone: string;
   email: string;
@@ -46,6 +47,7 @@ async function sendTelegramNotification(inquiry: ContactInquiryInput) {
     "<b>🔔 새 상담 신청이 접수되었습니다</b>",
     "",
     `<b>조합/사업장:</b> ${esc(inquiry.orgName)}`,
+    inquiry.serviceType ? `<b>상담 업무:</b> ${esc(inquiry.serviceType)}` : null,
     `<b>담당자:</b> ${esc(inquiry.contactName)}${inquiry.position ? ` (${esc(inquiry.position)})` : ""}`,
     `<b>연락처:</b> ${esc(inquiry.phone)}`,
     `<b>이메일:</b> ${esc(inquiry.email)}`,
@@ -95,6 +97,7 @@ export const submitContactInquiry = createServerFn({ method: "POST" })
     const { error } = await supabasePublic.from("contact_inquiries").insert({
       org_name: data.orgName.trim(),
       contact_name: data.contactName.trim(),
+      service_type: data.serviceType || null,
       position: data.position?.trim() || null,
       phone: data.phone.trim(),
       email: data.email.trim(),
