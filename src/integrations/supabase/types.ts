@@ -25,6 +25,7 @@ export type Database = {
           org_name: string
           phone: string
           position: string | null
+          service_type: string | null
           stage: string | null
         }
         Insert: {
@@ -37,6 +38,7 @@ export type Database = {
           org_name: string
           phone: string
           position?: string | null
+          service_type?: string | null
           stage?: string | null
         }
         Update: {
@@ -49,6 +51,7 @@ export type Database = {
           org_name?: string
           phone?: string
           position?: string | null
+          service_type?: string | null
           stage?: string | null
         }
         Relationships: []
