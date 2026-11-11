@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { BrandMark } from "./BrandMark";
+import { Button } from "./ui/button";
 
 
 const nav = [
@@ -9,6 +10,7 @@ const nav = [
   { to: "/cases", label: "왜 필요한가" },
   { to: "/simulator", label: "손실 시뮬레이터" },
   { to: "/services", label: "서비스" },
+  { to: "/apartment-audit", label: "아파트감사" },
   { to: "/process", label: "감독 프로세스" },
   { to: "/contract", label: "계약 안내" },
   { to: "/contact", label: "문의" },
@@ -30,7 +32,7 @@ export function SiteHeader() {
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-10 md:flex">
+        <nav className="hidden items-center gap-5 xl:flex">
           {nav.map((item) => (
             <Link
               key={item.to}
@@ -50,17 +52,20 @@ export function SiteHeader() {
           </Link>
         </nav>
 
-        <button
-          className="md:hidden"
+        <Button
+          variant="ghost"
+          size="icon"
+          className="xl:hidden"
           onClick={() => setOpen(!open)}
-          aria-label="menu"
+          aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
+          aria-expanded={open}
         >
           {open ? <X /> : <Menu />}
-        </button>
+        </Button>
       </div>
 
       {open && (
-        <nav className="border-t border-border bg-background px-6 py-4 md:hidden">
+        <nav className="border-t border-border bg-background px-6 py-4 xl:hidden">
           {nav.map((item) => (
             <Link
               key={item.to}
