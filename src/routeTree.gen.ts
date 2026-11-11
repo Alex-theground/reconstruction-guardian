@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApartmentAuditRouteImport } from './routes/apartment-audit'
 import { Route as CasesRouteImport } from './routes/cases'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ContractRouteImport } from './routes/contract'
@@ -22,6 +23,11 @@ import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApartmentAuditRoute = ApartmentAuditRouteImport.update({
+  id: '/apartment-audit',
+  path: '/apartment-audit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CasesRoute = CasesRouteImport.update({
@@ -67,6 +73,7 @@ const AdminDashboardRoute = AdminDashboardRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/apartment-audit': typeof ApartmentAuditRoute
   '/cases': typeof CasesRoute
   '/contact': typeof ContactRoute
   '/contract': typeof ContractRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/apartment-audit': typeof ApartmentAuditRoute
   '/cases': typeof CasesRoute
   '/contact': typeof ContactRoute
   '/contract': typeof ContractRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/apartment-audit': typeof ApartmentAuditRoute
   '/cases': typeof CasesRoute
   '/contact': typeof ContactRoute
   '/contract': typeof ContractRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/apartment-audit'
     | '/cases'
     | '/contact'
     | '/contract'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/apartment-audit'
     | '/cases'
     | '/contact'
     | '/contract'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/apartment-audit'
     | '/cases'
     | '/contact'
     | '/contract'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApartmentAuditRoute: typeof ApartmentAuditRoute
   CasesRoute: typeof CasesRoute
   ContactRoute: typeof ContactRoute
   ContractRoute: typeof ContractRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apartment-audit': {
+      id: '/apartment-audit'
+      path: '/apartment-audit'
+      fullPath: '/apartment-audit'
+      preLoaderRoute: typeof ApartmentAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cases': {
@@ -217,6 +237,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApartmentAuditRoute: ApartmentAuditRoute,
   CasesRoute: CasesRoute,
   ContactRoute: ContactRoute,
   ContractRoute: ContractRoute,
