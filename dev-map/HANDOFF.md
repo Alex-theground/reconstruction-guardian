@@ -233,7 +233,10 @@
    - 사용자 결정: 한국 PC에서 스크립트를 돌려 결과 파일을 커밋하는 방식
    - `scripts/fetch_buildings.py` 추가(표준 라이브러리만): `.env`(dev-map/.env → 저장소 루트 .env → 현재 폴더) 또는 환경변수의 `VWORLD_KEY`(필요하면 `VWORLD_DOMAIN`)를 읽어 V-World Data API `GetFeature`(기본 데이터셋 `LT_C_SPBD` 도로명주소건물, `--data`로 변경)를 구역 경계 상자 + 200m(`--buffer`)를 덮는 0.005° 칸 1,017개로 조회 → `web/data/buildings.geojson`(floors·height·name·src). 칸별 응답은 `scripts/.cache/vworld/`에 캐시해 끊겨도 이어받음. 키는 출력에 안 찍힘. `.env`는 .gitignore에 추가
    - 가짜 응답으로 페이지 넘김·중복 제거·범위 필터·저장 확인. 실제 응답 형식(층수·높이 필드 이름)은 아직 미확인 → 사용자가 `--probe` 결과를 알려 주면 필드 맞춤
-   - 다음: 실제 buildings.geojson이 올라오면 app.js에서 구역 주변 기존 건물을 OSM 대신 이 자료(층수×약 3.3m 또는 높이)로 그리기
+   - 공공데이터포털의 GIS건물통합정보 파일(15083092·15052097·15125069)도 다운로드 링크가 모두 vworld.kr로 연결돼 이 환경에서는 못 받음
+   - **app.js 연동 완료(2026-11-13)**: `data/buildings.geojson`이 있으면 읽어서(없으면 404 한 번 나고 기존대로 OSM만) 높이 = height 또는 floors×3.3m(둘 다 없으면 6.6m). 건물 중심점이 어느 구역 철거 범위(clear) 안인지 미리 계산(zid) → `vbld-3d`(구역 밖·표시 안 하는 구역, OSM 건물색)와 `vbld-old-3d`(철거 전 구역 안, 주황)로 그리고, `meta.boxes`(구역 경계 상자+buffer, fetch_buildings.py가 기록) 안의 OSM 건물은 `!within`으로 뺌. 출처 배지에 건물 수·출처·받은 날짜 표시
+   - 가짜 자료(은마 주변 격자 720동)로 Playwright 확인: 2026년 구역 안 건물 주황, 2040년 사라지고 계획 건물만, 범위 밖은 OSM. 콘솔 오류 없음. 파일 없을 때도 기존과 같음(참고: 헤드리스에서는 원래 코드도 zone-old-3d 렌더 수 0으로 나옴 — 기존 동작)
+   - 남은 일: 사용자가 PC에서 `--probe` 출력(속성 이름) 확인 → 필요하면 필드 이름 맞춤 → 전체 실행 후 buildings.geojson 커밋. 파일이 크면(수십 MB) 구역별로 나누거나 좌표 자릿수 줄이기 검토
 
 ## 제약
 - V-World / 서울 OpenAPI는 작업 환경에서 접속 불가 (열린데이터광장 파일 다운로드로 대체)
@@ -246,4 +249,4 @@
 - [신뢰도 낮음] 11행: 대부분 결정 고시 자체가 없거나(흑석1 건축계획 미수립) 사업시행인가 전이라 다음 고시를 기다려야 함
 - 자료 없음으로 종료: 마포로1-5·23·25, 봉천6-1, 신정3-2 지구별 값. 흑석1 새 경계(다음 SHP 갱신 때 확인), 신정1-3 실제 부지 모양(위치도 확인 시 site 보정)
 - 지도에서 빠진 압구정 1·3·4·5, 목동1·2·3단지 등은 SHP에 경계가 생기면 자동 연결됨(현재 plans.csv의 해당 note에 값 일부 기록)
-- 현재 건물 높이: PC에서 `python scripts/fetch_buildings.py --probe` → 전체 실행 → buildings.geojson 커밋 후 app.js 연동(28번), 결정고시문 자동 추출, 배포
+- 현재 건물 높이: PC에서 `python scripts/fetch_buildings.py --probe` → 전체 실행 → buildings.geojson 커밋(app.js 연동은 끝, 28번), 결정고시문 자동 추출, 배포

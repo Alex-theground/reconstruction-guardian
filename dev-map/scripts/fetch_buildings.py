@@ -232,7 +232,9 @@ def main():
         if n % 20 == 0 or n == len(cells):
             print(f"  {n}/{len(cells)}칸, 건물 {len(out)}개 ({time.time() - t0:.0f}초)", flush=True)
 
-    meta = {"source": f"V-World Data API {a.data}", "fetched": time.strftime("%Y-%m-%d"), "buffer_m": a.buffer}
+    # boxes: 이 자료가 덮는 범위(구역 경계 상자 + buffer). 지도는 이 안의 OSM 건물을 빼고 이 자료로 그린다
+    meta = {"source": f"V-World Data API {a.data}", "fetched": time.strftime("%Y-%m-%d"), "buffer_m": a.buffer,
+            "boxes": [[round(b[0], 6), round(b[1], 6), round(b[2], 6), round(b[3], 6)] for b in boxes]}
     Path(a.out).write_text(json.dumps({"type": "FeatureCollection", "meta": meta, "features": out},
                                       ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     size = Path(a.out).stat().st_size / 1e6

@@ -16,6 +16,7 @@
 
   const yearEl = document.getElementById('year');
   let zones = [], selected = null, baseFilters = {}, lastClearKey = '', shown = PAGE;
+  let vbld = null; // data/buildings.geojson(V-World 건물)이 있으면 { coverage } — 그 범위의 기존 건물은 OSM 대신 이 자료로 그린다
   const stageOn = STAGES.map(() => true);
 
   const map = new maplibregl.Map({ container: 'map', style: STYLE_URL, ...HOME, maxPitch: 75, attributionControl: { compact: true } });
@@ -51,6 +52,7 @@
       id: 'zone-old-3d', type: 'fill-extrusion', source: 'openmaptiles', 'source-layer': 'building', minzoom: 14, filter: NONE,
       paint: { 'fill-extrusion-color': OLD_COLOR, 'fill-extrusion-height': ['get', 'render_height'], 'fill-extrusion-base': ['get', 'render_min_height'], 'fill-extrusion-opacity': .9 },
     });
+    vbld = await loadVworldBuildings(below);
     map.addLayer({
       id: 'plan-3d', type: 'fill-extrusion', source: 'plan', minzoom: 11,
       paint: { 'fill-extrusion-color': ['get', 'color'], 'fill-extrusion-height': ['get', 'h'], 'fill-extrusion-base': ['get', 'b'], 'fill-extrusion-opacity': .96, 'fill-extrusion-vertical-gradient': true },
@@ -97,6 +99,50 @@
     return `<button type="button" class="variant${z.useAlt === alt ? ' after' : ''}" data-alt="${alt ? 1 : 0}" aria-pressed="${z.useAlt === alt}">${body}</button>`;
   }
 
+  // ---------- V-World 기존 건물 (scripts/fetch_buildings.py 결과, 없으면 OSM만 씀) ----------
+  const FLOOR_H = 3.3;
+  function inRing(x, y, r) {
+    let c = false;
+    for (let i = 0, j = r.length - 1; i < r.length; j = i++)
+      if ((r[i][1] > y) !== (r[j][1] > y) && x < (r[j][0] - r[i][0]) * (y - r[i][1]) / (r[j][1] - r[i][1]) + r[i][0]) c = !c;
+    return c;
+  }
+  const inPolys = (x, y, polys) => polys.some(p => inRing(x, y, p[0]) && !p.slice(1).some(h => inRing(x, y, h)));
+  async function loadVworldBuildings(below) {
+    let fc;
+    try {
+      const r = await fetch('data/buildings.geojson');
+      if (!r.ok) return null;
+      fc = await r.json();
+    } catch (e) { return null; }
+    if (!fc.features?.length) return null;
+    // 구역마다 경계 상자를 미리 구해 두고, 건물 중심점이 어느 구역(철거 범위) 안에 있는지 표시한다
+    const zb = zones.map(z => {
+      const pts = z.clear.flat(2);
+      return { id: z.id, polys: z.clear, x0: Math.min(...pts.map(c => c[0])), x1: Math.max(...pts.map(c => c[0])), y0: Math.min(...pts.map(c => c[1])), y1: Math.max(...pts.map(c => c[1])) };
+    });
+    fc.features.forEach(f => {
+      const p = f.properties, ring = f.geometry.type === 'Polygon' ? f.geometry.coordinates[0] : f.geometry.coordinates[0][0];
+      const x = ring.reduce((s, c) => s + c[0], 0) / ring.length, y = ring.reduce((s, c) => s + c[1], 0) / ring.length;
+      p.h = p.height > 0 ? p.height : p.floors > 0 ? p.floors * FLOOR_H : 2 * FLOOR_H;
+      p.zid = zb.find(b => x >= b.x0 && x <= b.x1 && y >= b.y0 && y <= b.y1 && inPolys(x, y, b.polys))?.id ?? '';
+    });
+    const osm = map.getLayer('building-3d') && map.getPaintProperty('building-3d', 'fill-extrusion-color');
+    map.addSource('vbld', { type: 'geojson', data: fc });
+    map.addLayer({
+      id: 'vbld-3d', type: 'fill-extrusion', source: 'vbld', minzoom: 13,
+      paint: { 'fill-extrusion-color': typeof osm === 'string' ? osm : '#dcd6cf', 'fill-extrusion-height': ['get', 'h'], 'fill-extrusion-opacity': .9 },
+    }, below);
+    map.addLayer({
+      id: 'vbld-old-3d', type: 'fill-extrusion', source: 'vbld', minzoom: 13, filter: NONE,
+      paint: { 'fill-extrusion-color': OLD_COLOR, 'fill-extrusion-height': ['get', 'h'], 'fill-extrusion-opacity': .9 },
+    });
+    const boxes = fc.meta?.boxes || [];
+    const coverage = { type: 'MultiPolygon', coordinates: boxes.map(([a, b, c, d]) => [[[a, b], [c, b], [c, d], [a, d], [a, b]]]) };
+    document.getElementById('dataBadge').insertAdjacentHTML('beforeend', ` · 구역 주변 현재 건물 ${fc.features.length.toLocaleString()}동은 ${esc(fc.meta?.source || 'V-World')}${fc.meta?.fetched ? ' (' + esc(fc.meta.fetched) + ')' : ''} 층수 기준`);
+    return { coverage: boxes.length ? coverage : null };
+  }
+
   function BUILDING_LAYERS() { return ['building-3d', 'building'].filter(id => map.getLayer(id)); }
 
   function stageColorExpr(alpha) {
@@ -131,12 +177,19 @@
     if (key === lastClearKey) return;
     lastClearKey = key;
     // 기본 OSM 건물: 표시 중인 구역 안의 건물은 모두 빼고, 아직 철거 전인 구역의 건물만 '철거 예정' 레이어로 다시 그린다
+    // V-World 자료가 있으면 그 범위(coverage) 안의 OSM 건물도 빼고, 구역 안팎 건물을 V-World 레이어로 그린다
+    const cover = vbld?.coverage ? [['!', ['within', vbld.coverage]]] : [];
     BUILDING_LAYERS().forEach(id => {
       const base = baseFilters[id];
-      map.setFilter(id, on.length ? ['all', ...(base ? [base] : []), ['!', ['within', multi(on)]]] : (base || null));
+      const parts = [...(base ? [base] : []), ...(on.length ? [['!', ['within', multi(on)]]] : []), ...cover];
+      map.setFilter(id, parts.length ? ['all', ...parts] : null);
     });
     const oldBase = baseFilters['building-3d'];
-    map.setFilter('zone-old-3d', standing.length ? ['all', ...(oldBase ? [oldBase] : []), ['within', multi(standing)]] : NONE);
+    map.setFilter('zone-old-3d', standing.length ? ['all', ...(oldBase ? [oldBase] : []), ['within', multi(standing)], ...cover] : NONE);
+    if (vbld) {
+      map.setFilter('vbld-3d', ['!', ['in', ['get', 'zid'], ['literal', on.map(z => z.id)]]]);
+      map.setFilter('vbld-old-3d', standing.length ? ['in', ['get', 'zid'], ['literal', standing.map(z => z.id)]] : NONE);
+    }
   }
 
   function update() {
