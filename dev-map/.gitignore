@@ -1,3 +1,4 @@
 scripts/.cache/
 __pycache__/
 .env
+web/data/buildings.geojson

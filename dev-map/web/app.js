@@ -16,7 +16,7 @@
 
   const yearEl = document.getElementById('year');
   let zones = [], selected = null, baseFilters = {}, lastClearKey = '', shown = PAGE;
-  let vbld = null; // data/buildings.geojson(V-World 건물)이 있으면 { coverage } — 그 범위의 기존 건물은 OSM 대신 이 자료로 그린다
+  let vbld = null; // data/buildings.json(V-World 건물, scripts/fetch_buildings.py)이 있으면 { coverage } — 그 범위의 기존 건물은 OSM 대신 이 자료로 그린다
   const stageOn = STAGES.map(() => true);
 
   const map = new maplibregl.Map({ container: 'map', style: STYLE_URL, ...HOME, maxPitch: 75, attributionControl: { compact: true } });
@@ -109,13 +109,25 @@
   }
   const inPolys = (x, y, polys) => polys.some(p => inRing(x, y, p[0]) && !p.slice(1).some(h => inRing(x, y, h)));
   async function loadVworldBuildings(below) {
-    let fc;
+    let doc;
     try {
-      const r = await fetch('data/buildings.geojson');
+      const r = await fetch('data/buildings.json');
       if (!r.ok) return null;
-      fc = await r.json();
+      doc = await r.json();
     } catch (e) { return null; }
-    if (!fc.features?.length) return null;
+    if (doc.format !== 'vbld1' || !doc.rings?.length) return null;
+    // 압축 형식 풀기: 정수 좌표(1/scale 도), 첫 점은 절대값·나머지는 앞 점과의 차
+    const sc = doc.meta?.scale || 1e5;
+    const fc = {
+      type: 'FeatureCollection', meta: doc.meta,
+      features: doc.rings.map((r, i) => {
+        let x = r[0], y = r[1];
+        const ring = [[x / sc, y / sc]];
+        for (let k = 2; k < r.length; k += 2) { x += r[k]; y += r[k + 1]; ring.push([x / sc, y / sc]); }
+        ring.push(ring[0]);
+        return { type: 'Feature', geometry: { type: 'Polygon', coordinates: [ring] }, properties: { floors: doc.floors[i], height: doc.heights?.[i] || 0 } };
+      }),
+    };
     // 구역마다 경계 상자를 미리 구해 두고, 건물 중심점이 어느 구역(철거 범위) 안에 있는지 표시한다
     const zb = zones.map(z => {
       const pts = z.clear.flat(2);
@@ -137,10 +149,10 @@
       id: 'vbld-old-3d', type: 'fill-extrusion', source: 'vbld', minzoom: 13, filter: NONE,
       paint: { 'fill-extrusion-color': OLD_COLOR, 'fill-extrusion-height': ['get', 'h'], 'fill-extrusion-opacity': .9 },
     });
-    const boxes = fc.meta?.boxes || [];
-    const coverage = { type: 'MultiPolygon', coordinates: boxes.map(([a, b, c, d]) => [[[a, b], [c, b], [c, d], [a, d], [a, b]]]) };
+    const cov = fc.meta?.coverage || [];
+    const coverage = { type: 'MultiPolygon', coordinates: cov.map(r => [[...r, r[0]]]) };
     document.getElementById('dataBadge').insertAdjacentHTML('beforeend', ` · 구역 주변 현재 건물 ${fc.features.length.toLocaleString()}동은 ${esc(fc.meta?.source || 'V-World')}${fc.meta?.fetched ? ' (' + esc(fc.meta.fetched) + ')' : ''} 층수 기준`);
-    return { coverage: boxes.length ? coverage : null };
+    return { coverage: cov.length ? coverage : null };
   }
 
   function BUILDING_LAYERS() { return ['building-3d', 'building'].filter(id => map.getLayer(id)); }

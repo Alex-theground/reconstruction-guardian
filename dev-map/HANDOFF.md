@@ -236,7 +236,10 @@
    - 공공데이터포털의 GIS건물통합정보 파일(15083092·15052097·15125069)도 다운로드 링크가 모두 vworld.kr로 연결돼 이 환경에서는 못 받음
    - **app.js 연동 완료(2026-11-13)**: `data/buildings.geojson`이 있으면 읽어서(없으면 404 한 번 나고 기존대로 OSM만) 높이 = height 또는 floors×3.3m(둘 다 없으면 6.6m). 건물 중심점이 어느 구역 철거 범위(clear) 안인지 미리 계산(zid) → `vbld-3d`(구역 밖·표시 안 하는 구역, OSM 건물색)와 `vbld-old-3d`(철거 전 구역 안, 주황)로 그리고, `meta.boxes`(구역 경계 상자+buffer, fetch_buildings.py가 기록) 안의 OSM 건물은 `!within`으로 뺌. 출처 배지에 건물 수·출처·받은 날짜 표시
    - 가짜 자료(은마 주변 격자 720동)로 Playwright 확인: 2026년 구역 안 건물 주황, 2040년 사라지고 계획 건물만, 범위 밖은 OSM. 콘솔 오류 없음. 파일 없을 때도 기존과 같음(참고: 헤드리스에서는 원래 코드도 zone-old-3d 렌더 수 0으로 나옴 — 기존 동작)
-   - 남은 일: 사용자가 PC에서 `--probe` 출력(속성 이름) 확인 → 필요하면 필드 이름 맞춤 → 전체 실행 후 buildings.geojson 커밋. 파일이 크면(수십 MB) 구역별로 나누거나 좌표 자릿수 줄이기 검토
+   - **2026-11-15 PC 실행**: 사용자 PC(`D:\Claude_code\재건축시뮬레이션\reconstruction-guardian`, 이 클라우드 세션엔 PC 폴더 연결 없음 → 사용자가 직접 실행). `--probe` 정상(LT_C_SPBD, 층수 `gro_flo_co`, 높이 필드 없음 → 층수×3.3m). 첫 전체 실행은 경계 상자+200m 1,017칸 → 202,723동·68.1MB(층수 없는 건물 20,705)로 너무 커서 커밋 안 함
+   - **범위·형식 축소**: 범위를 구역 경계의 볼록 껍질 + 100m(팔각형 근사, 57km², 이전 122km²)로, 출력은 `web/data/buildings.json` 압축 형식 `vbld1`(정수 1e-5도 차분 좌표, floors/heights 배열, meta.coverage 다각형). 필요한 833칸은 PC 캐시에 모두 있어 재다운로드 없음. 가짜 자료(㎢당 약 1,660동) 기준 95,903동·5.5MB, 실제는 6~10MB 예상. 예전 `buildings.geojson`은 .gitignore
+   - app.js: buildings.json을 풀어서 GeoJSON으로 만들고 coverage 다각형 안의 OSM 건물을 뺌. 가짜 자료로 Playwright 확인(로드 약 4초, 오류 없음)
+   - 남은 일: 사용자가 PC에서 `git pull` → `python scripts/fetch_buildings.py`(캐시만 씀) → buildings.json 커밋·푸시 → 여기서 실제 화면 확인
 
 ## 제약
 - V-World / 서울 OpenAPI는 작업 환경에서 접속 불가 (열린데이터광장 파일 다운로드로 대체)
